@@ -17,6 +17,9 @@
         SizeChanged="Window_SizeChanged">
     
     <Window.Resources>
+        <!-- Boolean to Visibility Converter -->
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        
         <!-- Neon Text Style -->
         <Style x:Key="NeonTextStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
@@ -185,6 +188,22 @@
                     </MenuItem>
                 </MenuItem>
                 <Separator/>
+                <MenuItem Header="Clock Type">
+                    <MenuItem.Icon>
+                        <Path Style="{StaticResource IconPath}" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                    </MenuItem.Icon>
+                    <MenuItem Header="Digital Clock" Click="DigitalClock_Click">
+                        <MenuItem.Icon>
+                            <Path Style="{StaticResource IconPath}" Data="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Analog Clock" Click="AnalogClock_Click">
+                        <MenuItem.Icon>
+                            <Path Style="{StaticResource IconPath}" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <Separator/>
                 <MenuItem Header="Time Format">
                     <MenuItem.Icon>
                         <Path Style="{StaticResource IconPath}" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
@@ -275,8 +294,8 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
-                <!-- Main Content -->
-                <Grid Grid.Row="0">
+                <!-- Digital Clock Content -->
+                <Grid Grid.Row="0" Visibility="{Binding IsDigitalMode, Converter={StaticResource BoolToVisibilityConverter}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -330,6 +349,95 @@
                              Style="{StaticResource SmallInfoStyle}"
                              Margin="0,1,0,0"/>
                 </Grid>
+                
+                <!-- Analog Clock Content -->
+                <Canvas Grid.Row="0" 
+                        x:Name="AnalogClockCanvas"
+                        Visibility="{Binding IsAnalogMode, Converter={StaticResource BoolToVisibilityConverter}}"
+                        Width="120" Height="120"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                    
+                    <!-- Clock Face Circle -->
+                    <Ellipse x:Name="ClockFace"
+                             Width="120" Height="120" 
+                             Fill="Transparent"
+                             Stroke="#00D4FF" 
+                             StrokeThickness="2"
+                             Opacity="0.8"/>
+                    
+                    <!-- Hour Markers -->
+                    <Canvas Width="120" Height="120">
+                        <!-- 12 o'clock -->
+                        <Line X1="60" Y1="5" X2="60" Y2="15" 
+                              Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
+                        <!-- 3 o'clock -->
+                        <Line X1="105" Y1="60" X2="115" Y2="60" 
+                              Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
+                        <!-- 6 o'clock -->
+                        <Line X1="60" Y1="105" X2="60" Y2="115" 
+                              Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
+                        <!-- 9 o'clock -->
+                        <Line X1="5" Y1="60" X2="15" Y2="60" 
+                              Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
+                    </Canvas>
+                    
+                    <!-- Hour Hand -->
+                    <Line x:Name="HourHand" 
+                          X1="60" Y1="60" X2="60" Y2="30"
+                          Stroke="#00D4FF" 
+                          StrokeThickness="4" 
+                          Opacity="0.9">
+                        <Line.Effect>
+                            <DropShadowEffect Color="#00D4FF" 
+                                              BlurRadius="8" 
+                                              ShadowDepth="0" 
+                                              Opacity="0.6"/>
+                        </Line.Effect>
+                    </Line>
+                    
+                    <!-- Minute Hand -->
+                    <Line x:Name="MinuteHand" 
+                          X1="60" Y1="60" X2="60" Y2="20"
+                          Stroke="#00FFFF" 
+                          StrokeThickness="3" 
+                          Opacity="0.9">
+                        <Line.Effect>
+                            <DropShadowEffect Color="#00FFFF" 
+                                              BlurRadius="6" 
+                                              ShadowDepth="0" 
+                                              Opacity="0.5"/>
+                        </Line.Effect>
+                    </Line>
+                    
+                    <!-- Second Hand -->
+                    <Line x:Name="SecondHand" 
+                          X1="60" Y1="60" X2="60" Y2="15"
+                          Stroke="#FF6B6B" 
+                          StrokeThickness="1" 
+                          Opacity="0.8">
+                        <Line.Effect>
+                            <DropShadowEffect Color="#FF6B6B" 
+                                              BlurRadius="4" 
+                                              ShadowDepth="0" 
+                                              Opacity="0.4"/>
+                        </Line.Effect>
+                    </Line>
+                    
+                    <!-- Center Dot -->
+                    <Ellipse x:Name="CenterDot"
+                             Width="8" Height="8" 
+                             Fill="#00D4FF" 
+                             Canvas.Left="56" 
+                             Canvas.Top="56">
+                        <Ellipse.Effect>
+                            <DropShadowEffect Color="#00D4FF" 
+                                              BlurRadius="6" 
+                                              ShadowDepth="0" 
+                                              Opacity="0.8"/>
+                        </Ellipse.Effect>
+                    </Ellipse>
+                </Canvas>
             </Grid>
         </Grid>
     </Border>

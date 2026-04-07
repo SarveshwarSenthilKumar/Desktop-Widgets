@@ -8,9 +8,16 @@ using System.Windows.Media;
 using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Shapes;
 
 namespace FuturisticClockWidget.Views
 {
+    public enum ClockType
+    {
+        Digital,
+        Analog
+    }
+    
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private DispatcherTimer _timer;
@@ -19,6 +26,22 @@ namespace FuturisticClockWidget.Views
         private double _baseFontSize = 33.6;
         private double _baseDateFontSize = 12;
         private double _baseSmallFontSize = 9.6;
+        private ClockType _clockType = ClockType.Digital;
+        
+        public ClockType CurrentClockType
+        {
+            get => _clockType;
+            set
+            {
+                _clockType = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsAnalogMode));
+                OnPropertyChanged(nameof(IsDigitalMode));
+            }
+        }
+        
+        public bool IsAnalogMode => CurrentClockType == ClockType.Analog;
+        public bool IsDigitalMode => CurrentClockType == ClockType.Digital;
         
         public DateTime CurrentTime
         {
@@ -104,6 +127,52 @@ namespace FuturisticClockWidget.Views
         private void Timer_Tick(object? sender, EventArgs e)
         {
             CurrentTime = DateTime.Now;
+            UpdateAnalogClockHands();
+        }
+        
+        private void UpdateAnalogClockHands()
+        {
+            if (HourHand == null || MinuteHand == null || SecondHand == null || AnalogClockCanvas == null)
+                return;
+                
+            var now = CurrentTime;
+            
+            // Calculate angles (0 degrees = 12 o'clock, 90 degrees = 3 o'clock)
+            double secondAngle = (now.Second * 6) - 90; // 6 degrees per second
+            double minuteAngle = (now.Minute * 6) + (now.Second * 0.1) - 90; // 6 degrees per minute + smooth seconds
+            double hourAngle = ((now.Hour % 12) * 30) + (now.Minute * 0.5) - 90; // 30 degrees per hour + smooth minutes
+            
+            // Calculate dynamic center and hand lengths based on current canvas size
+            double currentClockSize = AnalogClockCanvas.Width;
+            double centerX = currentClockSize / 2;
+            double centerY = currentClockSize / 2;
+            double scale = currentClockSize / 120.0; // Base size is 120
+            
+            const double baseHourLength = 30;
+            const double baseMinuteLength = 40;
+            const double baseSecondLength = 45;
+            
+            double hourHandLength = baseHourLength * scale;
+            double minuteHandLength = baseMinuteLength * scale;
+            double secondHandLength = baseSecondLength * scale;
+            
+            // Hour hand
+            double hourEndX = centerX + Math.Cos(hourAngle * Math.PI / 180) * hourHandLength;
+            double hourEndY = centerY + Math.Sin(hourAngle * Math.PI / 180) * hourHandLength;
+            HourHand.X2 = hourEndX;
+            HourHand.Y2 = hourEndY;
+            
+            // Minute hand
+            double minuteEndX = centerX + Math.Cos(minuteAngle * Math.PI / 180) * minuteHandLength;
+            double minuteEndY = centerY + Math.Sin(minuteAngle * Math.PI / 180) * minuteHandLength;
+            MinuteHand.X2 = minuteEndX;
+            MinuteHand.Y2 = minuteEndY;
+            
+            // Second hand
+            double secondEndX = centerX + Math.Cos(secondAngle * Math.PI / 180) * secondHandLength;
+            double secondEndY = centerY + Math.Sin(secondAngle * Math.PI / 180) * secondHandLength;
+            SecondHand.X2 = secondEndX;
+            SecondHand.Y2 = secondEndY;
         }
         
         private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -127,6 +196,16 @@ namespace FuturisticClockWidget.Views
         {
             _is24HourFormat = true;
             OnPropertyChanged(nameof(FormattedTime));
+        }
+        
+        private void DigitalClock_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentClockType = ClockType.Digital;
+        }
+        
+        private void AnalogClock_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentClockType = ClockType.Analog;
         }
         
         private void SizeSmall_Click(object sender, RoutedEventArgs e)
@@ -185,7 +264,7 @@ namespace FuturisticClockWidget.Views
             double heightScale = ActualHeight / 140.0; // Base height is 140
             double scale = Math.Min(widthScale, heightScale);
             
-            // Apply scaling to font sizes
+            // Apply scaling to font sizes for digital mode
             if (TimeTextBlock != null)
             {
                 TimeTextBlock.FontSize = _baseFontSize * scale;
@@ -206,6 +285,61 @@ namespace FuturisticClockWidget.Views
                         textBlock.FontSize = _baseSmallFontSize * scale;
                     }
                 }
+            }
+            
+            // Scale analog clock if it exists
+            if (AnalogClockCanvas != null)
+            {
+                double baseClockSize = 120;
+                double newClockSize = baseClockSize * scale;
+                AnalogClockCanvas.Width = newClockSize;
+                AnalogClockCanvas.Height = newClockSize;
+                
+                // Update hand lengths proportionally
+                const double baseHourLength = 30;
+                const double baseMinuteLength = 40;
+                const double baseSecondLength = 45;
+                
+                double centerOffset = newClockSize / 2;
+                double hourLength = baseHourLength * scale;
+                double minuteLength = baseMinuteLength * scale;
+                double secondLength = baseSecondLength * scale;
+                
+                // Update hand positions
+                if (HourHand != null)
+                {
+                    HourHand.X1 = centerOffset;
+                    HourHand.Y1 = centerOffset;
+                }
+                if (MinuteHand != null)
+                {
+                    MinuteHand.X1 = centerOffset;
+                    MinuteHand.Y1 = centerOffset;
+                }
+                if (SecondHand != null)
+                {
+                    SecondHand.X1 = centerOffset;
+                    SecondHand.Y1 = centerOffset;
+                }
+                
+                // Update center dot position
+                var centerDot = FindName("CenterDot") as Ellipse;
+                if (centerDot != null)
+                {
+                    Canvas.SetLeft(centerDot, centerOffset - 4);
+                    Canvas.SetTop(centerDot, centerOffset - 4);
+                }
+                
+                // Update clock face
+                var clockFace = FindName("ClockFace") as Ellipse;
+                if (clockFace != null)
+                {
+                    clockFace.Width = newClockSize;
+                    clockFace.Height = newClockSize;
+                }
+                
+                // Trigger hand recalculation with new dimensions
+                UpdateAnalogClockHands();
             }
         }
         
