@@ -19,6 +19,7 @@ namespace FuturisticClockWidget.Views
         private bool _isResizing = false;
         private Point _resizeStartPoint;
         private Size _resizeStartSize;
+        private string _currentCorner;
         private double _baseFontSize = 28;
         private double _baseDateFontSize = 10;
         private double _baseSmallFontSize = 8;
@@ -137,19 +138,20 @@ namespace FuturisticClockWidget.Views
             UpdateFontSizes();
         }
         
-        private void ResizeGrip_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void CornerResize_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
             {
                 _isResizing = true;
                 _resizeStartPoint = e.GetPosition(this);
                 _resizeStartSize = new Size(ActualWidth, ActualHeight);
+                _currentCorner = (sender as FrameworkElement)?.Tag as string;
                 CaptureMouse();
                 e.Handled = true;
             }
         }
         
-        private void ResizeGrip_MouseMove(object sender, MouseEventArgs e)
+        private void CornerResize_MouseMove(object sender, MouseEventArgs e)
         {
             if (_isResizing && e.LeftButton == MouseButtonState.Pressed)
             {
@@ -157,20 +159,49 @@ namespace FuturisticClockWidget.Views
                 double deltaX = currentPoint.X - _resizeStartPoint.X;
                 double deltaY = currentPoint.Y - _resizeStartPoint.Y;
                 
-                double newWidth = Math.Max(200, _resizeStartSize.Width + deltaX);
-                double newHeight = Math.Max(100, _resizeStartSize.Height + deltaY);
+                double newWidth = _resizeStartSize.Width;
+                double newHeight = _resizeStartSize.Height;
+                double newLeft = Left;
+                double newTop = Top;
+                
+                switch (_currentCorner)
+                {
+                    case "TopLeft":
+                        newWidth = Math.Max(200, _resizeStartSize.Width - deltaX);
+                        newHeight = Math.Max(100, _resizeStartSize.Height - deltaY);
+                        newLeft = Left + (_resizeStartSize.Width - newWidth);
+                        newTop = Top + (_resizeStartSize.Height - newHeight);
+                        break;
+                    case "TopRight":
+                        newWidth = Math.Max(200, _resizeStartSize.Width + deltaX);
+                        newHeight = Math.Max(100, _resizeStartSize.Height - deltaY);
+                        newTop = Top + (_resizeStartSize.Height - newHeight);
+                        break;
+                    case "BottomLeft":
+                        newWidth = Math.Max(200, _resizeStartSize.Width - deltaX);
+                        newHeight = Math.Max(100, _resizeStartSize.Height + deltaY);
+                        newLeft = Left + (_resizeStartSize.Width - newWidth);
+                        break;
+                    case "BottomRight":
+                        newWidth = Math.Max(200, _resizeStartSize.Width + deltaX);
+                        newHeight = Math.Max(100, _resizeStartSize.Height + deltaY);
+                        break;
+                }
                 
                 Width = newWidth;
                 Height = newHeight;
+                Left = newLeft;
+                Top = newTop;
                 e.Handled = true;
             }
         }
         
-        private void ResizeGrip_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void CornerResize_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (_isResizing)
             {
                 _isResizing = false;
+                _currentCorner = null;
                 ReleaseMouseCapture();
                 e.Handled = true;
             }

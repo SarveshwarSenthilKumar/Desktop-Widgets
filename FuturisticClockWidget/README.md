@@ -7,7 +7,7 @@ A modern, futuristic desktop clock widget with glassmorphism design and neon eff
 - **Real-time Updates**: Updates every 10ms for smooth millisecond display
 - **Liquid Glass Design**: Ultra-minimalist with transparent layers and liquid animations
 - **Futuristic Aesthetic**: Cyan neon glow with Segoe UI Light typography
-- **Resizable**: Drag the bottom-right corner to resize - fonts scale automatically
+- **Resizable**: Drag any corner to resize - fonts scale automatically
 - **Draggable**: Click and drag to position anywhere on your desktop
 - **Always on Top**: Stays visible above other windows
 - **Minimalist**: Clean, unobtrusive design that complements any desktop
@@ -51,13 +51,25 @@ dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=
 
 ### Resizing the Widget
 
-The widget can be resized to fit your preferences:
+The widget can be resized from any corner to fit your preferences:
 
-1. **Move your cursor** to the bottom-right corner of the widget
-2. **Look for the resize grip** - small diagonal lines in the corner
+1. **Move your cursor** to any corner of the widget
+2. **Look for the resize grips** - subtle white lines in each corner
 3. **Click and drag** to make the widget larger or smaller
 4. **Font sizes scale automatically** to maintain readability
 5. **Minimum size**: 200x100 pixels to ensure usability
+
+**Corner Resize Behavior:**
+- **Top-Left**: Drag up-left to shrink, down-right to expand
+- **Top-Right**: Drag up-right to shrink, down-left to expand  
+- **Bottom-Left**: Drag down-left to shrink, up-right to expand
+- **Bottom-Right**: Drag down-right to shrink, up-left to expand
+
+**Visual Resize Indicators:**
+- **Subtle white lines** appear in each corner (15x15px)
+- **Cursor changes** to appropriate resize icon
+- **Transparent background** maintains aesthetic
+- **Low opacity** (0.4) for minimal visual impact
 
 **Font Scaling Behavior:**
 - **Main time**: Scales from base 28px proportionally

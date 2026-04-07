@@ -202,26 +202,83 @@
                              Style="{StaticResource SmallInfoStyle}"
                              Margin="0,1,0,0"/>
                 </Grid>
-                
-                <!-- Resize Grip -->
-                <Grid Grid.Row="1" 
-                      HorizontalAlignment="Right" 
-                      VerticalAlignment="Bottom" 
-                      Width="20" 
-                      Height="20"
-                      Cursor="SizeNWSE"
-                      MouseLeftButtonDown="ResizeGrip_MouseLeftButtonDown"
-                      MouseMove="ResizeGrip_MouseMove"
-                      MouseLeftButtonUp="ResizeGrip_MouseLeftButtonUp">
-                    <Grid.Background>
-                        <SolidColorBrush Color="Transparent"/>
-                    </Grid.Background>
-                    <!-- Visual resize indicator -->
-                    <Path Data="M 0,20 L 20,0 M 10,20 L 20,10 M 15,20 L 20,15" 
-                          Stroke="#40FFFFFF" 
-                          StrokeThickness="1" 
-                          Opacity="0.5"/>
-                </Grid>
+            </Grid>
+            
+            <!-- Corner Resize Grips -->
+            <!-- Top-Left Corner -->
+            <Grid HorizontalAlignment="Left" 
+                  VerticalAlignment="Top" 
+                  Width="15" 
+                  Height="15"
+                  Cursor="SizeNWSE"
+                  MouseLeftButtonDown="CornerResize_MouseLeftButtonDown"
+                  MouseMove="CornerResize_MouseMove"
+                  MouseLeftButtonUp="CornerResize_MouseLeftButtonUp"
+                  Tag="TopLeft">
+                <Grid.Background>
+                    <SolidColorBrush Color="Transparent"/>
+                </Grid.Background>
+                <Path Data="M 15,0 L 15,15 M 0,15 L 15,15" 
+                      Stroke="#30FFFFFF" 
+                      StrokeThickness="1" 
+                      Opacity="0.4"/>
+            </Grid>
+            
+            <!-- Top-Right Corner -->
+            <Grid HorizontalAlignment="Right" 
+                  VerticalAlignment="Top" 
+                  Width="15" 
+                  Height="15"
+                  Cursor="SizeNESW"
+                  MouseLeftButtonDown="CornerResize_MouseLeftButtonDown"
+                  MouseMove="CornerResize_MouseMove"
+                  MouseLeftButtonUp="CornerResize_MouseLeftButtonUp"
+                  Tag="TopRight">
+                <Grid.Background>
+                    <SolidColorBrush Color="Transparent"/>
+                </Grid.Background>
+                <Path Data="M 0,0 L 0,15 M 0,15 L 15,15" 
+                      Stroke="#30FFFFFF" 
+                      StrokeThickness="1" 
+                      Opacity="0.4"/>
+            </Grid>
+            
+            <!-- Bottom-Left Corner -->
+            <Grid HorizontalAlignment="Left" 
+                  VerticalAlignment="Bottom" 
+                  Width="15" 
+                  Height="15"
+                  Cursor="SizeNESW"
+                  MouseLeftButtonDown="CornerResize_MouseLeftButtonDown"
+                  MouseMove="CornerResize_MouseMove"
+                  MouseLeftButtonUp="CornerResize_MouseLeftButtonUp"
+                  Tag="BottomLeft">
+                <Grid.Background>
+                    <SolidColorBrush Color="Transparent"/>
+                </Grid.Background>
+                <Path Data="M 15,0 L 15,15 M 0,0 L 15,0" 
+                      Stroke="#30FFFFFF" 
+                      StrokeThickness="1" 
+                      Opacity="0.4"/>
+            </Grid>
+            
+            <!-- Bottom-Right Corner -->
+            <Grid HorizontalAlignment="Right" 
+                  VerticalAlignment="Bottom" 
+                  Width="15" 
+                  Height="15"
+                  Cursor="SizeNWSE"
+                  MouseLeftButtonDown="CornerResize_MouseLeftButtonDown"
+                  MouseMove="CornerResize_MouseMove"
+                  MouseLeftButtonUp="CornerResize_MouseLeftButtonUp"
+                  Tag="BottomRight">
+                <Grid.Background>
+                    <SolidColorBrush Color="Transparent"/>
+                </Grid.Background>
+                <Path Data="M 0,0 L 15,0 M 0,15 L 15,15" 
+                      Stroke="#30FFFFFF" 
+                      StrokeThickness="1" 
+                      Opacity="0.4"/>
             </Grid>
         </Grid>
     </Border>
