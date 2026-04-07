@@ -109,19 +109,19 @@
                         <Setter Property="Background" Value="#3000D4FF"/>
                     </Style>
                 </ContextMenu.Resources>
-                <MenuItem Header="Size">
-                    <MenuItem Header="Small (200x100)" Click="SizeSmall_Click"/>
-                    <MenuItem Header="Medium (280x140)" Click="SizeMedium_Click"/>
-                    <MenuItem Header="Large (400x200)" Click="SizeLarge_Click"/>
-                    <MenuItem Header="Extra Large (600x300)" Click="SizeExtraLarge_Click"/>
+                <MenuItem Header="Size" Icon="📐">
+                    <MenuItem Header="Small (200x100)" Click="SizeSmall_Click" Icon="📱"/>
+                    <MenuItem Header="Medium (280x140)" Click="SizeMedium_Click" Icon="📋"/>
+                    <MenuItem Header="Large (400x200)" Click="SizeLarge_Click" Icon="📄"/>
+                    <MenuItem Header="Extra Large (600x300)" Click="SizeExtraLarge_Click" Icon="📃"/>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Time Format">
-                    <MenuItem Header="12-Hour (Normal)" Click="Format12Hour_Click"/>
-                    <MenuItem Header="24-Hour (Military)" Click="Format24Hour_Click"/>
+                <MenuItem Header="Time Format" Icon="🕐">
+                    <MenuItem Header="12-Hour (Normal)" Click="Format12Hour_Click" Icon="🕰️"/>
+                    <MenuItem Header="24-Hour (Military)" Click="Format24Hour_Click" Icon="🕕"/>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Close" Click="CloseMenuItem_Click"/>
+                <MenuItem Header="Close" Click="CloseMenuItem_Click" Icon="❌"/>
             </ContextMenu>
         </Border.ContextMenu>
         <Border.Effect>
