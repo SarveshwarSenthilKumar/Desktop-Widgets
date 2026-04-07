@@ -55,6 +55,8 @@ namespace FuturisticClockWidget.Views
                 OnPropertyChanged(nameof(WeekNumber));
                 OnPropertyChanged(nameof(DayOfYear));
                 OnPropertyChanged(nameof(TimeZoneDisplay));
+                OnPropertyChanged(nameof(DaysUntilEndOfYear));
+                OnPropertyChanged(nameof(WeeksElapsed));
             }
         }
         
@@ -107,6 +109,26 @@ namespace FuturisticClockWidget.Views
             }
         }
         
+        public string DaysUntilEndOfYear
+        {
+            get
+            {
+                var endOfYear = new DateTime(CurrentTime.Year, 12, 31);
+                var daysRemaining = (endOfYear - CurrentTime.Date).Days;
+                return $"{daysRemaining} days left";
+            }
+        }
+        
+        public string WeeksElapsed
+        {
+            get
+            {
+                var startOfYear = new DateTime(CurrentTime.Year, 1, 1);
+                var weeksPassed = (int)Math.Floor((CurrentTime - startOfYear).TotalDays / 7.0);
+                return $"Week {weeksPassed + 1}";
+            }
+        }
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -146,11 +168,11 @@ namespace FuturisticClockWidget.Views
             double currentClockSize = AnalogClockCanvas.Width;
             double centerX = currentClockSize / 2;
             double centerY = currentClockSize / 2;
-            double scale = currentClockSize / 120.0; // Base size is 120
+            double scale = currentClockSize / 140.0; // Base size is now 140
             
-            const double baseHourLength = 30;
-            const double baseMinuteLength = 40;
-            const double baseSecondLength = 45;
+            const double baseHourLength = 35;
+            const double baseMinuteLength = 45;
+            const double baseSecondLength = 52;
             
             double hourHandLength = baseHourLength * scale;
             double minuteHandLength = baseMinuteLength * scale;
@@ -273,7 +295,7 @@ namespace FuturisticClockWidget.Views
             // Apply scaling to font sizes for analog mode digital display
             if (AnalogTimeTextBlock != null)
             {
-                AnalogTimeTextBlock.FontSize = 28.8 * scale;
+                AnalogTimeTextBlock.FontSize = 24 * scale;
             }
             
             // Find and update date text blocks
@@ -312,15 +334,15 @@ namespace FuturisticClockWidget.Views
             // Scale analog clock if it exists
             if (AnalogClockCanvas != null)
             {
-                double baseClockSize = 120;
+                double baseClockSize = 140;
                 double newClockSize = baseClockSize * scale;
                 AnalogClockCanvas.Width = newClockSize;
                 AnalogClockCanvas.Height = newClockSize;
                 
                 // Update hand lengths proportionally
-                const double baseHourLength = 30;
-                const double baseMinuteLength = 40;
-                const double baseSecondLength = 45;
+                const double baseHourLength = 35;
+                const double baseMinuteLength = 45;
+                const double baseSecondLength = 52;
                 
                 double centerOffset = newClockSize / 2;
                 double hourLength = baseHourLength * scale;
@@ -348,8 +370,8 @@ namespace FuturisticClockWidget.Views
                 var centerDot = FindName("CenterDot") as Ellipse;
                 if (centerDot != null)
                 {
-                    Canvas.SetLeft(centerDot, centerOffset - 4);
-                    Canvas.SetTop(centerDot, centerOffset - 4);
+                    Canvas.SetLeft(centerDot, centerOffset - 5);
+                    Canvas.SetTop(centerDot, centerOffset - 5);
                 }
                 
                 // Update clock face

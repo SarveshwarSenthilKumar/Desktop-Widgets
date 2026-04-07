@@ -359,14 +359,14 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     
-                    <!-- Digital Time Display Above Analog Clock -->
+                    <!-- Digital Time Display -->
                     <TextBlock Grid.Row="0"
                              x:Name="AnalogTimeTextBlock"
                              Text="{Binding FormattedTime}"
                              Style="{StaticResource NeonTextStyle}"
-                             FontSize="28.8"
+                             FontSize="24"
                              Foreground="#00D4FF"
-                             Margin="0,0,0,5"
+                             Margin="0,0,0,8"
                              HorizontalAlignment="Center">
                         <TextBlock.Triggers>
                             <EventTrigger RoutedEvent="Loaded">
@@ -375,137 +375,197 @@
                         </TextBlock.Triggers>
                     </TextBlock>
                     
-                    <!-- Analog Clock Canvas -->
-                    <Canvas Grid.Row="1"
-                            x:Name="AnalogClockCanvas"
-                            Width="120" Height="120"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                    
-                        <!-- Clock Face Circle -->
-                        <Ellipse x:Name="ClockFace"
-                                 Width="120" Height="120" 
-                                 Fill="Transparent"
-                                 Stroke="#00D4FF" 
-                                 StrokeThickness="2"
-                                 Opacity="0.8"/>
-                    
-                        <!-- Hour Markers -->
-                        <Canvas Width="120" Height="120">
-                            <!-- 12 o'clock -->
-                            <Line X1="60" Y1="5" X2="60" Y2="15" 
-                                  Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
-                            <!-- 3 o'clock -->
-                            <Line X1="105" Y1="60" X2="115" Y2="60" 
-                                  Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
-                            <!-- 6 o'clock -->
-                            <Line X1="60" Y1="105" X2="60" Y2="115" 
-                                  Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
-                            <!-- 9 o'clock -->
-                            <Line X1="5" Y1="60" X2="15" Y2="60" 
-                                  Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
-                        </Canvas>
-                    
-                        <!-- Hour Hand -->
-                        <Line x:Name="HourHand" 
-                              X1="60" Y1="60" X2="60" Y2="30"
-                              Stroke="#00D4FF" 
-                              StrokeThickness="4" 
-                              Opacity="0.9">
-                            <Line.Effect>
-                                <DropShadowEffect Color="#00D4FF" 
-                                                  BlurRadius="8" 
-                                                  ShadowDepth="0" 
-                                                  Opacity="0.6"/>
-                            </Line.Effect>
-                        </Line>
-                    
-                        <!-- Minute Hand -->
-                        <Line x:Name="MinuteHand" 
-                              X1="60" Y1="60" X2="60" Y2="20"
-                              Stroke="#00FFFF" 
-                              StrokeThickness="3" 
-                              Opacity="0.9">
-                            <Line.Effect>
-                                <DropShadowEffect Color="#00FFFF" 
-                                                  BlurRadius="6" 
-                                                  ShadowDepth="0" 
-                                                  Opacity="0.5"/>
-                            </Line.Effect>
-                        </Line>
-                    
-                        <!-- Second Hand -->
-                        <Line x:Name="SecondHand" 
-                              X1="60" Y1="60" X2="60" Y2="15"
-                              Stroke="#FF6B6B" 
-                              StrokeThickness="1" 
-                              Opacity="0.8">
-                            <Line.Effect>
-                                <DropShadowEffect Color="#FF6B6B" 
-                                                  BlurRadius="4" 
-                                                  ShadowDepth="0" 
-                                                  Opacity="0.4"/>
-                            </Line.Effect>
-                        </Line>
-                    
-                        <!-- Center Dot -->
-                        <Ellipse x:Name="CenterDot"
-                                 Width="8" Height="8" 
-                                 Fill="#00D4FF" 
-                                 Canvas.Left="56" 
-                                 Canvas.Top="56">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="#00D4FF" 
-                                                  BlurRadius="6" 
-                                                  ShadowDepth="0" 
-                                                  Opacity="0.8"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                    </Canvas>
-                    
-                    <!-- Additional Info Below Analog Clock -->
-                    <Grid Grid.Row="2" Margin="0,5,0,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                    <!-- Main Analog Clock Area -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
                         
-                        <!-- Full Date Display -->
-                        <TextBlock Grid.Row="0"
-                                 Text="{Binding CurrentDate, StringFormat='{}{0:dddd, MMMM dd, yyyy}'}"
-                                 Style="{StaticResource DateTextStyle}"
-                                 FontSize="14.4"
-                                 Foreground="#CCFFFFFF"
-                                 Margin="0,0,0,2"/>
-                        
-                        <!-- Week Number and Day of Year -->
-                        <Grid Grid.Row="1" Margin="0,1,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                        <!-- Left Info Panel -->
+                        <StackPanel Grid.Column="0" 
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,0,10,0">
+                            <!-- Days Until -->
+                            <Border CornerRadius="8" 
+                                    Background="#10000000"
+                                    BorderBrush="#3000D4FF"
+                                    BorderThickness="1"
+                                    Margin="0,0,0,8"
+                                    Padding="8,4">
+                                <TextBlock Text="{Binding DaysUntilEndOfYear}"
+                                         FontSize="11"
+                                         Foreground="#00D4FF"
+                                         FontFamily="Segoe UI Light"
+                                         TextAlignment="Center"
+                                         TextWrapping="Wrap"/>
+                            </Border>
                             
+                            <!-- Weeks Elapsed -->
+                            <Border CornerRadius="8" 
+                                    Background="#10000000"
+                                    BorderBrush="#3000D4FF"
+                                    BorderThickness="1"
+                                    Padding="8,4">
+                                <TextBlock Text="{Binding WeeksElapsed}"
+                                         FontSize="11"
+                                         Foreground="#00D4FF"
+                                         FontFamily="Segoe UI Light"
+                                         TextAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+                        
+                        <!-- Center Analog Clock -->
+                        <Canvas Grid.Column="1"
+                                x:Name="AnalogClockCanvas"
+                                Width="140" Height="140"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        
+                            <!-- Clock Face Circle -->
+                            <Ellipse x:Name="ClockFace"
+                                     Width="140" Height="140" 
+                                     Fill="Transparent"
+                                     Stroke="#00D4FF" 
+                                     StrokeThickness="2"
+                                     Opacity="0.8"/>
+                            
+                            <!-- Hour Markers -->
+                            <Canvas Width="140" Height="140">
+                                <!-- 12 o'clock -->
+                                <Line X1="70" Y1="8" X2="70" Y2="18" 
+                                      Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
+                                <!-- 3 o'clock -->
+                                <Line X1="122" Y1="70" X2="132" Y2="70" 
+                                      Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
+                                <!-- 6 o'clock -->
+                                <Line X1="70" Y1="122" X2="70" Y2="132" 
+                                      Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
+                                <!-- 9 o'clock -->
+                                <Line X1="8" Y1="70" X2="18" Y2="70" 
+                                      Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
+                                <!-- Additional markers -->
+                                <Line X1="105" Y1="25" X2="110" Y2="30" 
+                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
+                                <Line X1="115" Y1="70" X2="120" Y2="70" 
+                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
+                                <Line X1="105" Y1="115" X2="110" Y2="110" 
+                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
+                                <Line X1="35" Y1="115" X2="30" Y2="110" 
+                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
+                                <Line X1="25" Y1="70" X2="30" Y2="70" 
+                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
+                                <Line X1="35" Y1="25" X2="30" Y2="30" 
+                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
+                            </Canvas>
+                            
+                            <!-- Hour Hand -->
+                            <Line x:Name="HourHand" 
+                                  X1="70" Y1="70" X2="70" Y2="35"
+                                  Stroke="#00D4FF" 
+                                  StrokeThickness="4" 
+                                  Opacity="0.9">
+                                <Line.Effect>
+                                    <DropShadowEffect Color="#00D4FF" 
+                                                      BlurRadius="8" 
+                                                      ShadowDepth="0" 
+                                                      Opacity="0.6"/>
+                                </Line.Effect>
+                            </Line>
+                            
+                            <!-- Minute Hand -->
+                            <Line x:Name="MinuteHand" 
+                                  X1="70" Y1="70" X2="70" Y2="25"
+                                  Stroke="#00FFFF" 
+                                  StrokeThickness="3" 
+                                  Opacity="0.9">
+                                <Line.Effect>
+                                    <DropShadowEffect Color="#00FFFF" 
+                                                      BlurRadius="6" 
+                                                      ShadowDepth="0" 
+                                                      Opacity="0.5"/>
+                                </Line.Effect>
+                            </Line>
+                            
+                            <!-- Second Hand -->
+                            <Line x:Name="SecondHand" 
+                                  X1="70" Y1="70" X2="70" Y2="18"
+                                  Stroke="#FF6B6B" 
+                                  StrokeThickness="1" 
+                                  Opacity="0.8">
+                                <Line.Effect>
+                                    <DropShadowEffect Color="#FF6B6B" 
+                                                      BlurRadius="4" 
+                                                      ShadowDepth="0" 
+                                                      Opacity="0.4"/>
+                                </Line.Effect>
+                            </Line>
+                            
+                            <!-- Center Dot -->
+                            <Ellipse x:Name="CenterDot"
+                                     Width="10" Height="10" 
+                                     Fill="#00D4FF" 
+                                     Canvas.Left="65" 
+                                     Canvas.Top="65">
+                                <Ellipse.Effect>
+                                    <DropShadowEffect Color="#00D4FF" 
+                                                      BlurRadius="6" 
+                                                      ShadowDepth="0" 
+                                                      Opacity="0.8"/>
+                                </Ellipse.Effect>
+                            </Ellipse>
+                        </Canvas>
+                        
+                        <!-- Right Info Panel -->
+                        <StackPanel Grid.Column="2" 
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Margin="10,0,0,0">
                             <!-- Week Number -->
-                            <TextBlock Grid.Column="0"
-                                     Text="{Binding WeekNumber}"
-                                     Style="{StaticResource SmallInfoStyle}"
-                                     FontSize="12"/>
+                            <Border CornerRadius="8" 
+                                    Background="#10000000"
+                                    BorderBrush="#3000D4FF"
+                                    BorderThickness="1"
+                                    Margin="0,0,0,8"
+                                    Padding="8,4">
+                                <TextBlock Text="{Binding WeekNumber}"
+                                         FontSize="11"
+                                         Foreground="#00D4FF"
+                                         FontFamily="Segoe UI Light"
+                                         TextAlignment="Center"/>
+                            </Border>
                             
                             <!-- Day of Year -->
-                            <TextBlock Grid.Column="1"
-                                     Text="{Binding DayOfYear}"
-                                     Style="{StaticResource SmallInfoStyle}"
-                                     FontSize="12"/>
-                        </Grid>
-                        
-                        <!-- Time Zone Info -->
-                        <TextBlock Grid.Row="2"
-                                 Text="{Binding TimeZoneDisplay}"
-                                 Style="{StaticResource SmallInfoStyle}"
-                                 FontSize="12"
-                                 Margin="0,1,0,0"/>
+                            <Border CornerRadius="8" 
+                                    Background="#10000000"
+                                    BorderBrush="#3000D4FF"
+                                    BorderThickness="1"
+                                    Padding="8,4">
+                                <TextBlock Text="{Binding DayOfYear}"
+                                         FontSize="11"
+                                         Foreground="#00D4FF"
+                                         FontFamily="Segoe UI Light"
+                                         TextAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
                     </Grid>
+                    
+                    <!-- Bottom Date Display -->
+                    <Border Grid.Row="2"
+                            CornerRadius="10"
+                            Background="#0A000000"
+                            BorderBrush="#2000D4FF"
+                            BorderThickness="1"
+                            Margin="0,8,0,0"
+                            Padding="12,6">
+                        <TextBlock Text="{Binding CurrentDate, StringFormat='{}{0:dddd, MMMM dd, yyyy}'}"
+                                 Style="{StaticResource DateTextStyle}"
+                                 FontSize="13"
+                                 Foreground="#CCFFFFFF"
+                                 TextAlignment="Center"/>
+                    </Border>
                 </Grid>
             </Grid>
         </Grid>
