@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Futuristic Clock Widget" 
-        Height="120" Width="280"
+        Height="100" Width="260"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
@@ -18,113 +18,138 @@
     <Window.Resources>
         <!-- Neon Text Style -->
         <Style x:Key="NeonTextStyle" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+            <Setter Property="FontWeight" Value="UltraLight"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#00FFFF" 
+                                      BlurRadius="12" 
+                                      ShadowDepth="0" 
+                                      Opacity="0.6"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Minimalist Date Style -->
+        <Style x:Key="DateTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI Semilight"/>
             <Setter Property="FontWeight" Value="Light"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect x:Name="NeonGlow" 
-                                      Color="#00D4FF" 
-                                      BlurRadius="8" 
+                    <DropShadowEffect Color="#00FFFF" 
+                                      BlurRadius="6" 
                                       ShadowDepth="0" 
-                                      Opacity="0.8"/>
+                                      Opacity="0.4"/>
                 </Setter.Value>
             </Setter>
         </Style>
         
-        <!-- Pulse Animation -->
-        <Storyboard x:Key="PulseAnimation" RepeatBehavior="Forever">
+        <!-- Liquid Animation -->
+        <Storyboard x:Key="LiquidAnimation" RepeatBehavior="Forever">
             <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                           From="0.6" To="1.0" Duration="0:0:2"
-                           AutoReverse="True"/>
+                           From="0.7" To="0.95" Duration="0:0:3"
+                           AutoReverse="true">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
         </Storyboard>
     </Window.Resources>
     
-    <!-- Main Container with Glassmorphism Effect -->
-    <Border CornerRadius="15" 
-            Background="#E61A1A1A"
-            BorderBrush="#3300D4FF"
-            BorderThickness="1">
+    <!-- Liquid Glass Container -->
+    <Border CornerRadius="20" 
+            Background="#0A000000"
+            BorderThickness="0">
         <Border.ContextMenu>
-            <ContextMenu Background="#2A2A2A" Foreground="#FFFFFF">
-                <MenuItem Header="Time Format" Background="#2A2A2A" Foreground="#00D4FF" BorderBrush="#3300D4FF">
-                    <MenuItem Header="12-Hour (Normal)" 
-                              Click="Format12Hour_Click" 
-                              Background="#2A2A2A" 
-                              Foreground="#00D4FF"
-                              BorderBrush="#3300D4FF"/>
-                    <MenuItem Header="24-Hour (Military)" 
-                              Click="Format24Hour_Click" 
-                              Background="#2A2A2A" 
-                              Foreground="#00D4FF"
-                              BorderBrush="#3300D4FF"/>
+            <ContextMenu Background="#0A000000" Foreground="#FFFFFF">
+                <ContextMenu.Resources>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Background" Value="#0A000000"/>
+                        <Setter Property="Foreground" Value="#00FFFF"/>
+                        <Setter Property="BorderBrush" Value="#2000FFFF"/>
+                        <Setter Property="FontFamily" Value="Segoe UI Light"/>
+                    </Style>
+                    <Style TargetType="Separator">
+                        <Setter Property="Background" Value="#2000FFFF"/>
+                    </Style>
+                </ContextMenu.Resources>
+                <MenuItem Header="Time Format">
+                    <MenuItem Header="12-Hour (Normal)" Click="Format12Hour_Click"/>
+                    <MenuItem Header="24-Hour (Military)" Click="Format24Hour_Click"/>
                 </MenuItem>
-                <Separator Background="#3300D4FF"/>
-                <MenuItem Header="Close Clock Widget" 
-                          Click="CloseMenuItem_Click" 
-                          Background="#2A2A2A" 
-                          Foreground="#00D4FF"
-                          BorderBrush="#3300D4FF"/>
+                <Separator/>
+                <MenuItem Header="Close" Click="CloseMenuItem_Click"/>
             </ContextMenu>
         </Border.ContextMenu>
         <Border.Effect>
-            <DropShadowEffect Color="#00D4FF" 
-                            BlurRadius="15" 
+            <DropShadowEffect Color="#00FFFF" 
+                            BlurRadius="20" 
                             ShadowDepth="0" 
                             Opacity="0.3"/>
         </Border.Effect>
         
-        <!-- Inner Glass Layer -->
-        <Border CornerRadius="13" Margin="1">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#1A1A1A" Offset="0"/>
-                    <GradientStop Color="#2A2A2A" Offset="0.5"/>
-                    <GradientStop Color="#1A1A1A" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.Background>
+        <!-- Liquid Glass Layers -->
+        <Grid>
+            <!-- Background Blur Layer -->
+            <Border CornerRadius="18" Margin="1">
+                <Border.Background>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#0F111111" Offset="0"/>
+                        <GradientStop Color="#0A222222" Offset="1"/>
+                    </RadialGradientBrush>
+                </Border.Background>
+                <Border.OpacityMask>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FFFFFF" Offset="0"/>
+                        <GradientStop Color="#AAFFFFFF" Offset="1"/>
+                    </RadialGradientBrush>
+                </Border.OpacityMask>
+            </Border>
             
-            <!-- Content Grid -->
-            <Grid Margin="20,15">
+            <!-- Glass Reflection Layer -->
+            <Border CornerRadius="16" Margin="2">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#15FFFFFF" Offset="0"/>
+                        <GradientStop Color="#05FFFFFF" Offset="0.5"/>
+                        <GradientStop Color="#10FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            
+            <!-- Content Layer -->
+            <Grid Margin="25,12">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
-                <!-- Digital Time Display -->
+                <!-- Time Display -->
                 <TextBlock Grid.Row="0"
                          x:Name="TimeTextBlock"
                          Text="{Binding FormattedTime}"
                          Style="{StaticResource NeonTextStyle}"
-                         FontSize="36"
-                         Foreground="#00D4FF">
+                         FontSize="32"
+                         Foreground="#00FFFF">
                     <TextBlock.Triggers>
                         <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard Storyboard="{StaticResource PulseAnimation}"/>
+                            <BeginStoryboard Storyboard="{StaticResource LiquidAnimation}"/>
                         </EventTrigger>
                     </TextBlock.Triggers>
                 </TextBlock>
                 
                 <!-- Date Display -->
                 <TextBlock Grid.Row="1"
-                         Text="{Binding CurrentDate, StringFormat='{}{0:dddd, MMMM dd}'}"
-                         Style="{StaticResource NeonTextStyle}"
-                         FontSize="10"
-                         Foreground="#B0B0B0"
-                         Margin="0,2,0,0"/>
-                
-                <!-- Milliseconds Indicator -->
-                <TextBlock Grid.Row="2"
-                         x:Name="MillisTextBlock"
-                         Text="{Binding CurrentTime, StringFormat='{}.{0:fff}'}"
-                         Style="{StaticResource NeonTextStyle}"
-                         FontSize="8"
-                         Foreground="#FF00FF"
-                         Margin="0,1,0,0"
-                         Opacity="0.7"/>
+                         Text="{Binding CurrentDate, StringFormat='{}{0:MMM dd}'}"
+                         Style="{StaticResource DateTextStyle}"
+                         FontSize="9"
+                         Foreground="#AAFFFFFF"
+                         Margin="0,3,0,0"/>
             </Grid>
-        </Border>
+        </Grid>
     </Border>
 </Window>

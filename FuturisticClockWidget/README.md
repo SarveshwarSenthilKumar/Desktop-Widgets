@@ -5,7 +5,8 @@ A modern, futuristic desktop clock widget with glassmorphism design and neon eff
 ## Features
 
 - **Real-time Updates**: Updates every 10ms for smooth millisecond display
-- **Futuristic Design**: Glassmorphism effect with neon cyan and magenta accents
+- **Liquid Glass Design**: Ultra-minimalist with transparent layers and liquid animations
+- **Futuristic Aesthetic**: Cyan neon glow with Segoe UI Light typography
 - **Draggable**: Click and drag to position anywhere on your desktop
 - **Always on Top**: Stays visible above other windows
 - **Minimalist**: Clean, unobtrusive design that complements any desktop
@@ -39,17 +40,18 @@ dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=
 
 ## Design Features
 
-- **Glassmorphism Effect**: Semi-transparent background with blur
-- **Neon Glow**: Cyan primary color with magenta accents
-- **Pulse Animation**: Subtle breathing effect on the main time display
-- **Drop Shadow**: Soft glow effect for depth
-- **Rounded Corners**: Modern 15px border radius
+- **Liquid Glass Effect**: Multi-layered transparent design with depth
+- **Minimalist Typography**: Segoe UI Light for clean, modern appearance
+- **Cyan Neon Glow**: Subtle cyan (#00FFFF) glow with soft blur
+- **Liquid Animation**: Smooth sine-wave opacity animation (3-second cycle)
+- **Rounded Corners**: 20px border radius for modern, soft appearance
+- **Compact Size**: 260x100 pixels for minimal desktop footprint
+- **Layered Transparency**: Radial gradients and opacity masks for depth
 
 ## Time Display
 
-- **Main Time**: Large text showing current time
-- **Date**: Full day and date below the time
-- **Milliseconds**: Small magenta text showing precision timing
+- **Main Time**: Large cyan text (32px) showing current time
+- **Date**: Minimalist date display (9px) below the time in "MMM dd" format
 - **Format Options**: 
   - **24-Hour (Military)**: 00:00:00 - 23:59:59 format
   - **12-Hour (Normal)**: 12:00:00 AM/PM - 11:59:59 PM format
