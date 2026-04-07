@@ -19,6 +19,10 @@ namespace FuturisticClockWidget.Views
         private bool _isResizing = false;
         private Point _resizeStartPoint;
         private Size _resizeStartSize;
+        private Point _resizeStartPosition;
+        private Point _resizeStartScreenPoint;
+        private Point _resizeStartMousePosition;
+        private DispatcherTimer _resizeTimer;
         private string _currentCorner;
         private string _currentEdge;
         private double _baseFontSize = 28;
@@ -134,6 +138,42 @@ namespace FuturisticClockWidget.Views
             OnPropertyChanged(nameof(FormattedTime));
         }
         
+        private void SizeSmall_Click(object sender, RoutedEventArgs e)
+        {
+            Width = 200;
+            Height = 100;
+            // Center the window on screen
+            Left = (SystemParameters.PrimaryScreenWidth - 200) / 2;
+            Top = (SystemParameters.PrimaryScreenHeight - 100) / 2;
+        }
+        
+        private void SizeMedium_Click(object sender, RoutedEventArgs e)
+        {
+            Width = 280;
+            Height = 140;
+            // Center the window on screen
+            Left = (SystemParameters.PrimaryScreenWidth - 280) / 2;
+            Top = (SystemParameters.PrimaryScreenHeight - 140) / 2;
+        }
+        
+        private void SizeLarge_Click(object sender, RoutedEventArgs e)
+        {
+            Width = 400;
+            Height = 200;
+            // Center the window on screen
+            Left = (SystemParameters.PrimaryScreenWidth - 400) / 2;
+            Top = (SystemParameters.PrimaryScreenHeight - 200) / 2;
+        }
+        
+        private void SizeExtraLarge_Click(object sender, RoutedEventArgs e)
+        {
+            Width = 600;
+            Height = 300;
+            // Center the window on screen
+            Left = (SystemParameters.PrimaryScreenWidth - 600) / 2;
+            Top = (SystemParameters.PrimaryScreenHeight - 300) / 2;
+        }
+        
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateFontSizes();
@@ -144,68 +184,132 @@ namespace FuturisticClockWidget.Views
             if (e.ChangedButton == MouseButton.Left)
             {
                 _isResizing = true;
-                _resizeStartPoint = e.GetPosition(this);
                 _resizeStartSize = new Size(ActualWidth, ActualHeight);
+                _resizeStartPosition = new Point(Left, Top);
                 _currentCorner = (sender as FrameworkElement)?.Tag as string;
-                CaptureMouse();
+                _resizeStartMousePosition = e.GetPosition(null); // Screen coordinates
+                
+                // Start timer for smooth resize
+                _resizeTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(16) }; // ~60 FPS
+                _resizeTimer.Tick += ResizeTimer_Tick;
+                _resizeTimer.Start();
+                
                 e.Handled = true;
             }
         }
         
         private void CornerResize_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_isResizing && e.LeftButton == MouseButtonState.Pressed)
+            // Mouse move is handled by timer for smoother operation
+        }
+        
+        private void ResizeTimer_Tick(object sender, EventArgs e)
+        {
+            if (_isResizing && Mouse.LeftButton == MouseButtonState.Pressed)
             {
-                Point currentPoint = e.GetPosition(this);
-                double deltaX = currentPoint.X - _resizeStartPoint.X;
-                double deltaY = currentPoint.Y - _resizeStartPoint.Y;
+                Point currentMousePosition = Mouse.GetPosition(null); // Screen coordinates
+                double deltaX = currentMousePosition.X - _resizeStartMousePosition.X;
+                double deltaY = currentMousePosition.Y - _resizeStartMousePosition.Y;
                 
                 double newWidth = _resizeStartSize.Width;
                 double newHeight = _resizeStartSize.Height;
-                double newLeft = Left;
-                double newTop = Top;
+                double newLeft = _resizeStartPosition.X;
+                double newTop = _resizeStartPosition.Y;
                 
-                switch (_currentCorner)
+                // Handle corner resize
+                if (_currentCorner != null)
                 {
-                    case "TopLeft":
-                        newWidth = Math.Max(200, _resizeStartSize.Width - deltaX);
-                        newHeight = Math.Max(100, _resizeStartSize.Height - deltaY);
-                        newLeft = Left + (_resizeStartSize.Width - newWidth);
-                        newTop = Top + (_resizeStartSize.Height - newHeight);
-                        break;
-                    case "TopRight":
-                        newWidth = Math.Max(200, _resizeStartSize.Width + deltaX);
-                        newHeight = Math.Max(100, _resizeStartSize.Height - deltaY);
-                        newTop = Top + (_resizeStartSize.Height - newHeight);
-                        break;
-                    case "BottomLeft":
-                        newWidth = Math.Max(200, _resizeStartSize.Width - deltaX);
-                        newHeight = Math.Max(100, _resizeStartSize.Height + deltaY);
-                        newLeft = Left + (_resizeStartSize.Width - newWidth);
-                        break;
-                    case "BottomRight":
-                        newWidth = Math.Max(200, _resizeStartSize.Width + deltaX);
-                        newHeight = Math.Max(100, _resizeStartSize.Height + deltaY);
-                        break;
+                    switch (_currentCorner)
+                    {
+                        case "TopLeft":
+                            newWidth = Math.Max(200, _resizeStartSize.Width - deltaX);
+                            newHeight = Math.Max(100, _resizeStartSize.Height - deltaY);
+                            // Position moves with mouse for top-left corner
+                            newLeft = _resizeStartPosition.X + deltaX;
+                            newTop = _resizeStartPosition.Y + deltaY;
+                            break;
+                        case "TopRight":
+                            newWidth = Math.Max(200, _resizeStartSize.Width + deltaX);
+                            newHeight = Math.Max(100, _resizeStartSize.Height - deltaY);
+                            // Only Y position moves for top-right corner
+                            newTop = _resizeStartPosition.Y + deltaY;
+                            break;
+                        case "BottomLeft":
+                            newWidth = Math.Max(200, _resizeStartSize.Width - deltaX);
+                            newHeight = Math.Max(100, _resizeStartSize.Height + deltaY);
+                            // Only X position moves for bottom-left corner
+                            newLeft = _resizeStartPosition.X + deltaX;
+                            break;
+                        case "BottomRight":
+                            newWidth = Math.Max(200, _resizeStartSize.Width + deltaX);
+                            newHeight = Math.Max(100, _resizeStartSize.Height + deltaY);
+                            // Position stays fixed for bottom-right corner
+                            break;
+                    }
                 }
+                
+                // Handle edge resize
+                else if (_currentEdge != null)
+                {
+                    switch (_currentEdge)
+                    {
+                        case "Top":
+                            newHeight = Math.Max(100, _resizeStartSize.Height - deltaY);
+                            // Only Y position moves for top edge
+                            newTop = _resizeStartPosition.Y + deltaY;
+                            break;
+                        case "Bottom":
+                            newHeight = Math.Max(100, _resizeStartSize.Height + deltaY);
+                            // Position stays fixed for bottom edge
+                            break;
+                        case "Left":
+                            newWidth = Math.Max(200, _resizeStartSize.Width - deltaX);
+                            // Only X position moves for left edge
+                            newLeft = _resizeStartPosition.X + deltaX;
+                            break;
+                        case "Right":
+                            newWidth = Math.Max(200, _resizeStartSize.Width + deltaX);
+                            // Position stays fixed for right edge
+                            break;
+                    }
+                }
+                
+                // Apply window properties with constraints
+                if (newLeft < 0) newLeft = 0;
+                if (newTop < 0) newTop = 0;
+                if (newLeft + newWidth > SystemParameters.PrimaryScreenWidth) 
+                    newLeft = SystemParameters.PrimaryScreenWidth - newWidth;
+                if (newTop + newHeight > SystemParameters.PrimaryScreenHeight) 
+                    newTop = SystemParameters.PrimaryScreenHeight - newHeight;
                 
                 Width = newWidth;
                 Height = newHeight;
                 Left = newLeft;
                 Top = newTop;
-                e.Handled = true;
             }
+            else
+            {
+                // Stop resizing if mouse button is released
+                StopResize();
+            }
+        }
+        
+        private void StopResize()
+        {
+            if (_resizeTimer != null)
+            {
+                _resizeTimer.Stop();
+                _resizeTimer = null;
+            }
+            _isResizing = false;
+            _currentCorner = null;
+            _currentEdge = null;
         }
         
         private void CornerResize_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_isResizing)
-            {
-                _isResizing = false;
-                _currentCorner = null;
-                ReleaseMouseCapture();
-                e.Handled = true;
-            }
+            StopResize();
+            e.Handled = true;
         }
         
         private void EdgeResize_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -213,62 +317,29 @@ namespace FuturisticClockWidget.Views
             if (e.ChangedButton == MouseButton.Left)
             {
                 _isResizing = true;
-                _resizeStartPoint = e.GetPosition(this);
                 _resizeStartSize = new Size(ActualWidth, ActualHeight);
+                _resizeStartPosition = new Point(Left, Top);
                 _currentEdge = (sender as FrameworkElement)?.Tag as string;
-                CaptureMouse();
+                _resizeStartMousePosition = e.GetPosition(null); // Screen coordinates
+                
+                // Start timer for smooth resize
+                _resizeTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(16) }; // ~60 FPS
+                _resizeTimer.Tick += ResizeTimer_Tick;
+                _resizeTimer.Start();
+                
                 e.Handled = true;
             }
         }
         
         private void EdgeResize_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_isResizing && e.LeftButton == MouseButtonState.Pressed)
-            {
-                Point currentPoint = e.GetPosition(this);
-                double deltaX = currentPoint.X - _resizeStartPoint.X;
-                double deltaY = currentPoint.Y - _resizeStartPoint.Y;
-                
-                double newWidth = _resizeStartSize.Width;
-                double newHeight = _resizeStartSize.Height;
-                double newLeft = Left;
-                double newTop = Top;
-                
-                switch (_currentEdge)
-                {
-                    case "Top":
-                        newHeight = Math.Max(100, _resizeStartSize.Height - deltaY);
-                        newTop = Top + (_resizeStartSize.Height - newHeight);
-                        break;
-                    case "Bottom":
-                        newHeight = Math.Max(100, _resizeStartSize.Height + deltaY);
-                        break;
-                    case "Left":
-                        newWidth = Math.Max(200, _resizeStartSize.Width - deltaX);
-                        newLeft = Left + (_resizeStartSize.Width - newWidth);
-                        break;
-                    case "Right":
-                        newWidth = Math.Max(200, _resizeStartSize.Width + deltaX);
-                        break;
-                }
-                
-                Width = newWidth;
-                Height = newHeight;
-                Left = newLeft;
-                Top = newTop;
-                e.Handled = true;
-            }
+            // Mouse move is handled by timer for smoother operation
         }
         
         private void EdgeResize_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_isResizing)
-            {
-                _isResizing = false;
-                _currentEdge = null;
-                ReleaseMouseCapture();
-                e.Handled = true;
-            }
+            StopResize();
+            e.Handled = true;
         }
         
         private void UpdateFontSizes()
@@ -324,10 +395,49 @@ namespace FuturisticClockWidget.Views
         
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
+            if (e.ChangedButton == MouseButton.Left && !_isResizing)
             {
-                // Enable window dragging
-                DragMove();
+                // Only allow dragging if we're not currently resizing
+                try
+                {
+                    // Focus this window to ensure proper control
+                    Focus();
+                    
+                    // Check if we're clicking on the main content area (not resize areas)
+                    Point clickPosition = e.GetPosition(this);
+                    
+                    // Define safe area for dragging (exclude edges and corners)
+                    bool inResizeArea = false;
+                    double edgeThreshold = 15;
+                    double cornerThreshold = 20;
+                    
+                    // Check corners
+                    if ((clickPosition.X < cornerThreshold && clickPosition.Y < cornerThreshold) ||
+                        (clickPosition.X > ActualWidth - cornerThreshold && clickPosition.Y < cornerThreshold) ||
+                        (clickPosition.X < cornerThreshold && clickPosition.Y > ActualHeight - cornerThreshold) ||
+                        (clickPosition.X > ActualWidth - cornerThreshold && clickPosition.Y > ActualHeight - cornerThreshold))
+                    {
+                        inResizeArea = true;
+                    }
+                    
+                    // Check edges
+                    if (!inResizeArea &&
+                        (clickPosition.X < edgeThreshold || clickPosition.X > ActualWidth - edgeThreshold ||
+                         clickPosition.Y < edgeThreshold || clickPosition.Y > ActualHeight - edgeThreshold))
+                    {
+                        inResizeArea = true;
+                    }
+                    
+                    // Only drag if not in resize area
+                    if (!inResizeArea)
+                    {
+                        DragMove();
+                    }
+                }
+                catch
+                {
+                    // If drag fails, just ignore it
+                }
             }
         }
         
