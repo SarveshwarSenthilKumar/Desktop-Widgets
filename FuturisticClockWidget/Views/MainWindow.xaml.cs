@@ -16,9 +16,9 @@ namespace FuturisticClockWidget.Views
         private DispatcherTimer _timer;
         private DateTime _currentTime;
         private bool _is24HourFormat = true; // Default to 24-hour format
-        private double _baseFontSize = 28;
-        private double _baseDateFontSize = 10;
-        private double _baseSmallFontSize = 8;
+        private double _baseFontSize = 33.6;
+        private double _baseDateFontSize = 12;
+        private double _baseSmallFontSize = 9.6;
         
         public DateTime CurrentTime
         {
