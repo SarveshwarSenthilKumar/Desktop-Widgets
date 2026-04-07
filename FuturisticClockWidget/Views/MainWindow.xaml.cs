@@ -22,6 +22,9 @@ namespace FuturisticClockWidget.Views
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(CurrentDate));
                 OnPropertyChanged(nameof(FormattedTime));
+                OnPropertyChanged(nameof(WeekNumber));
+                OnPropertyChanged(nameof(DayOfYear));
+                OnPropertyChanged(nameof(TimeZoneDisplay));
             }
         }
         
@@ -39,6 +42,38 @@ namespace FuturisticClockWidget.Views
                 {
                     return CurrentTime.ToString("hh:mm:ss tt");
                 }
+            }
+        }
+        
+        public string WeekNumber
+        {
+            get
+            {
+                var culture = System.Globalization.CultureInfo.CurrentCulture;
+                var calendar = culture.Calendar;
+                var weekRule = culture.DateTimeFormat.CalendarWeekRule;
+                var weekOfYear = calendar.GetWeekOfYear(CurrentTime, weekRule, culture.DateTimeFormat.FirstDayOfWeek);
+                return $"W{weekOfYear:D2}";
+            }
+        }
+        
+        public string DayOfYear
+        {
+            get
+            {
+                return $"Day {CurrentTime.DayOfYear:D3}";
+            }
+        }
+        
+        public string TimeZoneDisplay
+        {
+            get
+            {
+                var timeZone = TimeZoneInfo.Local;
+                var offset = timeZone.BaseUtcOffset;
+                var offsetString = offset.Hours >= 0 ? $"+{offset.Hours:D2}" : $"{offset.Hours:D2}";
+                var timeZoneName = timeZone.DisplayName.Split(' ')[0];
+                return $"UTC{offsetString} {timeZoneName}";
             }
         }
         

@@ -45,13 +45,15 @@ dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=
 - **Cyan Neon Glow**: Subtle cyan (#00FFFF) glow with soft blur
 - **Liquid Animation**: Smooth sine-wave opacity animation (3-second cycle)
 - **Rounded Corners**: 20px border radius for modern, soft appearance
-- **Compact Size**: 260x100 pixels for minimal desktop footprint
+- **Compact Size**: 280x140 pixels for optimal information display
 - **Layered Transparency**: Radial gradients and opacity masks for depth
 
 ## Time Display
 
-- **Main Time**: Large cyan text (32px) showing current time
-- **Date**: Minimalist date display (9px) below the time in "MMM dd" format
+- **Main Time**: Large cyan text (28px) showing current time
+- **Full Date**: Complete date with day name (e.g., "Monday, January 15, 2024")
+- **Week Information**: Current week number (e.g., "W03") and day of year (e.g., "Day 015")
+- **Time Zone**: UTC offset and local time zone name (e.g., "UTC-05 Eastern")
 - **Format Options**: 
   - **24-Hour (Military)**: 00:00:00 - 23:59:59 format
   - **12-Hour (Normal)**: 12:00:00 AM/PM - 11:59:59 PM format
