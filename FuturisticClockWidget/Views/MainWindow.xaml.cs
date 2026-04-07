@@ -11,6 +11,7 @@ namespace FuturisticClockWidget.Views
     {
         private DispatcherTimer _timer;
         private DateTime _currentTime;
+        private bool _is24HourFormat = true; // Default to 24-hour format
         
         public DateTime CurrentTime
         {
@@ -20,10 +21,26 @@ namespace FuturisticClockWidget.Views
                 _currentTime = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(CurrentDate));
+                OnPropertyChanged(nameof(FormattedTime));
             }
         }
         
         public DateTime CurrentDate => CurrentTime;
+        
+        public string FormattedTime
+        {
+            get
+            {
+                if (_is24HourFormat)
+                {
+                    return CurrentTime.ToString("HH:mm:ss");
+                }
+                else
+                {
+                    return CurrentTime.ToString("hh:mm:ss tt");
+                }
+            }
+        }
         
         public MainWindow()
         {
@@ -56,6 +73,18 @@ namespace FuturisticClockWidget.Views
         private void CloseMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+        
+        private void Format12Hour_Click(object sender, RoutedEventArgs e)
+        {
+            _is24HourFormat = false;
+            OnPropertyChanged(nameof(FormattedTime));
+        }
+        
+        private void Format24Hour_Click(object sender, RoutedEventArgs e)
+        {
+            _is24HourFormat = true;
+            OnPropertyChanged(nameof(FormattedTime));
         }
         
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

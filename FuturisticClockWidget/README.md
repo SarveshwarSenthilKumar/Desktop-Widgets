@@ -12,7 +12,9 @@ A modern, futuristic desktop clock widget with glassmorphism design and neon eff
 - **Keyboard Shortcuts**: 
   - `Escape`: Close the widget
   - `Space`: Toggle "always on top" behavior
-- **Right-Click Menu**: Right-click anywhere on the widget to open the context menu with a close option
+- **Right-Click Menu**: Right-click anywhere on the widget to open the context menu with:
+  - Time format options (12-hour/24-hour)
+  - Close option
 
 ## Quick Start
 
@@ -45,9 +47,21 @@ dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=
 
 ## Time Display
 
-- **Main Time**: HH:mm:ss format in large cyan text
+- **Main Time**: Large text showing current time
 - **Date**: Full day and date below the time
 - **Milliseconds**: Small magenta text showing precision timing
+- **Format Options**: 
+  - **24-Hour (Military)**: 00:00:00 - 23:59:59 format
+  - **12-Hour (Normal)**: 12:00:00 AM/PM - 11:59:59 PM format
+
+### Changing Time Format
+
+1. **Right-click** on the widget
+2. **Select "Time Format"** from the context menu
+3. **Choose your preferred format**:
+   - "12-Hour (Normal)" for standard AM/PM format
+   - "24-Hour (Military)" for military time format
+4. **The display updates instantly** with your selected format
 
 ## System Requirements
 

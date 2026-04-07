@@ -48,6 +48,19 @@
             BorderThickness="1">
         <Border.ContextMenu>
             <ContextMenu Background="#2A2A2A" Foreground="#FFFFFF">
+                <MenuItem Header="Time Format" Background="#2A2A2A" Foreground="#00D4FF" BorderBrush="#3300D4FF">
+                    <MenuItem Header="12-Hour (Normal)" 
+                              Click="Format12Hour_Click" 
+                              Background="#2A2A2A" 
+                              Foreground="#00D4FF"
+                              BorderBrush="#3300D4FF"/>
+                    <MenuItem Header="24-Hour (Military)" 
+                              Click="Format24Hour_Click" 
+                              Background="#2A2A2A" 
+                              Foreground="#00D4FF"
+                              BorderBrush="#3300D4FF"/>
+                </MenuItem>
+                <Separator Background="#3300D4FF"/>
                 <MenuItem Header="Close Clock Widget" 
                           Click="CloseMenuItem_Click" 
                           Background="#2A2A2A" 
@@ -83,7 +96,7 @@
                 <!-- Digital Time Display -->
                 <TextBlock Grid.Row="0"
                          x:Name="TimeTextBlock"
-                         Text="{Binding CurrentTime, StringFormat='{}{0:HH:mm:ss}'}"
+                         Text="{Binding FormattedTime}"
                          Style="{StaticResource NeonTextStyle}"
                          FontSize="36"
                          Foreground="#00D4FF">
