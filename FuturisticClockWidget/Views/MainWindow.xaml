@@ -387,33 +387,39 @@
                         <StackPanel Grid.Column="0" 
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Margin="0,0,10,0">
+                                    Margin="0,0,8,0">
                             <!-- Days Until -->
-                            <Border CornerRadius="8" 
-                                    Background="#10000000"
-                                    BorderBrush="#3000D4FF"
+                            <Border CornerRadius="10" 
+                                    Background="#15000000"
+                                    BorderBrush="#4000D4FF"
                                     BorderThickness="1"
-                                    Margin="0,0,0,8"
-                                    Padding="8,4">
+                                    Margin="0,0,0,6"
+                                    Padding="10,6"
+                                    MinWidth="65">
                                 <TextBlock Text="{Binding DaysUntilEndOfYear}"
-                                         FontSize="11"
+                                         FontSize="9"
+                                         FontWeight="Light"
                                          Foreground="#00D4FF"
-                                         FontFamily="Segoe UI Light"
+                                         FontFamily="Segoe UI"
                                          TextAlignment="Center"
-                                         TextWrapping="Wrap"/>
+                                         TextWrapping="Wrap"
+                                         LineHeight="10"/>
                             </Border>
                             
                             <!-- Weeks Elapsed -->
-                            <Border CornerRadius="8" 
-                                    Background="#10000000"
-                                    BorderBrush="#3000D4FF"
+                            <Border CornerRadius="10" 
+                                    Background="#15000000"
+                                    BorderBrush="#4000D4FF"
                                     BorderThickness="1"
-                                    Padding="8,4">
+                                    Padding="10,6"
+                                    MinWidth="65">
                                 <TextBlock Text="{Binding WeeksElapsed}"
-                                         FontSize="11"
+                                         FontSize="9"
+                                         FontWeight="Light"
                                          Foreground="#00D4FF"
-                                         FontFamily="Segoe UI Light"
-                                         TextAlignment="Center"/>
+                                         FontFamily="Segoe UI"
+                                         TextAlignment="Center"
+                                         LineHeight="10"/>
                             </Border>
                         </StackPanel>
                         
@@ -522,32 +528,38 @@
                         <StackPanel Grid.Column="2" 
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Margin="10,0,0,0">
+                                    Margin="8,0,0,0">
                             <!-- Week Number -->
-                            <Border CornerRadius="8" 
-                                    Background="#10000000"
-                                    BorderBrush="#3000D4FF"
+                            <Border CornerRadius="10" 
+                                    Background="#15000000"
+                                    BorderBrush="#4000D4FF"
                                     BorderThickness="1"
-                                    Margin="0,0,0,8"
-                                    Padding="8,4">
+                                    Margin="0,0,0,6"
+                                    Padding="10,6"
+                                    MinWidth="65">
                                 <TextBlock Text="{Binding WeekNumber}"
-                                         FontSize="11"
+                                         FontSize="9"
+                                         FontWeight="Light"
                                          Foreground="#00D4FF"
-                                         FontFamily="Segoe UI Light"
-                                         TextAlignment="Center"/>
+                                         FontFamily="Segoe UI"
+                                         TextAlignment="Center"
+                                         LineHeight="10"/>
                             </Border>
                             
                             <!-- Day of Year -->
-                            <Border CornerRadius="8" 
-                                    Background="#10000000"
-                                    BorderBrush="#3000D4FF"
+                            <Border CornerRadius="10" 
+                                    Background="#15000000"
+                                    BorderBrush="#4000D4FF"
                                     BorderThickness="1"
-                                    Padding="8,4">
+                                    Padding="10,6"
+                                    MinWidth="65">
                                 <TextBlock Text="{Binding DayOfYear}"
-                                         FontSize="11"
+                                         FontSize="9"
+                                         FontWeight="Light"
                                          Foreground="#00D4FF"
-                                         FontFamily="Segoe UI Light"
-                                         TextAlignment="Center"/>
+                                         FontFamily="Segoe UI"
+                                         TextAlignment="Center"
+                                         LineHeight="10"/>
                             </Border>
                         </StackPanel>
                     </Grid>

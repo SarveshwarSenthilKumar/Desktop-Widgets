@@ -23,9 +23,9 @@ namespace FuturisticClockWidget.Views
         private DispatcherTimer _timer;
         private DateTime _currentTime;
         private bool _is24HourFormat = true; // Default to 24-hour format
-        private double _baseFontSize = 33.6;
-        private double _baseDateFontSize = 12;
-        private double _baseSmallFontSize = 9.6;
+        private double _baseFontSize = 28.8;  // Reduced for better small size scaling
+        private double _baseDateFontSize = 12; // Increased for better readability
+        private double _baseSmallFontSize = 10; // Increased for better readability
         private ClockType _clockType = ClockType.Digital;
         
         public ClockType CurrentClockType
@@ -170,13 +170,16 @@ namespace FuturisticClockWidget.Views
             double centerY = currentClockSize / 2;
             double scale = currentClockSize / 140.0; // Base size is now 140
             
+            // Apply exponential scaling for better size range
+            double exponentialScale = Math.Pow(scale, 0.8);
+            
             const double baseHourLength = 35;
             const double baseMinuteLength = 45;
             const double baseSecondLength = 52;
             
-            double hourHandLength = baseHourLength * scale;
-            double minuteHandLength = baseMinuteLength * scale;
-            double secondHandLength = baseSecondLength * scale;
+            double hourHandLength = baseHourLength * exponentialScale;
+            double minuteHandLength = baseMinuteLength * exponentialScale;
+            double secondHandLength = baseSecondLength * exponentialScale;
             
             // Hour hand
             double hourEndX = centerX + Math.Cos(hourAngle * Math.PI / 180) * hourHandLength;
@@ -286,16 +289,23 @@ namespace FuturisticClockWidget.Views
             double heightScale = ActualHeight / 140.0; // Base height is 140
             double scale = Math.Min(widthScale, heightScale);
             
+            // Apply different scaling for different elements
+            // Main time uses exponential scaling for dramatic size range
+            double exponentialScale = Math.Pow(scale, 0.8);
+            
+            // Info elements use linear scaling for better readability at small sizes
+            double infoScale = Math.Max(0.7, scale); // Minimum 70% of base size for readability
+            
             // Apply scaling to font sizes for digital mode
             if (TimeTextBlock != null)
             {
-                TimeTextBlock.FontSize = _baseFontSize * scale;
+                TimeTextBlock.FontSize = _baseFontSize * exponentialScale;
             }
             
             // Apply scaling to font sizes for analog mode digital display
             if (AnalogTimeTextBlock != null)
             {
-                AnalogTimeTextBlock.FontSize = 24 * scale;
+                AnalogTimeTextBlock.FontSize = 22 * exponentialScale; // Slightly larger for analog mode
             }
             
             // Find and update date text blocks
@@ -309,11 +319,11 @@ namespace FuturisticClockWidget.Views
                         // Check if this is in analog mode (smaller font) or digital mode
                         if (textBlock.FontSize > 15) // Likely digital mode
                         {
-                            textBlock.FontSize = _baseDateFontSize * scale;
+                            textBlock.FontSize = _baseDateFontSize * infoScale;
                         }
                         else // Likely analog mode
                         {
-                            textBlock.FontSize = 14.4 * scale;
+                            textBlock.FontSize = 11 * infoScale; // Better readability for analog mode
                         }
                     }
                     else if (textBlock.Style == Resources["SmallInfoStyle"] as Style)
@@ -321,11 +331,19 @@ namespace FuturisticClockWidget.Views
                         // Check if this is in analog mode (smaller font) or digital mode
                         if (textBlock.FontSize > 10) // Likely digital mode
                         {
-                            textBlock.FontSize = _baseSmallFontSize * scale;
+                            textBlock.FontSize = _baseSmallFontSize * infoScale;
                         }
                         else // Likely analog mode
                         {
-                            textBlock.FontSize = 12 * scale;
+                            textBlock.FontSize = 9 * infoScale; // Better readability for analog mode panels
+                        }
+                    }
+                    else
+                    {
+                        // Handle analog panel text blocks that don't match the styles
+                        if (textBlock.FontSize <= 11 && textBlock.FontSize >= 8) // Likely analog panel text
+                        {
+                            textBlock.FontSize = 9 * infoScale;
                         }
                     }
                 }
@@ -335,7 +353,7 @@ namespace FuturisticClockWidget.Views
             if (AnalogClockCanvas != null)
             {
                 double baseClockSize = 140;
-                double newClockSize = baseClockSize * scale;
+                double newClockSize = baseClockSize * exponentialScale;
                 AnalogClockCanvas.Width = newClockSize;
                 AnalogClockCanvas.Height = newClockSize;
                 
@@ -345,9 +363,9 @@ namespace FuturisticClockWidget.Views
                 const double baseSecondLength = 52;
                 
                 double centerOffset = newClockSize / 2;
-                double hourLength = baseHourLength * scale;
-                double minuteLength = baseMinuteLength * scale;
-                double secondLength = baseSecondLength * scale;
+                double hourLength = baseHourLength * exponentialScale;
+                double minuteLength = baseMinuteLength * exponentialScale;
+                double secondLength = baseSecondLength * exponentialScale;
                 
                 // Update hand positions
                 if (HourHand != null)
