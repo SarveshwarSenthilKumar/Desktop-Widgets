@@ -280,6 +280,67 @@
                       StrokeThickness="1" 
                       Opacity="0.4"/>
             </Grid>
+            
+            <!-- Edge Resize Grips -->
+            <!-- Top Edge -->
+            <Grid HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Top" 
+                  Height="8"
+                  Margin="15,0,15,0"
+                  Cursor="SizeNS"
+                  MouseLeftButtonDown="EdgeResize_MouseLeftButtonDown"
+                  MouseMove="EdgeResize_MouseMove"
+                  MouseLeftButtonUp="EdgeResize_MouseLeftButtonUp"
+                  Tag="Top">
+                <Grid.Background>
+                    <SolidColorBrush Color="Transparent"/>
+                </Grid.Background>
+            </Grid>
+            
+            <!-- Bottom Edge -->
+            <Grid HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Bottom" 
+                  Height="8"
+                  Margin="15,0,15,0"
+                  Cursor="SizeNS"
+                  MouseLeftButtonDown="EdgeResize_MouseLeftButtonDown"
+                  MouseMove="EdgeResize_MouseMove"
+                  MouseLeftButtonUp="EdgeResize_MouseLeftButtonUp"
+                  Tag="Bottom">
+                <Grid.Background>
+                    <SolidColorBrush Color="Transparent"/>
+                </Grid.Background>
+            </Grid>
+            
+            <!-- Left Edge -->
+            <Grid HorizontalAlignment="Left" 
+                  VerticalAlignment="Stretch" 
+                  Width="8"
+                  Margin="0,15,0,15"
+                  Cursor="SizeWE"
+                  MouseLeftButtonDown="EdgeResize_MouseLeftButtonDown"
+                  MouseMove="EdgeResize_MouseMove"
+                  MouseLeftButtonUp="EdgeResize_MouseLeftButtonUp"
+                  Tag="Left">
+                <Grid.Background>
+                    <SolidColorBrush Color="Transparent"/>
+                </Grid.Background>
+            </Grid>
+            
+            <!-- Right Edge -->
+            <Grid HorizontalAlignment="Right" 
+                  VerticalAlignment="Stretch" 
+                  Width="8"
+                  Margin="0,15,0,15"
+                  Cursor="SizeWE"
+                  MouseLeftButtonDown="EdgeResize_MouseLeftButtonDown"
+                  MouseMove="EdgeResize_MouseMove"
+                  MouseLeftButtonUp="EdgeResize_MouseLeftButtonUp"
+                  Tag="Right">
+                <Grid.Background>
+                    <SolidColorBrush Color="Transparent"/>
+                </Grid.Background>
+            </Grid>
         </Grid>
     </Border>
 </Window>

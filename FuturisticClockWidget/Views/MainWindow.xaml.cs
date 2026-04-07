@@ -20,6 +20,7 @@ namespace FuturisticClockWidget.Views
         private Point _resizeStartPoint;
         private Size _resizeStartSize;
         private string _currentCorner;
+        private string _currentEdge;
         private double _baseFontSize = 28;
         private double _baseDateFontSize = 10;
         private double _baseSmallFontSize = 8;
@@ -202,6 +203,69 @@ namespace FuturisticClockWidget.Views
             {
                 _isResizing = false;
                 _currentCorner = null;
+                ReleaseMouseCapture();
+                e.Handled = true;
+            }
+        }
+        
+        private void EdgeResize_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                _isResizing = true;
+                _resizeStartPoint = e.GetPosition(this);
+                _resizeStartSize = new Size(ActualWidth, ActualHeight);
+                _currentEdge = (sender as FrameworkElement)?.Tag as string;
+                CaptureMouse();
+                e.Handled = true;
+            }
+        }
+        
+        private void EdgeResize_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isResizing && e.LeftButton == MouseButtonState.Pressed)
+            {
+                Point currentPoint = e.GetPosition(this);
+                double deltaX = currentPoint.X - _resizeStartPoint.X;
+                double deltaY = currentPoint.Y - _resizeStartPoint.Y;
+                
+                double newWidth = _resizeStartSize.Width;
+                double newHeight = _resizeStartSize.Height;
+                double newLeft = Left;
+                double newTop = Top;
+                
+                switch (_currentEdge)
+                {
+                    case "Top":
+                        newHeight = Math.Max(100, _resizeStartSize.Height - deltaY);
+                        newTop = Top + (_resizeStartSize.Height - newHeight);
+                        break;
+                    case "Bottom":
+                        newHeight = Math.Max(100, _resizeStartSize.Height + deltaY);
+                        break;
+                    case "Left":
+                        newWidth = Math.Max(200, _resizeStartSize.Width - deltaX);
+                        newLeft = Left + (_resizeStartSize.Width - newWidth);
+                        break;
+                    case "Right":
+                        newWidth = Math.Max(200, _resizeStartSize.Width + deltaX);
+                        break;
+                }
+                
+                Width = newWidth;
+                Height = newHeight;
+                Left = newLeft;
+                Top = newTop;
+                e.Handled = true;
+            }
+        }
+        
+        private void EdgeResize_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (_isResizing)
+            {
+                _isResizing = false;
+                _currentEdge = null;
                 ReleaseMouseCapture();
                 e.Handled = true;
             }

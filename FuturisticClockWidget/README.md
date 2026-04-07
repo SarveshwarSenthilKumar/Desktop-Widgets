@@ -51,25 +51,33 @@ dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=
 
 ### Resizing the Widget
 
-The widget can be resized from any corner to fit your preferences:
+The widget can be resized from anywhere on its edges or corners:
 
+#### Edge Resizing:
+1. **Move your cursor** to any edge of the widget (top, bottom, left, right)
+2. **Cursor changes** to vertical (↕) or horizontal (↔) resize icon
+3. **Click and drag** to resize from that edge
+4. **Window position** adjusts when resizing from top or left edges
+
+#### Corner Resizing:
 1. **Move your cursor** to any corner of the widget
 2. **Look for the resize grips** - subtle white lines in each corner
-3. **Click and drag** to make the widget larger or smaller
+3. **Click and drag** to resize from that corner
 4. **Font sizes scale automatically** to maintain readability
 5. **Minimum size**: 200x100 pixels to ensure usability
 
-**Corner Resize Behavior:**
-- **Top-Left**: Drag up-left to shrink, down-right to expand
-- **Top-Right**: Drag up-right to shrink, down-left to expand  
-- **Bottom-Left**: Drag down-left to shrink, up-right to expand
-- **Bottom-Right**: Drag down-right to shrink, up-left to expand
+**Resize Behavior:**
+- **Top Edge**: Drag up to shrink height, down to expand
+- **Bottom Edge**: Drag down to expand height, up to shrink
+- **Left Edge**: Drag left to shrink width, right to expand
+- **Right Edge**: Drag right to expand width, left to shrink
+- **Corners**: Resize both width and height simultaneously
 
 **Visual Resize Indicators:**
-- **Subtle white lines** appear in each corner (15x15px)
-- **Cursor changes** to appropriate resize icon
-- **Transparent background** maintains aesthetic
-- **Low opacity** (0.4) for minimal visual impact
+- **Corner grips**: Subtle white lines in each corner (15x15px)
+- **Edge areas**: Transparent 8px strips along edges
+- **Cursor changes**: Appropriate resize icons for each area
+- **Minimal visual impact**: Maintains liquid glass aesthetic
 
 **Font Scaling Behavior:**
 - **Main time**: Scales from base 28px proportionally
