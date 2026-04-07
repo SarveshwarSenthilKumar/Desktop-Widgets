@@ -209,7 +209,7 @@ namespace FuturisticClockWidget.Views
             }
         }
         
-        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject? parent) where T : DependencyObject
         {
             if (parent != null)
             {

@@ -100,28 +100,105 @@
             <ContextMenu Background="#0F000000" Foreground="#FFFFFF">
                 <ContextMenu.Resources>
                     <Style TargetType="MenuItem">
-                        <Setter Property="Background" Value="#0F000000"/>
+                        <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="Foreground" Value="#00D4FF"/>
-                        <Setter Property="BorderBrush" Value="#3000D4FF"/>
                         <Setter Property="FontFamily" Value="Segoe UI Light"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="MenuItem">
+                                    <Border x:Name="Border" Background="Transparent" BorderThickness="0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ContentPresenter Grid.Column="0" Margin="8,0,8,0" VerticalAlignment="Center" ContentSource="Icon"/>
+                                            <ContentPresenter Grid.Column="1" Margin="8,3,8,3" VerticalAlignment="Center" ContentSource="Header"/>
+                                            <Popup Grid.Column="1" x:Name="SubMenuPopup" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Right" PopupAnimation="Slide">
+                                                <Border Background="#0F000000" BorderBrush="#3000D4FF" BorderThickness="1">
+                                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                                                </Border>
+                                            </Popup>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="#2000D4FF"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSubmenuOpen" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="#2000D4FF"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style TargetType="Path" x:Key="IconPath">
+                        <Setter Property="Fill" Value="#00D4FF"/>
+                        <Setter Property="Stretch" Value="Uniform"/>
+                        <Setter Property="Width" Value="12"/>
+                        <Setter Property="Height" Value="12"/>
+                        <Setter Property="Margin" Value="0"/>
                     </Style>
                     <Style TargetType="Separator">
                         <Setter Property="Background" Value="#3000D4FF"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Separator">
+                                    <Rectangle Height="1" Fill="#3000D4FF" Margin="25,2,25,2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </ContextMenu.Resources>
-                <MenuItem Header="Size" Icon="📐">
-                    <MenuItem Header="Small (200x100)" Click="SizeSmall_Click" Icon="📱"/>
-                    <MenuItem Header="Medium (280x140)" Click="SizeMedium_Click" Icon="📋"/>
-                    <MenuItem Header="Large (400x200)" Click="SizeLarge_Click" Icon="📄"/>
-                    <MenuItem Header="Extra Large (600x300)" Click="SizeExtraLarge_Click" Icon="📃"/>
+                <MenuItem Header="Size">
+                    <MenuItem.Icon>
+                        <Path Style="{StaticResource IconPath}" Data="M3 3h18v18H3V3zm16 16V5H5v14h14zM11 7h2v2h-2V7zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2z"/>
+                    </MenuItem.Icon>
+                    <MenuItem Header="Small (200x100)" Click="SizeSmall_Click">
+                        <MenuItem.Icon>
+                            <Path Style="{StaticResource IconPath}" Data="M4 4h16v16H4V4zm14 14V6H6v12h12zM8 8h8v2H8V8zm0 4h8v2H8v-2z"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Medium (280x140)" Click="SizeMedium_Click">
+                        <MenuItem.Icon>
+                            <Path Style="{StaticResource IconPath}" Data="M4 4h16v16H4V4zm14 14V6H6v12h12zM8 8h8v4H8V8zm0 6h8v4H8v-4z"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Large (400x200)" Click="SizeLarge_Click">
+                        <MenuItem.Icon>
+                            <Path Style="{StaticResource IconPath}" Data="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h10v2H7v-2z"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Extra Large (600x300)" Click="SizeExtraLarge_Click">
+                        <MenuItem.Icon>
+                            <Path Style="{StaticResource IconPath}" Data="M2 2h20v20H2V2zm18 18V4H4v16h16zM6 6h12v2H6V6zm0 4h12v2H6v-2zm0 4h12v2H6v-2zm0 4h12v2H6v-2z"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Time Format" Icon="🕐">
-                    <MenuItem Header="12-Hour (Normal)" Click="Format12Hour_Click" Icon="🕰️"/>
-                    <MenuItem Header="24-Hour (Military)" Click="Format24Hour_Click" Icon="🕕"/>
+                <MenuItem Header="Time Format">
+                    <MenuItem.Icon>
+                        <Path Style="{StaticResource IconPath}" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                    </MenuItem.Icon>
+                    <MenuItem Header="12-Hour (Normal)" Click="Format12Hour_Click">
+                        <MenuItem.Icon>
+                            <Path Style="{StaticResource IconPath}" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="24-Hour (Military)" Click="Format24Hour_Click">
+                        <MenuItem.Icon>
+                            <Path Style="{StaticResource IconPath}" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm1-13h-2v6l4.25 2.5.75-1.23-3.5-2.08z"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Close" Click="CloseMenuItem_Click" Icon="❌"/>
+                <MenuItem Header="Close" Click="CloseMenuItem_Click">
+                    <MenuItem.Icon>
+                        <Path Style="{StaticResource IconPath}" Data="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </ContextMenu>
         </Border.ContextMenu>
         <Border.Effect>
