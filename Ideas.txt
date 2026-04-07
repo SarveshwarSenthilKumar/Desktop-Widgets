@@ -2,3 +2,6 @@ Update styling
 Add option for an analog clock
 Update menu styling
 Allow user to choose colors
+Timer option
+Stopwatch option
+Main ui app for all widgets
