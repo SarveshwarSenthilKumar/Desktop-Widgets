@@ -1,0 +1,4 @@
+Update styling
+Add option for an analog clock
+Update menu styling
+Allow user to choose colors
