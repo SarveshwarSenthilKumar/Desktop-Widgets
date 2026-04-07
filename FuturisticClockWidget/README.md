@@ -7,6 +7,7 @@ A modern, futuristic desktop clock widget with glassmorphism design and neon eff
 - **Real-time Updates**: Updates every 10ms for smooth millisecond display
 - **Liquid Glass Design**: Ultra-minimalist with transparent layers and liquid animations
 - **Futuristic Aesthetic**: Cyan neon glow with Segoe UI Light typography
+- **Resizable**: Drag the bottom-right corner to resize - fonts scale automatically
 - **Draggable**: Click and drag to position anywhere on your desktop
 - **Always on Top**: Stays visible above other windows
 - **Minimalist**: Clean, unobtrusive design that complements any desktop
@@ -45,8 +46,24 @@ dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=
 - **Cyan Neon Glow**: Subtle cyan (#00FFFF) glow with soft blur
 - **Liquid Animation**: Smooth sine-wave opacity animation (3-second cycle)
 - **Rounded Corners**: 20px border radius for modern, soft appearance
-- **Compact Size**: 280x140 pixels for optimal information display
+- **Resizable Design**: Dynamic font scaling based on widget size
 - **Layered Transparency**: Radial gradients and opacity masks for depth
+
+### Resizing the Widget
+
+The widget can be resized to fit your preferences:
+
+1. **Move your cursor** to the bottom-right corner of the widget
+2. **Look for the resize grip** - small diagonal lines in the corner
+3. **Click and drag** to make the widget larger or smaller
+4. **Font sizes scale automatically** to maintain readability
+5. **Minimum size**: 200x100 pixels to ensure usability
+
+**Font Scaling Behavior:**
+- **Main time**: Scales from base 28px proportionally
+- **Date text**: Scales from base 10px proportionally  
+- **Small info**: Scales from base 8px proportionally
+- **Maintains aspect ratio** for consistent appearance
 
 ## Time Display
 

@@ -4,6 +4,10 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using System.Windows.Media;
+using System.Windows.Controls;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FuturisticClockWidget.Views
 {
@@ -12,6 +16,12 @@ namespace FuturisticClockWidget.Views
         private DispatcherTimer _timer;
         private DateTime _currentTime;
         private bool _is24HourFormat = true; // Default to 24-hour format
+        private bool _isResizing = false;
+        private Point _resizeStartPoint;
+        private Size _resizeStartSize;
+        private double _baseFontSize = 28;
+        private double _baseDateFontSize = 10;
+        private double _baseSmallFontSize = 8;
         
         public DateTime CurrentTime
         {
@@ -120,6 +130,101 @@ namespace FuturisticClockWidget.Views
         {
             _is24HourFormat = true;
             OnPropertyChanged(nameof(FormattedTime));
+        }
+        
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateFontSizes();
+        }
+        
+        private void ResizeGrip_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                _isResizing = true;
+                _resizeStartPoint = e.GetPosition(this);
+                _resizeStartSize = new Size(ActualWidth, ActualHeight);
+                CaptureMouse();
+                e.Handled = true;
+            }
+        }
+        
+        private void ResizeGrip_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isResizing && e.LeftButton == MouseButtonState.Pressed)
+            {
+                Point currentPoint = e.GetPosition(this);
+                double deltaX = currentPoint.X - _resizeStartPoint.X;
+                double deltaY = currentPoint.Y - _resizeStartPoint.Y;
+                
+                double newWidth = Math.Max(200, _resizeStartSize.Width + deltaX);
+                double newHeight = Math.Max(100, _resizeStartSize.Height + deltaY);
+                
+                Width = newWidth;
+                Height = newHeight;
+                e.Handled = true;
+            }
+        }
+        
+        private void ResizeGrip_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (_isResizing)
+            {
+                _isResizing = false;
+                ReleaseMouseCapture();
+                e.Handled = true;
+            }
+        }
+        
+        private void UpdateFontSizes()
+        {
+            // Calculate scale factors based on window size
+            double widthScale = ActualWidth / 280.0; // Base width is 280
+            double heightScale = ActualHeight / 140.0; // Base height is 140
+            double scale = Math.Min(widthScale, heightScale);
+            
+            // Apply scaling to font sizes
+            if (TimeTextBlock != null)
+            {
+                TimeTextBlock.FontSize = _baseFontSize * scale;
+            }
+            
+            // Find and update date text blocks
+            var textBlocks = FindVisualChildren<TextBlock>(this);
+            foreach (var textBlock in textBlocks)
+            {
+                if (textBlock.Name != "TimeTextBlock")
+                {
+                    if (textBlock.Style == Resources["DateTextStyle"] as Style)
+                    {
+                        textBlock.FontSize = _baseDateFontSize * scale;
+                    }
+                    else if (textBlock.Style == Resources["SmallInfoStyle"] as Style)
+                    {
+                        textBlock.FontSize = _baseSmallFontSize * scale;
+                    }
+                }
+            }
+        }
+        
+        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+        {
+            if (parent != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(parent, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+                    
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
         }
         
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

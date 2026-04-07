@@ -13,7 +13,8 @@
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        MouseRightButtonDown="Window_MouseRightButtonDown">
+        MouseRightButtonDown="Window_MouseRightButtonDown"
+        SizeChanged="Window_SizeChanged">
     
     <Window.Resources>
         <!-- Neon Text Style -->
@@ -142,57 +143,85 @@
             <!-- Content Layer -->
             <Grid Margin="20,15">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
-                <!-- Time Display -->
-                <TextBlock Grid.Row="0"
-                         x:Name="TimeTextBlock"
-                         Text="{Binding FormattedTime}"
-                         Style="{StaticResource NeonTextStyle}"
-                         FontSize="28"
-                         Foreground="#00FFFF">
-                    <TextBlock.Triggers>
-                        <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard Storyboard="{StaticResource LiquidAnimation}"/>
-                        </EventTrigger>
-                    </TextBlock.Triggers>
-                </TextBlock>
-                
-                <!-- Full Date Display -->
-                <TextBlock Grid.Row="1"
-                         Text="{Binding CurrentDate, StringFormat='{}{0:dddd, MMMM dd, yyyy}'}"
-                         Style="{StaticResource DateTextStyle}"
-                         FontSize="10"
-                         Foreground="#AAFFFFFF"
-                         Margin="0,2,0,0"/>
-                
-                <!-- Additional Info Row -->
-                <Grid Grid.Row="2" Margin="0,3,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <!-- Main Content -->
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
                     
-                    <!-- Week Number -->
-                    <TextBlock Grid.Column="0"
-                             Text="{Binding WeekNumber}"
-                             Style="{StaticResource SmallInfoStyle}"/>
+                    <!-- Time Display -->
+                    <TextBlock Grid.Row="0"
+                             x:Name="TimeTextBlock"
+                             Text="{Binding FormattedTime}"
+                             Style="{StaticResource NeonTextStyle}"
+                             FontSize="28"
+                             Foreground="#00FFFF">
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard Storyboard="{StaticResource LiquidAnimation}"/>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
                     
-                    <!-- Day of Year -->
-                    <TextBlock Grid.Column="1"
-                             Text="{Binding DayOfYear}"
-                             Style="{StaticResource SmallInfoStyle}"/>
+                    <!-- Full Date Display -->
+                    <TextBlock Grid.Row="1"
+                             Text="{Binding CurrentDate, StringFormat='{}{0:dddd, MMMM dd, yyyy}'}"
+                             Style="{StaticResource DateTextStyle}"
+                             FontSize="10"
+                             Foreground="#AAFFFFFF"
+                             Margin="0,2,0,0"/>
+                    
+                    <!-- Additional Info Row -->
+                    <Grid Grid.Row="2" Margin="0,3,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Week Number -->
+                        <TextBlock Grid.Column="0"
+                                 Text="{Binding WeekNumber}"
+                                 Style="{StaticResource SmallInfoStyle}"/>
+                        
+                        <!-- Day of Year -->
+                        <TextBlock Grid.Column="1"
+                                 Text="{Binding DayOfYear}"
+                                 Style="{StaticResource SmallInfoStyle}"/>
+                    </Grid>
+                    
+                    <!-- Time Zone Info -->
+                    <TextBlock Grid.Row="3"
+                             Text="{Binding TimeZoneDisplay}"
+                             Style="{StaticResource SmallInfoStyle}"
+                             Margin="0,1,0,0"/>
                 </Grid>
                 
-                <!-- Time Zone Info -->
-                <TextBlock Grid.Row="3"
-                         Text="{Binding TimeZoneDisplay}"
-                         Style="{StaticResource SmallInfoStyle}"
-                         Margin="0,1,0,0"/>
+                <!-- Resize Grip -->
+                <Grid Grid.Row="1" 
+                      HorizontalAlignment="Right" 
+                      VerticalAlignment="Bottom" 
+                      Width="20" 
+                      Height="20"
+                      Cursor="SizeNWSE"
+                      MouseLeftButtonDown="ResizeGrip_MouseLeftButtonDown"
+                      MouseMove="ResizeGrip_MouseMove"
+                      MouseLeftButtonUp="ResizeGrip_MouseLeftButtonUp">
+                    <Grid.Background>
+                        <SolidColorBrush Color="Transparent"/>
+                    </Grid.Background>
+                    <!-- Visual resize indicator -->
+                    <Path Data="M 0,20 L 20,0 M 10,20 L 20,10 M 15,20 L 20,15" 
+                          Stroke="#40FFFFFF" 
+                          StrokeThickness="1" 
+                          Opacity="0.5"/>
+                </Grid>
             </Grid>
         </Grid>
     </Border>
