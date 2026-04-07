@@ -133,36 +133,44 @@ namespace FuturisticClockWidget.Views
         {
             Width = 200;
             Height = 100;
-            // Center the window on screen
-            Left = (SystemParameters.PrimaryScreenWidth - 200) / 2;
-            Top = (SystemParameters.PrimaryScreenHeight - 100) / 2;
+            // Keep current position, adjust if needed to stay on screen
+            if (Left + 200 > SystemParameters.PrimaryScreenWidth)
+                Left = SystemParameters.PrimaryScreenWidth - 200;
+            if (Top + 100 > SystemParameters.PrimaryScreenHeight)
+                Top = SystemParameters.PrimaryScreenHeight - 100;
         }
         
         private void SizeMedium_Click(object sender, RoutedEventArgs e)
         {
             Width = 280;
             Height = 140;
-            // Center the window on screen
-            Left = (SystemParameters.PrimaryScreenWidth - 280) / 2;
-            Top = (SystemParameters.PrimaryScreenHeight - 140) / 2;
+            // Keep current position, adjust if needed to stay on screen
+            if (Left + 280 > SystemParameters.PrimaryScreenWidth)
+                Left = SystemParameters.PrimaryScreenWidth - 280;
+            if (Top + 140 > SystemParameters.PrimaryScreenHeight)
+                Top = SystemParameters.PrimaryScreenHeight - 140;
         }
         
         private void SizeLarge_Click(object sender, RoutedEventArgs e)
         {
             Width = 400;
             Height = 200;
-            // Center the window on screen
-            Left = (SystemParameters.PrimaryScreenWidth - 400) / 2;
-            Top = (SystemParameters.PrimaryScreenHeight - 200) / 2;
+            // Keep current position, adjust if needed to stay on screen
+            if (Left + 400 > SystemParameters.PrimaryScreenWidth)
+                Left = SystemParameters.PrimaryScreenWidth - 400;
+            if (Top + 200 > SystemParameters.PrimaryScreenHeight)
+                Top = SystemParameters.PrimaryScreenHeight - 200;
         }
         
         private void SizeExtraLarge_Click(object sender, RoutedEventArgs e)
         {
             Width = 600;
             Height = 300;
-            // Center the window on screen
-            Left = (SystemParameters.PrimaryScreenWidth - 600) / 2;
-            Top = (SystemParameters.PrimaryScreenHeight - 300) / 2;
+            // Keep current position, adjust if needed to stay on screen
+            if (Left + 600 > SystemParameters.PrimaryScreenWidth)
+                Left = SystemParameters.PrimaryScreenWidth - 600;
+            if (Top + 300 > SystemParameters.PrimaryScreenHeight)
+                Top = SystemParameters.PrimaryScreenHeight - 300;
         }
         
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
