@@ -97,7 +97,7 @@
             </LinearGradientBrush>
         </Border.BorderBrush>
         <Border.ContextMenu>
-            <ContextMenu Background="#0F000000" Foreground="#FFFFFF">
+            <ContextMenu Background="#0F000000" Foreground="#00D4FF">
                 <ContextMenu.Resources>
                     <Style TargetType="MenuItem">
                         <Setter Property="Background" Value="Transparent"/>
@@ -117,6 +117,13 @@
                                             <ContentPresenter Grid.Column="1" Margin="8,3,8,3" VerticalAlignment="Center" ContentSource="Header"/>
                                             <Popup Grid.Column="1" x:Name="SubMenuPopup" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Right" PopupAnimation="Slide">
                                                 <Border Background="#0F000000" BorderBrush="#3000D4FF" BorderThickness="1">
+                                                    <Border.Resources>
+                                                        <Style TargetType="MenuItem">
+                                                            <Setter Property="Background" Value="Transparent"/>
+                                                            <Setter Property="Foreground" Value="#00D4FF"/>
+                                                            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+                                                        </Style>
+                                                    </Border.Resources>
                                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
                                                 </Border>
                                             </Popup>
