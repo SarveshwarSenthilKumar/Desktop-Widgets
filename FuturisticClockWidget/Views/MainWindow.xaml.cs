@@ -115,7 +115,16 @@ namespace FuturisticClockWidget.Views
             {
                 var endOfYear = new DateTime(CurrentTime.Year, 12, 31);
                 var daysRemaining = (endOfYear - CurrentTime.Date).Days;
-                return $"{daysRemaining} days left";
+                
+                // Check if window is in small mode (less than 250px width)
+                if (ActualWidth < 250)
+                {
+                    return daysRemaining.ToString(); // Just the number for small modes
+                }
+                else
+                {
+                    return $"{daysRemaining} days left"; // Full text for larger modes
+                }
             }
         }
         
@@ -125,7 +134,16 @@ namespace FuturisticClockWidget.Views
             {
                 var startOfYear = new DateTime(CurrentTime.Year, 1, 1);
                 var weeksPassed = (int)Math.Floor((CurrentTime - startOfYear).TotalDays / 7.0);
-                return $"Week {weeksPassed + 1}";
+                
+                // Check if window is in small mode
+                if (ActualWidth < 250)
+                {
+                    return $"W{weeksPassed + 1}"; // Compact format for small modes
+                }
+                else
+                {
+                    return $"Week {weeksPassed + 1}"; // Full text for larger modes
+                }
             }
         }
         
@@ -168,14 +186,14 @@ namespace FuturisticClockWidget.Views
             double currentClockSize = AnalogClockCanvas.Width;
             double centerX = currentClockSize / 2;
             double centerY = currentClockSize / 2;
-            double scale = currentClockSize / 140.0; // Base size is now 140
+            double scale = currentClockSize / 100.0; // Base size is now 100
             
             // Apply exponential scaling for better size range
             double exponentialScale = Math.Pow(scale, 0.8);
             
-            const double baseHourLength = 35;
-            const double baseMinuteLength = 45;
-            const double baseSecondLength = 52;
+            const double baseHourLength = 25;
+            const double baseMinuteLength = 32;
+            const double baseSecondLength = 38;
             
             double hourHandLength = baseHourLength * exponentialScale;
             double minuteHandLength = baseMinuteLength * exponentialScale;
@@ -341,9 +359,9 @@ namespace FuturisticClockWidget.Views
                     else
                     {
                         // Handle analog panel text blocks that don't match the styles
-                        if (textBlock.FontSize <= 11 && textBlock.FontSize >= 8) // Likely analog panel text
+                        if (textBlock.FontSize <= 11 && textBlock.FontSize >= 6) // Likely analog panel text
                         {
-                            textBlock.FontSize = 9 * infoScale;
+                            textBlock.FontSize = 7 * infoScale;
                         }
                     }
                 }
@@ -352,15 +370,15 @@ namespace FuturisticClockWidget.Views
             // Scale analog clock if it exists
             if (AnalogClockCanvas != null)
             {
-                double baseClockSize = 140;
+                double baseClockSize = 100;
                 double newClockSize = baseClockSize * exponentialScale;
                 AnalogClockCanvas.Width = newClockSize;
                 AnalogClockCanvas.Height = newClockSize;
                 
                 // Update hand lengths proportionally
-                const double baseHourLength = 35;
-                const double baseMinuteLength = 45;
-                const double baseSecondLength = 52;
+                const double baseHourLength = 25;
+                const double baseMinuteLength = 32;
+                const double baseSecondLength = 38;
                 
                 double centerOffset = newClockSize / 2;
                 double hourLength = baseHourLength * exponentialScale;
@@ -388,8 +406,8 @@ namespace FuturisticClockWidget.Views
                 var centerDot = FindName("CenterDot") as Ellipse;
                 if (centerDot != null)
                 {
-                    Canvas.SetLeft(centerDot, centerOffset - 5);
-                    Canvas.SetTop(centerDot, centerOffset - 5);
+                    Canvas.SetLeft(centerDot, centerOffset - 3);
+                    Canvas.SetTop(centerDot, centerOffset - 3);
                 }
                 
                 // Update clock face

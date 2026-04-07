@@ -379,7 +379,7 @@
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="2.5*"/>
+                            <ColumnDefinition Width="1.8*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         
@@ -387,95 +387,82 @@
                         <StackPanel Grid.Column="0" 
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Margin="0,0,8,0">
+                                    Margin="0,0,2,0">
                             <!-- Days Until -->
-                            <Border CornerRadius="10" 
-                                    Background="#15000000"
-                                    BorderBrush="#4000D4FF"
+                            <Border CornerRadius="4" 
+                                    Background="#10000000"
+                                    BorderBrush="#3000D4FF"
                                     BorderThickness="1"
-                                    Margin="0,0,0,6"
-                                    Padding="10,6"
-                                    MinWidth="65">
+                                    Margin="0,0,0,2"
+                                    Padding="4,2"
+                                    MinWidth="45">
                                 <TextBlock Text="{Binding DaysUntilEndOfYear}"
-                                         FontSize="9"
-                                         FontWeight="Light"
+                                         FontSize="7"
+                                         FontWeight="Normal"
                                          Foreground="#00D4FF"
                                          FontFamily="Segoe UI"
                                          TextAlignment="Center"
                                          TextWrapping="Wrap"
-                                         LineHeight="10"/>
+                                         LineHeight="8"/>
                             </Border>
                             
                             <!-- Weeks Elapsed -->
-                            <Border CornerRadius="10" 
-                                    Background="#15000000"
-                                    BorderBrush="#4000D4FF"
+                            <Border CornerRadius="4" 
+                                    Background="#10000000"
+                                    BorderBrush="#3000D4FF"
                                     BorderThickness="1"
-                                    Padding="10,6"
-                                    MinWidth="65">
+                                    Padding="4,2"
+                                    MinWidth="45">
                                 <TextBlock Text="{Binding WeeksElapsed}"
-                                         FontSize="9"
-                                         FontWeight="Light"
+                                         FontSize="7"
+                                         FontWeight="Normal"
                                          Foreground="#00D4FF"
                                          FontFamily="Segoe UI"
                                          TextAlignment="Center"
-                                         LineHeight="10"/>
+                                         LineHeight="8"/>
                             </Border>
                         </StackPanel>
                         
                         <!-- Center Analog Clock -->
                         <Canvas Grid.Column="1"
                                 x:Name="AnalogClockCanvas"
-                                Width="140" Height="140"
+                                Width="100" Height="100"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
                         
                             <!-- Clock Face Circle -->
                             <Ellipse x:Name="ClockFace"
-                                     Width="140" Height="140" 
+                                     Width="100" Height="100" 
                                      Fill="Transparent"
                                      Stroke="#00D4FF" 
-                                     StrokeThickness="2"
+                                     StrokeThickness="1.5"
                                      Opacity="0.8"/>
                             
                             <!-- Hour Markers -->
-                            <Canvas Width="140" Height="140">
+                            <Canvas Width="100" Height="100">
                                 <!-- 12 o'clock -->
-                                <Line X1="70" Y1="8" X2="70" Y2="18" 
-                                      Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
+                                <Line X1="50" Y1="5" X2="50" Y2="12" 
+                                      Stroke="#00D4FF" StrokeThickness="1.5" Opacity="0.9"/>
                                 <!-- 3 o'clock -->
-                                <Line X1="122" Y1="70" X2="132" Y2="70" 
-                                      Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
+                                <Line X1="95" Y1="50" X2="88" Y2="50" 
+                                      Stroke="#00D4FF" StrokeThickness="1.5" Opacity="0.9"/>
                                 <!-- 6 o'clock -->
-                                <Line X1="70" Y1="122" X2="70" Y2="132" 
-                                      Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
+                                <Line X1="50" Y1="95" X2="50" Y2="88" 
+                                      Stroke="#00D4FF" StrokeThickness="1.5" Opacity="0.9"/>
                                 <!-- 9 o'clock -->
-                                <Line X1="8" Y1="70" X2="18" Y2="70" 
-                                      Stroke="#00D4FF" StrokeThickness="2" Opacity="0.9"/>
-                                <!-- Additional markers -->
-                                <Line X1="105" Y1="25" X2="110" Y2="30" 
-                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
-                                <Line X1="115" Y1="70" X2="120" Y2="70" 
-                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
-                                <Line X1="105" Y1="115" X2="110" Y2="110" 
-                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
-                                <Line X1="35" Y1="115" X2="30" Y2="110" 
-                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
-                                <Line X1="25" Y1="70" X2="30" Y2="70" 
-                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
-                                <Line X1="35" Y1="25" X2="30" Y2="30" 
-                                      Stroke="#00D4FF" StrokeThickness="1" Opacity="0.6"/>
+                                <Line X1="5" Y1="50" X2="12" Y2="50" 
+                                      Stroke="#00D4FF" StrokeThickness="1.5" Opacity="0.9"/>
                             </Canvas>
                             
                             <!-- Hour Hand -->
                             <Line x:Name="HourHand" 
-                                  X1="70" Y1="70" X2="70" Y2="35"
+                                  X1="50" Y1="50" X2="50" Y2="25"
                                   Stroke="#00D4FF" 
-                                  StrokeThickness="4" 
+                                  StrokeThickness="3" 
                                   Opacity="0.9">
                                 <Line.Effect>
                                     <DropShadowEffect Color="#00D4FF" 
-                                                      BlurRadius="8" 
+                                                      BlurRadius="6" 
                                                       ShadowDepth="0" 
                                                       Opacity="0.6"/>
                                 </Line.Effect>
@@ -483,13 +470,13 @@
                             
                             <!-- Minute Hand -->
                             <Line x:Name="MinuteHand" 
-                                  X1="70" Y1="70" X2="70" Y2="25"
+                                  X1="50" Y1="50" X2="50" Y2="18"
                                   Stroke="#00FFFF" 
-                                  StrokeThickness="3" 
+                                  StrokeThickness="2" 
                                   Opacity="0.9">
                                 <Line.Effect>
                                     <DropShadowEffect Color="#00FFFF" 
-                                                      BlurRadius="6" 
+                                                      BlurRadius="5" 
                                                       ShadowDepth="0" 
                                                       Opacity="0.5"/>
                                 </Line.Effect>
@@ -497,13 +484,13 @@
                             
                             <!-- Second Hand -->
                             <Line x:Name="SecondHand" 
-                                  X1="70" Y1="70" X2="70" Y2="18"
+                                  X1="50" Y1="50" X2="50" Y2="12"
                                   Stroke="#FF6B6B" 
-                                  StrokeThickness="1" 
+                                  StrokeThickness="0.8" 
                                   Opacity="0.8">
                                 <Line.Effect>
                                     <DropShadowEffect Color="#FF6B6B" 
-                                                      BlurRadius="4" 
+                                                      BlurRadius="3" 
                                                       ShadowDepth="0" 
                                                       Opacity="0.4"/>
                                 </Line.Effect>
@@ -511,13 +498,13 @@
                             
                             <!-- Center Dot -->
                             <Ellipse x:Name="CenterDot"
-                                     Width="10" Height="10" 
+                                     Width="6" Height="6" 
                                      Fill="#00D4FF" 
-                                     Canvas.Left="65" 
-                                     Canvas.Top="65">
+                                     Canvas.Left="47" 
+                                     Canvas.Top="47">
                                 <Ellipse.Effect>
                                     <DropShadowEffect Color="#00D4FF" 
-                                                      BlurRadius="6" 
+                                                      BlurRadius="4" 
                                                       ShadowDepth="0" 
                                                       Opacity="0.8"/>
                                 </Ellipse.Effect>
@@ -528,38 +515,38 @@
                         <StackPanel Grid.Column="2" 
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Margin="8,0,0,0">
+                                    Margin="2,0,0,0">
                             <!-- Week Number -->
-                            <Border CornerRadius="10" 
-                                    Background="#15000000"
-                                    BorderBrush="#4000D4FF"
+                            <Border CornerRadius="4" 
+                                    Background="#10000000"
+                                    BorderBrush="#3000D4FF"
                                     BorderThickness="1"
-                                    Margin="0,0,0,6"
-                                    Padding="10,6"
-                                    MinWidth="65">
+                                    Margin="0,0,0,2"
+                                    Padding="4,2"
+                                    MinWidth="45">
                                 <TextBlock Text="{Binding WeekNumber}"
-                                         FontSize="9"
-                                         FontWeight="Light"
+                                         FontSize="7"
+                                         FontWeight="Normal"
                                          Foreground="#00D4FF"
                                          FontFamily="Segoe UI"
                                          TextAlignment="Center"
-                                         LineHeight="10"/>
+                                         LineHeight="8"/>
                             </Border>
                             
                             <!-- Day of Year -->
-                            <Border CornerRadius="10" 
-                                    Background="#15000000"
-                                    BorderBrush="#4000D4FF"
+                            <Border CornerRadius="4" 
+                                    Background="#10000000"
+                                    BorderBrush="#3000D4FF"
                                     BorderThickness="1"
-                                    Padding="10,6"
-                                    MinWidth="65">
+                                    Padding="4,2"
+                                    MinWidth="45">
                                 <TextBlock Text="{Binding DayOfYear}"
-                                         FontSize="9"
-                                         FontWeight="Light"
+                                         FontSize="7"
+                                         FontWeight="Normal"
                                          Foreground="#00D4FF"
                                          FontFamily="Segoe UI"
                                          TextAlignment="Center"
-                                         LineHeight="10"/>
+                                         LineHeight="8"/>
                             </Border>
                         </StackPanel>
                     </Grid>
