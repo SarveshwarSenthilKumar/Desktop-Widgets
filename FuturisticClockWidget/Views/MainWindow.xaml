@@ -25,10 +25,10 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="#00FFFF" 
-                                      BlurRadius="12" 
+                    <DropShadowEffect Color="#00D4FF" 
+                                      BlurRadius="15" 
                                       ShadowDepth="0" 
-                                      Opacity="0.6"/>
+                                      Opacity="0.8"/>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -41,10 +41,10 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="#00FFFF" 
-                                      BlurRadius="6" 
+                    <DropShadowEffect Color="#00D4FF" 
+                                      BlurRadius="8" 
                                       ShadowDepth="0" 
-                                      Opacity="0.4"/>
+                                      Opacity="0.5"/>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -59,10 +59,10 @@
             <Setter Property="Foreground" Value="#88FFFFFF"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="#00FFFF" 
-                                      BlurRadius="4" 
+                    <DropShadowEffect Color="#00D4FF" 
+                                      BlurRadius="6" 
                                       ShadowDepth="0" 
-                                      Opacity="0.3"/>
+                                      Opacity="0.4"/>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -79,21 +79,34 @@
         </Storyboard>
     </Window.Resources>
     
-    <!-- Liquid Glass Container -->
-    <Border CornerRadius="20" 
-            Background="#0A000000"
-            BorderThickness="0">
+        <!-- Enhanced Glassmorphism Container -->
+    <Border CornerRadius="24" 
+            BorderThickness="1">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#0D000000" Offset="0"/>
+                <GradientStop Color="#15000000" Offset="0.5"/>
+                <GradientStop Color="#0A000000" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#30FFFFFF" Offset="0"/>
+                <GradientStop Color="#15FFFFFF" Offset="0.5"/>
+                <GradientStop Color="#25FFFFFF" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
         <Border.ContextMenu>
-            <ContextMenu Background="#0A000000" Foreground="#FFFFFF">
+            <ContextMenu Background="#0F000000" Foreground="#FFFFFF">
                 <ContextMenu.Resources>
                     <Style TargetType="MenuItem">
-                        <Setter Property="Background" Value="#0A000000"/>
-                        <Setter Property="Foreground" Value="#00FFFF"/>
-                        <Setter Property="BorderBrush" Value="#2000FFFF"/>
+                        <Setter Property="Background" Value="#0F000000"/>
+                        <Setter Property="Foreground" Value="#00D4FF"/>
+                        <Setter Property="BorderBrush" Value="#3000D4FF"/>
                         <Setter Property="FontFamily" Value="Segoe UI Light"/>
                     </Style>
                     <Style TargetType="Separator">
-                        <Setter Property="Background" Value="#2000FFFF"/>
+                        <Setter Property="Background" Value="#3000D4FF"/>
                     </Style>
                 </ContextMenu.Resources>
                 <MenuItem Header="Size">
@@ -112,43 +125,67 @@
             </ContextMenu>
         </Border.ContextMenu>
         <Border.Effect>
-            <DropShadowEffect Color="#00FFFF" 
-                            BlurRadius="20" 
+            <DropShadowEffect Color="#00D4FF" 
+                            BlurRadius="25" 
                             ShadowDepth="0" 
-                            Opacity="0.3"/>
+                            Opacity="0.4"/>
         </Border.Effect>
         
-        <!-- Liquid Glass Layers -->
+        <!-- Enhanced Glass Layers -->
         <Grid>
             <!-- Background Blur Layer -->
-            <Border CornerRadius="18" Margin="1">
+            <Border CornerRadius="22" Margin="1">
                 <Border.Background>
                     <RadialGradientBrush>
                         <GradientStop Color="#0F111111" Offset="0"/>
-                        <GradientStop Color="#0A222222" Offset="1"/>
+                        <GradientStop Color="#0A222222" Offset="0.7"/>
+                        <GradientStop Color="#05333333" Offset="1"/>
                     </RadialGradientBrush>
                 </Border.Background>
+                <Border.Effect>
+                    <BlurEffect Radius="8" KernelType="Gaussian"/>
+                </Border.Effect>
                 <Border.OpacityMask>
                     <RadialGradientBrush>
                         <GradientStop Color="#FFFFFF" Offset="0"/>
+                        <GradientStop Color="#CCFFFFFF" Offset="0.8"/>
                         <GradientStop Color="#AAFFFFFF" Offset="1"/>
                     </RadialGradientBrush>
                 </Border.OpacityMask>
             </Border>
             
             <!-- Glass Reflection Layer -->
-            <Border CornerRadius="16" Margin="2">
+            <Border CornerRadius="20" Margin="2">
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color="#15FFFFFF" Offset="0"/>
-                        <GradientStop Color="#05FFFFFF" Offset="0.5"/>
-                        <GradientStop Color="#10FFFFFF" Offset="1"/>
+                        <GradientStop Color="#25FFFFFF" Offset="0"/>
+                        <GradientStop Color="#10FFFFFF" Offset="0.3"/>
+                        <GradientStop Color="#08FFFFFF" Offset="0.7"/>
+                        <GradientStop Color="#15FFFFFF" Offset="1"/>
                     </LinearGradientBrush>
                 </Border.Background>
             </Border>
             
+            <!-- Top Highlight Layer -->
+            <Border CornerRadius="20" Margin="2" Height="20" VerticalAlignment="Top">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#40FFFFFF" Offset="0"/>
+                        <GradientStop Color="#20FFFFFF" Offset="0.5"/>
+                        <GradientStop Color="#00FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#FFFFFF" Offset="0"/>
+                        <GradientStop Color="#FFFFFF" Offset="0.5"/>
+                        <GradientStop Color="#00FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.OpacityMask>
+            </Border>
+            
             <!-- Content Layer -->
-            <Grid Margin="20,15">
+            <Grid Margin="25,20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
@@ -169,7 +206,7 @@
                              Text="{Binding FormattedTime}"
                              Style="{StaticResource NeonTextStyle}"
                              FontSize="28"
-                             Foreground="#00FFFF">
+                             Foreground="#00D4FF">
                         <TextBlock.Triggers>
                             <EventTrigger RoutedEvent="Loaded">
                                 <BeginStoryboard Storyboard="{StaticResource LiquidAnimation}"/>
@@ -182,7 +219,7 @@
                              Text="{Binding CurrentDate, StringFormat='{}{0:dddd, MMMM dd, yyyy}'}"
                              Style="{StaticResource DateTextStyle}"
                              FontSize="10"
-                             Foreground="#AAFFFFFF"
+                             Foreground="#CCFFFFFF"
                              Margin="0,2,0,0"/>
                     
                     <!-- Additional Info Row -->
