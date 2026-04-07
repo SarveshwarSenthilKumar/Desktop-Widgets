@@ -12,6 +12,7 @@ A modern, futuristic desktop clock widget with glassmorphism design and neon eff
 - **Keyboard Shortcuts**: 
   - `Escape`: Close the widget
   - `Space`: Toggle "always on top" behavior
+- **Right-Click Menu**: Right-click anywhere on the widget to open the context menu with a close option
 
 ## Quick Start
 

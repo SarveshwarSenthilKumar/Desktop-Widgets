@@ -47,6 +47,17 @@ namespace FuturisticClockWidget.Views
             CurrentTime = DateTime.Now;
         }
         
+        private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Show context menu on right click
+            e.Handled = true;
+        }
+        
+        private void CloseMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)

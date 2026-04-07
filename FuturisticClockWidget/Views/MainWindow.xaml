@@ -12,7 +12,8 @@
         Topmost="True"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown">
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseRightButtonDown="Window_MouseRightButtonDown">
     
     <Window.Resources>
         <!-- Neon Text Style -->
@@ -45,6 +46,15 @@
             Background="#E61A1A1A"
             BorderBrush="#3300D4FF"
             BorderThickness="1">
+        <Border.ContextMenu>
+            <ContextMenu Background="#2A2A2A" Foreground="#FFFFFF">
+                <MenuItem Header="Close Clock Widget" 
+                          Click="CloseMenuItem_Click" 
+                          Background="#2A2A2A" 
+                          Foreground="#00D4FF"
+                          BorderBrush="#3300D4FF"/>
+            </ContextMenu>
+        </Border.ContextMenu>
         <Border.Effect>
             <DropShadowEffect Color="#00D4FF" 
                             BlurRadius="15" 
