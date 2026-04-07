@@ -270,19 +270,41 @@ namespace FuturisticClockWidget.Views
                 TimeTextBlock.FontSize = _baseFontSize * scale;
             }
             
+            // Apply scaling to font sizes for analog mode digital display
+            if (AnalogTimeTextBlock != null)
+            {
+                AnalogTimeTextBlock.FontSize = 28.8 * scale;
+            }
+            
             // Find and update date text blocks
             var textBlocks = FindVisualChildren<TextBlock>(this);
             foreach (var textBlock in textBlocks)
             {
-                if (textBlock.Name != "TimeTextBlock")
+                if (textBlock.Name != "TimeTextBlock" && textBlock.Name != "AnalogTimeTextBlock")
                 {
                     if (textBlock.Style == Resources["DateTextStyle"] as Style)
                     {
-                        textBlock.FontSize = _baseDateFontSize * scale;
+                        // Check if this is in analog mode (smaller font) or digital mode
+                        if (textBlock.FontSize > 15) // Likely digital mode
+                        {
+                            textBlock.FontSize = _baseDateFontSize * scale;
+                        }
+                        else // Likely analog mode
+                        {
+                            textBlock.FontSize = 14.4 * scale;
+                        }
                     }
                     else if (textBlock.Style == Resources["SmallInfoStyle"] as Style)
                     {
-                        textBlock.FontSize = _baseSmallFontSize * scale;
+                        // Check if this is in analog mode (smaller font) or digital mode
+                        if (textBlock.FontSize > 10) // Likely digital mode
+                        {
+                            textBlock.FontSize = _baseSmallFontSize * scale;
+                        }
+                        else // Likely analog mode
+                        {
+                            textBlock.FontSize = 12 * scale;
+                        }
                     }
                 }
             }
