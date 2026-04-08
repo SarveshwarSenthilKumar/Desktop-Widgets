@@ -85,7 +85,16 @@ namespace FuturisticClockWidget.Views
                 var calendar = culture.Calendar;
                 var weekRule = culture.DateTimeFormat.CalendarWeekRule;
                 var weekOfYear = calendar.GetWeekOfYear(CurrentTime, weekRule, culture.DateTimeFormat.FirstDayOfWeek);
-                return $"W{weekOfYear:D2}";
+                
+                // Check if window is in small mode
+                if (ActualWidth < 250)
+                {
+                    return $"W{weekOfYear:D2}"; // Compact format for small modes
+                }
+                else
+                {
+                    return $"Week {weekOfYear}"; // Full text for larger modes
+                }
             }
         }
         
@@ -132,17 +141,20 @@ namespace FuturisticClockWidget.Views
         {
             get
             {
-                var startOfYear = new DateTime(CurrentTime.Year, 1, 1);
-                var weeksPassed = (int)Math.Floor((CurrentTime - startOfYear).TotalDays / 7.0);
+                // Use the same calculation as WeekNumber for consistency
+                var culture = System.Globalization.CultureInfo.CurrentCulture;
+                var calendar = culture.Calendar;
+                var weekRule = culture.DateTimeFormat.CalendarWeekRule;
+                var weekOfYear = calendar.GetWeekOfYear(CurrentTime, weekRule, culture.DateTimeFormat.FirstDayOfWeek);
                 
                 // Check if window is in small mode
                 if (ActualWidth < 250)
                 {
-                    return $"W{weeksPassed + 1}"; // Compact format for small modes
+                    return $"W{weekOfYear:D2}"; // Compact format for small modes
                 }
                 else
                 {
-                    return $"Week {weeksPassed + 1}"; // Full text for larger modes
+                    return $"Week {weekOfYear}"; // Full text for larger modes
                 }
             }
         }
