@@ -1,0 +1,10 @@
+<Application x:Class="WidgetDashboard.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WidgetDashboard"
+             StartupUri="Views/MainWindow.xaml">
+    <Application.Resources>
+        <!-- Boolean to Status Converter -->
+        <local:BoolToStatusConverter x:Key="BoolToStatusConverter"/>
+    </Application.Resources>
+</Application>
