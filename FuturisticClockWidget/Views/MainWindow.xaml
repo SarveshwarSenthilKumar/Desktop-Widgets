@@ -439,20 +439,7 @@
                                      Opacity="0.8"/>
                             
                             <!-- Hour Markers -->
-                            <Canvas Width="100" Height="100">
-                                <!-- 12 o'clock -->
-                                <Line X1="50" Y1="5" X2="50" Y2="12" 
-                                      Stroke="#00D4FF" StrokeThickness="1.5" Opacity="0.9"/>
-                                <!-- 3 o'clock -->
-                                <Line X1="95" Y1="50" X2="88" Y2="50" 
-                                      Stroke="#00D4FF" StrokeThickness="1.5" Opacity="0.9"/>
-                                <!-- 6 o'clock -->
-                                <Line X1="50" Y1="95" X2="50" Y2="88" 
-                                      Stroke="#00D4FF" StrokeThickness="1.5" Opacity="0.9"/>
-                                <!-- 9 o'clock -->
-                                <Line X1="5" Y1="50" X2="12" Y2="50" 
-                                      Stroke="#00D4FF" StrokeThickness="1.5" Opacity="0.9"/>
-                            </Canvas>
+                            <Canvas x:Name="HourMarkersCanvas" Width="100" Height="100"/>
                             
                             <!-- Hour Hand -->
                             <Line x:Name="HourHand" 

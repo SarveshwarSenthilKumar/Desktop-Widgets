@@ -174,6 +174,9 @@ namespace FuturisticClockWidget.Views
             
             // Set initial time
             CurrentTime = DateTime.Now;
+            
+            // Initialize hour markers
+            UpdateHourMarkers();
         }
         
         private void Timer_Tick(object? sender, EventArgs e)
@@ -228,6 +231,57 @@ namespace FuturisticClockWidget.Views
             double secondEndY = centerY + Math.Sin(secondAngle * Math.PI / 180) * secondHandLength;
             SecondHand.X2 = secondEndX;
             SecondHand.Y2 = secondEndY;
+        }
+        
+        private void UpdateHourMarkers()
+        {
+            if (HourMarkersCanvas == null)
+                return;
+                
+            // Clear existing markers
+            HourMarkersCanvas.Children.Clear();
+            
+            double currentClockSize = HourMarkersCanvas.Width;
+            double centerX = currentClockSize / 2;
+            double centerY = currentClockSize / 2;
+            double scale = currentClockSize / 100.0;
+            
+            // Calculate marker dimensions
+            double markerLength = 7 * scale; // Length of each marker
+            double strokeWidth = 1.5 * scale; // Thickness of markers
+            double margin = 5 * scale; // Distance from edge
+            
+            // Cardinal hour positions (12, 3, 6, 9)
+            var markerPositions = new[]
+            {
+                new { Angle = 0, StartDist = margin, EndDist = margin + markerLength },    // 12 o'clock
+                new { Angle = 90, StartDist = margin, EndDist = margin + markerLength },   // 3 o'clock
+                new { Angle = 180, StartDist = margin, EndDist = margin + markerLength },  // 6 o'clock
+                new { Angle = 270, StartDist = margin, EndDist = margin + markerLength }  // 9 o'clock
+            };
+            
+            foreach (var marker in markerPositions)
+            {
+                double angleRad = marker.Angle * Math.PI / 180;
+                
+                double startX = centerX + Math.Cos(angleRad) * (currentClockSize / 2 - marker.StartDist);
+                double startY = centerY + Math.Sin(angleRad) * (currentClockSize / 2 - marker.StartDist);
+                double endX = centerX + Math.Cos(angleRad) * (currentClockSize / 2 - marker.EndDist);
+                double endY = centerY + Math.Sin(angleRad) * (currentClockSize / 2 - marker.EndDist);
+                
+                var line = new Line
+                {
+                    X1 = startX,
+                    Y1 = startY,
+                    X2 = endX,
+                    Y2 = endY,
+                    Stroke = new SolidColorBrush(Color.FromRgb(0, 212, 255)), // #00D4FF
+                    StrokeThickness = strokeWidth,
+                    Opacity = 0.9
+                };
+                
+                HourMarkersCanvas.Children.Add(line);
+            }
         }
         
         private void Window_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -428,6 +482,14 @@ namespace FuturisticClockWidget.Views
                 {
                     clockFace.Width = newClockSize;
                     clockFace.Height = newClockSize;
+                }
+                
+                // Update hour markers canvas size and recreate markers
+                if (HourMarkersCanvas != null)
+                {
+                    HourMarkersCanvas.Width = newClockSize;
+                    HourMarkersCanvas.Height = newClockSize;
+                    UpdateHourMarkers();
                 }
                 
                 // Trigger hand recalculation with new dimensions
