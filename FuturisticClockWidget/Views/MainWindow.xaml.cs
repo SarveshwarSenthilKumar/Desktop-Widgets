@@ -9,43 +9,37 @@ using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Shapes;
+using FuturisticClockWidget.Models;
+using FuturisticClockWidget.Services;
 
 namespace FuturisticClockWidget.Views
 {
-    public enum ClockType
-    {
-        Digital,
-        Analog
-    }
-    
-    public enum HourMarkerMode
-    {
-        Cardinal,    // Only 12, 3, 6, 9
-        Full         // All 12 hours
-    }
-    
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private DispatcherTimer _timer;
         private DateTime _currentTime;
-        private bool _is24HourFormat = true; // Default to 24-hour format
         private double _baseFontSize = 28.8;  // Reduced for better small size scaling
         private double _baseDateFontSize = 12; // Increased for better readability
         private double _baseSmallFontSize = 10; // Increased for better readability
-        private ClockType _clockType = ClockType.Digital;
-        private HourMarkerMode _hourMarkerMode = HourMarkerMode.Cardinal; // Default to cardinal markers
+        private bool _isLoadingSettings = false;
         
         public ClockType CurrentClockType
         {
-            get => _clockType;
+            get => SettingsManager.Current.Clock.ClockType;
             set
             {
-                _clockType = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsAnalogMode));
-                OnPropertyChanged(nameof(IsDigitalMode));
+                if (SettingsManager.Current.Clock.ClockType != value)
+                {
+                    SettingsManager.Current.Clock.ClockType = value;
+                    SettingsManager.SaveSettings();
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsAnalogMode));
+                    OnPropertyChanged(nameof(IsDigitalMode));
+                }
             }
         }
+        
+        private HourMarkerMode HourMarkerMode => SettingsManager.Current.Clock.HourMarkerMode;
         
         public bool IsAnalogMode => CurrentClockType == ClockType.Analog;
         public bool IsDigitalMode => CurrentClockType == ClockType.Digital;
@@ -73,7 +67,7 @@ namespace FuturisticClockWidget.Views
         {
             get
             {
-                if (_is24HourFormat)
+                if (SettingsManager.Current.Clock.Is24HourFormat)
                 {
                     return CurrentTime.ToString("HH:mm:ss");
                 }
@@ -171,6 +165,9 @@ namespace FuturisticClockWidget.Views
             InitializeComponent();
             DataContext = this;
             
+            // Load settings and apply them
+            LoadSettings();
+            
             // Initialize timer for real-time updates
             _timer = new DispatcherTimer
             {
@@ -186,6 +183,58 @@ namespace FuturisticClockWidget.Views
             UpdateHourMarkers();
         }
         
+        private void LoadSettings()
+        {
+            _isLoadingSettings = true;
+            try
+            {
+                var settings = SettingsManager.Current;
+                
+                // Apply window settings
+                Left = settings.Window.Left;
+                Top = settings.Window.Top;
+                Width = settings.Window.Width;
+                Height = settings.Window.Height;
+                Topmost = settings.Window.Topmost;
+                ShowInTaskbar = settings.Window.ShowInTaskbar;
+                
+                // Ensure window is visible on screen
+                EnsureWindowVisible();
+                
+                // Apply appearance settings
+                ApplyAppearanceSettings(settings.Appearance);
+            }
+            finally
+            {
+                _isLoadingSettings = false;
+            }
+        }
+        
+        private void EnsureWindowVisible()
+        {
+            var screenWidth = SystemParameters.PrimaryScreenWidth;
+            var screenHeight = SystemParameters.PrimaryScreenHeight;
+            
+            if (Left < 0) Left = 0;
+            if (Top < 0) Top = 0;
+            if (Left + Width > screenWidth) Left = screenWidth - Width;
+            if (Top + Height > screenHeight) Top = screenHeight - Height;
+        }
+        
+        private void ApplyAppearanceSettings(AppearanceSettings appearance)
+        {
+            // Apply opacity
+            Opacity = appearance.Opacity;
+            
+            // Apply font scale with safety checks to prevent 0 values
+            double safeFontScale = Math.Max(0.1, appearance.FontScale); // Minimum 0.1 to prevent 0
+            _baseFontSize = Math.Max(8.0, 28.8 * safeFontScale); // Minimum 8pt
+            _baseDateFontSize = Math.Max(6.0, 12 * safeFontScale); // Minimum 6pt
+            _baseSmallFontSize = Math.Max(5.0, 10 * safeFontScale); // Minimum 5pt
+            
+            // Update font sizes
+            UpdateFontSizes();
+        }
         private void Timer_Tick(object? sender, EventArgs e)
         {
             CurrentTime = DateTime.Now;
@@ -259,7 +308,7 @@ namespace FuturisticClockWidget.Views
             double margin = 5 * scale; // Distance from edge
             
             // Determine marker positions based on mode
-            var markerPositions = _hourMarkerMode == HourMarkerMode.Cardinal 
+            var markerPositions = HourMarkerMode == HourMarkerMode.Cardinal 
                 ? new[]
                 {
                     new { Angle = 0, StartDist = margin, EndDist = margin + markerLength, IsCardinal = true },    // 12 o'clock
@@ -319,15 +368,41 @@ namespace FuturisticClockWidget.Views
             Close();
         }
         
+        private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var settingsWindow = new SettingsWindow();
+                settingsWindow.Owner = this;
+                
+                if (settingsWindow.ShowDialog() == true)
+                {
+                    // Settings were saved, reload them
+                    LoadSettings();
+                    
+                    // Update UI elements that depend on settings
+                    OnPropertyChanged(nameof(FormattedTime));
+                    UpdateHourMarkers();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to open settings: {ex.Message}", "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        
         private void Format12Hour_Click(object sender, RoutedEventArgs e)
         {
-            _is24HourFormat = false;
+            SettingsManager.Current.Clock.Is24HourFormat = false;
+            SettingsManager.SaveSettings();
             OnPropertyChanged(nameof(FormattedTime));
         }
         
         private void Format24Hour_Click(object sender, RoutedEventArgs e)
         {
-            _is24HourFormat = true;
+            SettingsManager.Current.Clock.Is24HourFormat = true;
+            SettingsManager.SaveSettings();
             OnPropertyChanged(nameof(FormattedTime));
         }
         
@@ -343,71 +418,84 @@ namespace FuturisticClockWidget.Views
         
         private void CardinalMarkers_Click(object sender, RoutedEventArgs e)
         {
-            _hourMarkerMode = HourMarkerMode.Cardinal;
+            SettingsManager.Current.Clock.HourMarkerMode = HourMarkerMode.Cardinal;
+            SettingsManager.SaveSettings();
             UpdateHourMarkers();
         }
         
         private void FullMarkers_Click(object sender, RoutedEventArgs e)
         {
-            _hourMarkerMode = HourMarkerMode.Full;
+            SettingsManager.Current.Clock.HourMarkerMode = HourMarkerMode.Full;
+            SettingsManager.SaveSettings();
             UpdateHourMarkers();
         }
         
         private void SizeSmall_Click(object sender, RoutedEventArgs e)
         {
-            Width = 200;
-            Height = 100;
-            // Keep current position, adjust if needed to stay on screen
-            if (Left + 200 > SystemParameters.PrimaryScreenWidth)
-                Left = SystemParameters.PrimaryScreenWidth - 200;
-            if (Top + 100 > SystemParameters.PrimaryScreenHeight)
-                Top = SystemParameters.PrimaryScreenHeight - 100;
+            SetWindowSize(200, 100, WindowSize.Small);
         }
         
         private void SizeMedium_Click(object sender, RoutedEventArgs e)
         {
-            Width = 280;
-            Height = 140;
-            // Keep current position, adjust if needed to stay on screen
-            if (Left + 280 > SystemParameters.PrimaryScreenWidth)
-                Left = SystemParameters.PrimaryScreenWidth - 280;
-            if (Top + 140 > SystemParameters.PrimaryScreenHeight)
-                Top = SystemParameters.PrimaryScreenHeight - 140;
+            SetWindowSize(280, 140, WindowSize.Medium);
         }
         
         private void SizeLarge_Click(object sender, RoutedEventArgs e)
         {
-            Width = 400;
-            Height = 200;
-            // Keep current position, adjust if needed to stay on screen
-            if (Left + 400 > SystemParameters.PrimaryScreenWidth)
-                Left = SystemParameters.PrimaryScreenWidth - 400;
-            if (Top + 200 > SystemParameters.PrimaryScreenHeight)
-                Top = SystemParameters.PrimaryScreenHeight - 200;
+            SetWindowSize(400, 200, WindowSize.Large);
         }
         
         private void SizeExtraLarge_Click(object sender, RoutedEventArgs e)
         {
-            Width = 600;
-            Height = 300;
+            SetWindowSize(600, 300, WindowSize.ExtraLarge);
+        }
+        
+        private void SetWindowSize(double width, double height, WindowSize presetSize)
+        {
+            Width = width;
+            Height = height;
+            
             // Keep current position, adjust if needed to stay on screen
-            if (Left + 600 > SystemParameters.PrimaryScreenWidth)
-                Left = SystemParameters.PrimaryScreenWidth - 600;
-            if (Top + 300 > SystemParameters.PrimaryScreenHeight)
-                Top = SystemParameters.PrimaryScreenHeight - 300;
+            if (Left + width > SystemParameters.PrimaryScreenWidth)
+                Left = SystemParameters.PrimaryScreenWidth - width;
+            if (Top + height > SystemParameters.PrimaryScreenHeight)
+                Top = SystemParameters.PrimaryScreenHeight - height;
+            
+            // Save to settings
+            SettingsManager.Current.Window.Width = width;
+            SettingsManager.Current.Window.Height = height;
+            SettingsManager.Current.Window.PresetSize = presetSize;
+            SettingsManager.Current.Window.Left = Left;
+            SettingsManager.Current.Window.Top = Top;
+            SettingsManager.SaveSettings();
         }
         
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if (!_isLoadingSettings)
+            {
+                // Save new size to settings
+                SettingsManager.Current.Window.Width = Width;
+                SettingsManager.Current.Window.Height = Height;
+                SettingsManager.Current.Window.PresetSize = WindowSize.Custom;
+                SettingsManager.SaveSettings();
+            }
             UpdateFontSizes();
         }
         
         private void UpdateFontSizes()
         {
+            // Safety check: ensure window dimensions are valid
+            if (ActualWidth <= 0 || ActualHeight <= 0)
+                return;
+                
             // Calculate scale factors based on window size
             double widthScale = ActualWidth / 280.0; // Base width is 280
             double heightScale = ActualHeight / 140.0; // Base height is 140
             double scale = Math.Min(widthScale, heightScale);
+            
+            // Ensure scale is never 0 or negative
+            scale = Math.Max(0.1, scale); // Minimum scale to prevent 0 font sizes
             
             // Apply different scaling for different elements
             // Main time uses exponential scaling for dramatic size range
@@ -416,16 +504,18 @@ namespace FuturisticClockWidget.Views
             // Info elements use linear scaling for better readability at small sizes
             double infoScale = Math.Max(0.7, scale); // Minimum 70% of base size for readability
             
-            // Apply scaling to font sizes for digital mode
+            // Apply scaling to font sizes for digital mode with minimum constraints
             if (TimeTextBlock != null)
             {
-                TimeTextBlock.FontSize = _baseFontSize * exponentialScale;
+                double calculatedSize = _baseFontSize * exponentialScale;
+                TimeTextBlock.FontSize = Math.Max(8.0, calculatedSize); // Minimum 8pt font
             }
             
-            // Apply scaling to font sizes for analog mode digital display
+            // Apply scaling to font sizes for analog mode digital display with minimum constraints
             if (AnalogTimeTextBlock != null)
             {
-                AnalogTimeTextBlock.FontSize = 22 * exponentialScale; // Slightly larger for analog mode
+                double calculatedSize = 22 * exponentialScale; // Slightly larger for analog mode
+                AnalogTimeTextBlock.FontSize = Math.Max(6.0, calculatedSize); // Minimum 6pt font
             }
             
             // Find and update date text blocks
@@ -439,11 +529,13 @@ namespace FuturisticClockWidget.Views
                         // Check if this is in analog mode (smaller font) or digital mode
                         if (textBlock.FontSize > 15) // Likely digital mode
                         {
-                            textBlock.FontSize = _baseDateFontSize * infoScale;
+                            double calculatedSize = _baseDateFontSize * infoScale;
+                            textBlock.FontSize = Math.Max(7.0, calculatedSize); // Minimum 7pt font
                         }
                         else // Likely analog mode
                         {
-                            textBlock.FontSize = 11 * infoScale; // Better readability for analog mode
+                            double calculatedSize = 11 * infoScale; // Better readability for analog mode
+                            textBlock.FontSize = Math.Max(6.0, calculatedSize); // Minimum 6pt font
                         }
                     }
                     else if (textBlock.Style == Resources["SmallInfoStyle"] as Style)
@@ -451,11 +543,13 @@ namespace FuturisticClockWidget.Views
                         // Check if this is in analog mode (smaller font) or digital mode
                         if (textBlock.FontSize > 10) // Likely digital mode
                         {
-                            textBlock.FontSize = _baseSmallFontSize * infoScale;
+                            double calculatedSize = _baseSmallFontSize * infoScale;
+                            textBlock.FontSize = Math.Max(6.0, calculatedSize); // Minimum 6pt font
                         }
                         else // Likely analog mode
                         {
-                            textBlock.FontSize = 9 * infoScale; // Better readability for analog mode panels
+                            double calculatedSize = 9 * infoScale; // Better readability for analog mode panels
+                            textBlock.FontSize = Math.Max(5.0, calculatedSize); // Minimum 5pt font
                         }
                     }
                     else
@@ -463,7 +557,8 @@ namespace FuturisticClockWidget.Views
                         // Handle analog panel text blocks that don't match the styles
                         if (textBlock.FontSize <= 11 && textBlock.FontSize >= 6) // Likely analog panel text
                         {
-                            textBlock.FontSize = 7 * infoScale;
+                            double calculatedSize = 7 * infoScale;
+                            textBlock.FontSize = Math.Max(4.0, calculatedSize); // Minimum 4pt font
                         }
                     }
                 }
@@ -569,6 +664,19 @@ namespace FuturisticClockWidget.Views
             }
         }
         
+        protected override void OnLocationChanged(EventArgs e)
+        {
+            base.OnLocationChanged(e);
+            
+            if (!_isLoadingSettings)
+            {
+                // Save new position to settings
+                SettingsManager.Current.Window.Left = Left;
+                SettingsManager.Current.Window.Top = Top;
+                SettingsManager.SaveSettings();
+            }
+        }
+        
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
@@ -603,6 +711,16 @@ namespace FuturisticClockWidget.Views
         
         protected override void OnClosed(EventArgs e)
         {
+            // Save final settings
+            if (!_isLoadingSettings)
+            {
+                SettingsManager.Current.Window.Left = Left;
+                SettingsManager.Current.Window.Top = Top;
+                SettingsManager.Current.Window.Width = Width;
+                SettingsManager.Current.Window.Height = Height;
+                SettingsManager.SaveSettings();
+            }
+            
             _timer?.Stop();
             base.OnClosed(e);
         }
