@@ -378,24 +378,24 @@
                     <!-- Main Analog Clock Area -->
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.9*"/>
                             <ColumnDefinition Width="1.8*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.9*"/>
                         </Grid.ColumnDefinitions>
                         
                         <!-- Left Info Panel -->
                         <StackPanel Grid.Column="0" 
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Margin="0,0,2,0">
+                                    Margin="0,0,3,0">
                             <!-- Days Until -->
                             <Border CornerRadius="4" 
                                     Background="#10000000"
                                     BorderBrush="#3000D4FF"
                                     BorderThickness="1"
-                                    Margin="0,0,0,2"
-                                    Padding="4,2"
-                                    MinWidth="45">
+                                    Margin="0,0,0,3"
+                                    Padding="5,2"
+                                    MinWidth="48">
                                 <TextBlock Text="{Binding DaysUntilEndOfYear}"
                                          FontSize="7"
                                          FontWeight="Normal"
@@ -411,8 +411,8 @@
                                     Background="#10000000"
                                     BorderBrush="#3000D4FF"
                                     BorderThickness="1"
-                                    Padding="4,2"
-                                    MinWidth="45">
+                                    Padding="5,2"
+                                    MinWidth="48">
                                 <TextBlock Text="{Binding WeeksElapsed}"
                                          FontSize="7"
                                          FontWeight="Normal"
@@ -515,15 +515,15 @@
                         <StackPanel Grid.Column="2" 
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center"
-                                    Margin="2,0,0,0">
+                                    Margin="3,0,0,0">
                             <!-- Week Number -->
                             <Border CornerRadius="4" 
                                     Background="#10000000"
                                     BorderBrush="#3000D4FF"
                                     BorderThickness="1"
-                                    Margin="0,0,0,2"
-                                    Padding="4,2"
-                                    MinWidth="45">
+                                    Margin="0,0,0,3"
+                                    Padding="5,2"
+                                    MinWidth="48">
                                 <TextBlock Text="{Binding WeekNumber}"
                                          FontSize="7"
                                          FontWeight="Normal"
@@ -538,8 +538,8 @@
                                     Background="#10000000"
                                     BorderBrush="#3000D4FF"
                                     BorderThickness="1"
-                                    Padding="4,2"
-                                    MinWidth="45">
+                                    Padding="5,2"
+                                    MinWidth="48">
                                 <TextBlock Text="{Binding DayOfYear}"
                                          FontSize="7"
                                          FontWeight="Normal"
