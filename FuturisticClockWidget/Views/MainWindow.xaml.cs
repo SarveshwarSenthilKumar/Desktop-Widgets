@@ -18,6 +18,12 @@ namespace FuturisticClockWidget.Views
         Analog
     }
     
+    public enum HourMarkerMode
+    {
+        Cardinal,    // Only 12, 3, 6, 9
+        Full         // All 12 hours
+    }
+    
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private DispatcherTimer _timer;
@@ -27,6 +33,7 @@ namespace FuturisticClockWidget.Views
         private double _baseDateFontSize = 12; // Increased for better readability
         private double _baseSmallFontSize = 10; // Increased for better readability
         private ClockType _clockType = ClockType.Digital;
+        private HourMarkerMode _hourMarkerMode = HourMarkerMode.Cardinal; // Default to cardinal markers
         
         public ClockType CurrentClockType
         {
@@ -251,14 +258,30 @@ namespace FuturisticClockWidget.Views
             double strokeWidth = 1.5 * scale; // Thickness of markers
             double margin = 5 * scale; // Distance from edge
             
-            // Cardinal hour positions (12, 3, 6, 9)
-            var markerPositions = new[]
-            {
-                new { Angle = 0, StartDist = margin, EndDist = margin + markerLength },    // 12 o'clock
-                new { Angle = 90, StartDist = margin, EndDist = margin + markerLength },   // 3 o'clock
-                new { Angle = 180, StartDist = margin, EndDist = margin + markerLength },  // 6 o'clock
-                new { Angle = 270, StartDist = margin, EndDist = margin + markerLength }  // 9 o'clock
-            };
+            // Determine marker positions based on mode
+            var markerPositions = _hourMarkerMode == HourMarkerMode.Cardinal 
+                ? new[]
+                {
+                    new { Angle = 0, StartDist = margin, EndDist = margin + markerLength, IsCardinal = true },    // 12 o'clock
+                    new { Angle = 90, StartDist = margin, EndDist = margin + markerLength, IsCardinal = true },   // 3 o'clock
+                    new { Angle = 180, StartDist = margin, EndDist = margin + markerLength, IsCardinal = true },  // 6 o'clock
+                    new { Angle = 270, StartDist = margin, EndDist = margin + markerLength, IsCardinal = true }  // 9 o'clock
+                }
+                : new[]
+                {
+                    new { Angle = 0, StartDist = margin, EndDist = margin + markerLength, IsCardinal = true },     // 12 o'clock
+                    new { Angle = 30, StartDist = margin, EndDist = margin + markerLength * 0.6, IsCardinal = false },  // 1 o'clock
+                    new { Angle = 60, StartDist = margin, EndDist = margin + markerLength * 0.6, IsCardinal = false },  // 2 o'clock
+                    new { Angle = 90, StartDist = margin, EndDist = margin + markerLength, IsCardinal = true },     // 3 o'clock
+                    new { Angle = 120, StartDist = margin, EndDist = margin + markerLength * 0.6, IsCardinal = false }, // 4 o'clock
+                    new { Angle = 150, StartDist = margin, EndDist = margin + markerLength * 0.6, IsCardinal = false }, // 5 o'clock
+                    new { Angle = 180, StartDist = margin, EndDist = margin + markerLength, IsCardinal = true },    // 6 o'clock
+                    new { Angle = 210, StartDist = margin, EndDist = margin + markerLength * 0.6, IsCardinal = false }, // 7 o'clock
+                    new { Angle = 240, StartDist = margin, EndDist = margin + markerLength * 0.6, IsCardinal = false }, // 8 o'clock
+                    new { Angle = 270, StartDist = margin, EndDist = margin + markerLength, IsCardinal = true },    // 9 o'clock
+                    new { Angle = 300, StartDist = margin, EndDist = margin + markerLength * 0.6, IsCardinal = false }, // 10 o'clock
+                    new { Angle = 330, StartDist = margin, EndDist = margin + markerLength * 0.6, IsCardinal = false }  // 11 o'clock
+                };
             
             foreach (var marker in markerPositions)
             {
@@ -269,6 +292,7 @@ namespace FuturisticClockWidget.Views
                 double endX = centerX + Math.Cos(angleRad) * (currentClockSize / 2 - marker.EndDist);
                 double endY = centerY + Math.Sin(angleRad) * (currentClockSize / 2 - marker.EndDist);
                 
+                // Different styling for cardinal vs non-cardinal markers
                 var line = new Line
                 {
                     X1 = startX,
@@ -276,8 +300,8 @@ namespace FuturisticClockWidget.Views
                     X2 = endX,
                     Y2 = endY,
                     Stroke = new SolidColorBrush(Color.FromRgb(0, 212, 255)), // #00D4FF
-                    StrokeThickness = strokeWidth,
-                    Opacity = 0.9
+                    StrokeThickness = marker.IsCardinal ? strokeWidth : strokeWidth * 0.7,
+                    Opacity = marker.IsCardinal ? 0.9 : 0.6
                 };
                 
                 HourMarkersCanvas.Children.Add(line);
@@ -315,6 +339,18 @@ namespace FuturisticClockWidget.Views
         private void AnalogClock_Click(object sender, RoutedEventArgs e)
         {
             CurrentClockType = ClockType.Analog;
+        }
+        
+        private void CardinalMarkers_Click(object sender, RoutedEventArgs e)
+        {
+            _hourMarkerMode = HourMarkerMode.Cardinal;
+            UpdateHourMarkers();
+        }
+        
+        private void FullMarkers_Click(object sender, RoutedEventArgs e)
+        {
+            _hourMarkerMode = HourMarkerMode.Full;
+            UpdateHourMarkers();
         }
         
         private void SizeSmall_Click(object sender, RoutedEventArgs e)
