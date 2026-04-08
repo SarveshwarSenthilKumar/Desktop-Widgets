@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WidgetDashboard")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7bd226dd63d10d341db7d5e79d053e531049d11e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2e2c484761fb5abf9f15dc0ffb6257f1b5c93e4f")]
 [assembly: System.Reflection.AssemblyProductAttribute("WidgetDashboard")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WidgetDashboard")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

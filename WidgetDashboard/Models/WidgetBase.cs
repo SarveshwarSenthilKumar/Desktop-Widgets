@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace WidgetDashboard.Models
@@ -6,7 +8,7 @@ namespace WidgetDashboard.Models
     public abstract class WidgetBase : IWidget
     {
         protected Window? _widgetWindow;
-        protected bool _isRunning;
+        private bool _isRunning;
 
         public abstract string Name { get; }
         public abstract string Description { get; }
@@ -14,12 +16,15 @@ namespace WidgetDashboard.Models
         public Window WidgetWindow => _widgetWindow ?? throw new InvalidOperationException("Widget not initialized");
         public bool IsRunning => _isRunning;
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public virtual void Start()
         {
             if (_isRunning) return;
             
             _widgetWindow = CreateWidgetWindow();
             _isRunning = true;
+            OnPropertyChanged(nameof(IsRunning));
         }
 
         public virtual void Stop()
@@ -29,6 +34,7 @@ namespace WidgetDashboard.Models
             _widgetWindow?.Close();
             _widgetWindow = null!;
             _isRunning = false;
+            OnPropertyChanged(nameof(IsRunning));
         }
 
         public virtual void Show()
@@ -63,5 +69,10 @@ namespace WidgetDashboard.Models
         }
 
         protected abstract Window CreateWidgetWindow();
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

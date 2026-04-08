@@ -9,7 +9,7 @@ namespace WidgetDashboard.Models
     public class WidgetManager : INotifyPropertyChanged
     {
         private readonly Dictionary<Type, Func<IWidget>> _widgetFactories;
-        private readonly List<IWidget> _activeWidgets;
+        private readonly ObservableCollection<IWidget> _activeWidgets;
         private readonly ObservableCollection<IWidget> _availableWidgets;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -20,11 +20,11 @@ namespace WidgetDashboard.Models
         public WidgetManager()
         {
             _widgetFactories = new Dictionary<Type, Func<IWidget>>();
-            _activeWidgets = new List<IWidget>();
+            _activeWidgets = new ObservableCollection<IWidget>();
             _availableWidgets = new ObservableCollection<IWidget>();
 
             AvailableWidgets = new ReadOnlyObservableCollection<IWidget>(_availableWidgets);
-            ActiveWidgets = new ReadOnlyObservableCollection<IWidget>(new ObservableCollection<IWidget>(_activeWidgets));
+            ActiveWidgets = new ReadOnlyObservableCollection<IWidget>(_activeWidgets);
 
             RegisterWidgetTypes();
         }
@@ -64,7 +64,6 @@ namespace WidgetDashboard.Models
             {
                 widget.Start();
                 _activeWidgets.Add(widget);
-                OnPropertyChanged(nameof(ActiveWidgets));
             }
         }
 
@@ -74,7 +73,6 @@ namespace WidgetDashboard.Models
             {
                 widget.Stop();
                 _activeWidgets.Remove(widget);
-                OnPropertyChanged(nameof(ActiveWidgets));
             }
         }
 

@@ -1,8 +1,9 @@
+using System.ComponentModel;
 using System.Windows;
 
 namespace WidgetDashboard.Models
 {
-    public interface IWidget
+    public interface IWidget : INotifyPropertyChanged
     {
         string Name { get; }
         string Description { get; }
