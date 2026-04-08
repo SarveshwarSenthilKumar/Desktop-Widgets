@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using FuturisticClockWidget.Views;
 
@@ -5,13 +6,24 @@ namespace WidgetDashboard.Models
 {
     public class ClockWidgetWrapper : WidgetBase
     {
-        public override string Name => "Futuristic Clock";
+        private static int _instanceCount = 0;
+        private readonly int _instanceId;
+        private readonly string _uniqueId;
+
+        public override string Name => $"Futuristic Clock {_instanceId}";
         public override string Description => "A modern digital and analog clock widget with customizable styling";
+
+        public ClockWidgetWrapper()
+        {
+            _instanceCount++;
+            _instanceId = _instanceCount;
+            _uniqueId = Guid.NewGuid().ToString("N")[..8]; // Short unique ID
+        }
 
         protected override Window CreateWidgetWindow()
         {
             var clockWindow = new MainWindow();
-            clockWindow.Title = "Clock Widget";
+            clockWindow.Title = $"Clock Widget {_instanceId}-{_uniqueId}";
             return clockWindow;
         }
 

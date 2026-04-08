@@ -14,6 +14,9 @@ namespace WidgetDashboard.Views
             InitializeComponent();
             _widgetManager = new WidgetManager();
             DataContext = _widgetManager;
+            
+            // Restore widget states when dashboard opens
+            Loaded += (s, e) => _widgetManager.RestoreWidgetStates();
         }
 
         private void LaunchWidget_Click(object sender, RoutedEventArgs e)
@@ -41,6 +44,9 @@ namespace WidgetDashboard.Views
                     
                     // Show the widget
                     newWidget.Show();
+                    
+                    // Save state after launching
+                    _widgetManager.SaveWidgetStates();
                     
                     // Position the widget at a default location
                     // You could implement smarter positioning here
@@ -109,6 +115,7 @@ namespace WidgetDashboard.Views
                 try
                 {
                     _widgetManager.StopWidget(widget);
+                    _widgetManager.SaveWidgetStates();
                 }
                 catch (Exception ex)
                 {
@@ -123,6 +130,7 @@ namespace WidgetDashboard.Views
             try
             {
                 _widgetManager.StopAllWidgets();
+                _widgetManager.SaveWidgetStates();
             }
             catch (Exception ex)
             {
@@ -133,8 +141,8 @@ namespace WidgetDashboard.Views
 
         protected override void OnClosed(EventArgs e)
         {
-            // Stop all widgets when dashboard closes
-            _widgetManager.StopAllWidgets();
+            // Save widget states before closing dashboard
+            _widgetManager.SaveWidgetStates();
             base.OnClosed(e);
         }
     }

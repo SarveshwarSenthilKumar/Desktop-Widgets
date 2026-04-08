@@ -27,6 +27,15 @@ namespace WidgetDashboard.Models
             OnPropertyChanged(nameof(IsRunning));
         }
 
+        public virtual void ReconnectToExistingWindow(Window existingWindow)
+        {
+            if (_isRunning) return;
+            
+            _widgetWindow = existingWindow;
+            _isRunning = true;
+            OnPropertyChanged(nameof(IsRunning));
+        }
+
         public virtual void Stop()
         {
             if (!_isRunning) return;
