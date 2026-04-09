@@ -1,3 +1,6 @@
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\CalendarWidget.deps.json
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\CalendarWidget.dll
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\CalendarWidget.pdb
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget.csproj.AssemblyReference.cache
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWindow.baml
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWindow.g.cs
@@ -8,9 +11,6 @@ C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\Ca
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget.AssemblyInfo.cs
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget.csproj.CoreCompileInputs.cache
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget.sourcelink.json
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\CalendarWidget.deps.json
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\CalendarWidget.dll
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\CalendarWidget.pdb
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\refint\CalendarWidget.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget.pdb

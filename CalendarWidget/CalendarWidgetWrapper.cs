@@ -10,7 +10,9 @@ namespace CalendarWidget
         private readonly string _uniqueId;
 
         public override string Name => $"Calendar Widget {_instanceId}";
-        public override string Description => "A modern calendar widget with current date and month view";
+        public override string Description => "A futuristic calendar widget with enhanced features and useful information";
+        
+        public string WidgetId => $"Calendar_{_instanceId}_{_uniqueId}";
 
         public CalendarWidgetWrapper()
         {

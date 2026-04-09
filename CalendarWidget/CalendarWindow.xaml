@@ -20,57 +20,119 @@
         <!-- Boolean to Visibility Converter -->
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         
-        <!-- Calendar Header Style -->
+        <!-- Futuristic Calendar Header Style -->
         <Style x:Key="CalendarHeaderStyle" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+            <Setter Property="FontWeight" Value="UltraLight"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontSize" Value="18"/>
             <Setter Property="Foreground" Value="#00D4FF"/>
-            <Setter Property="Margin" Value="0,5"/>
+            <Setter Property="Margin" Value="0,8"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#00D4FF" 
+                                      BlurRadius="12" 
+                                      ShadowDepth="0" 
+                                      Opacity="0.7"/>
+                </Setter.Value>
+            </Setter>
         </Style>
         
-        <!-- Day Number Style -->
+        <!-- Futuristic Day Number Style -->
         <Style x:Key="DayNumberStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontWeight" Value="Light"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Foreground" Value="#CCFFFFFF"/>
         </Style>
         
-        <!-- Today Day Style -->
+        <!-- Futuristic Today Day Style -->
         <Style x:Key="TodayDayStyle" TargetType="Border">
-            <Setter Property="Background" Value="#2000D4FF"/>
-            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#3000D4FF" Offset="0"/>
+                        <GradientStop Color="#1500D4FF" Offset="0.7"/>
+                        <GradientStop Color="#0A00D4FF" Offset="1"/>
+                    </RadialGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CornerRadius" Value="15"/>
             <Setter Property="BorderBrush" Value="#00D4FF"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Margin" Value="1"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#00D4FF" 
+                                      BlurRadius="8" 
+                                      ShadowDepth="0" 
+                                      Opacity="0.6"/>
+                </Setter.Value>
+            </Setter>
         </Style>
         
-        <!-- Weekend Day Style -->
+        <!-- Futuristic Weekend Day Style -->
         <Style x:Key="WeekendDayStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontWeight" Value="Light"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Foreground" Value="#FF6B6B"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Foreground" Value="#FF8A80"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#FF8A80" 
+                                      BlurRadius="4" 
+                                      ShadowDepth="0" 
+                                      Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
         </Style>
         
-        <!-- Liquid Animation -->
+        <!-- Enhanced Liquid Animation -->
         <Storyboard x:Key="LiquidAnimation" RepeatBehavior="Forever">
             <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                           From="0.7" To="0.95" Duration="0:0:3"
+                           From="0.8" To="1.0" Duration="0:0:4"
                            AutoReverse="true">
                 <DoubleAnimation.EasingFunction>
                     <SineEase EasingMode="EaseInOut"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
         </Storyboard>
+        
+        <!-- Pulse Animation for Today -->
+        <Storyboard x:Key="PulseAnimation" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                           From="0.6" To="1.0" Duration="0:0:2"
+                           AutoReverse="true">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        
+        <!-- Small Info Style -->
+        <Style x:Key="SmallInfoStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Foreground" Value="#88FFFFFF"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#00D4FF" 
+                                      BlurRadius="3" 
+                                      ShadowDepth="0" 
+                                      Opacity="0.3"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     
     <!-- Enhanced Glassmorphism Container -->
@@ -249,24 +311,98 @@
                 </Border.OpacityMask>
             </Border>
             
-            <!-- Content Layer -->
+            <!-- Enhanced Content Layer -->
             <Grid Margin="20,25">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
-                <!-- Calendar Header -->
-                <TextBlock Grid.Row="0"
-                         Text="{Binding CurrentMonthYear}"
-                         Style="{StaticResource CalendarHeaderStyle}">
-                    <TextBlock.Triggers>
-                        <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard Storyboard="{StaticResource LiquidAnimation}"/>
-                        </EventTrigger>
-                    </TextBlock.Triggers>
-                </TextBlock>
+                <!-- Calendar Header with Navigation -->
+                <Grid Grid.Row="0" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Previous Month Button -->
+                    <Button Grid.Column="0" 
+                            x:Name="PreviousMonthButton"
+                            Content="◀" 
+                            Background="Transparent" 
+                            BorderBrush="#3000D4FF" 
+                            BorderThickness="1"
+                            Foreground="#00D4FF" 
+                            FontSize="14" 
+                            Width="28" Height="24"
+                            Cursor="Hand"
+                            Click="PreviousMonth_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" 
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="12"
+                                        Cursor="Hand">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#2000D4FF"/>
+                                        <Setter Property="BorderBrush" Value="#00D4FF"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    
+                    <!-- Current Month Year -->
+                    <TextBlock Grid.Column="1"
+                             Text="{Binding CurrentMonthYear}"
+                             Style="{StaticResource CalendarHeaderStyle}">
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard Storyboard="{StaticResource LiquidAnimation}"/>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                    </TextBlock>
+                    
+                    <!-- Next Month Button -->
+                    <Button Grid.Column="2" 
+                            x:Name="NextMonthButton"
+                            Content="▶" 
+                            Background="Transparent" 
+                            BorderBrush="#3000D4FF" 
+                            BorderThickness="1"
+                            Foreground="#00D4FF" 
+                            FontSize="14" 
+                            Width="28" Height="24"
+                            Cursor="Hand"
+                            Click="NextMonth_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" 
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="12"
+                                        Cursor="Hand">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#2000D4FF"/>
+                                        <Setter Property="BorderBrush" Value="#00D4FF"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
                 
                 <!-- Calendar Grid -->
                 <Grid Grid.Row="1" Margin="0,10">
@@ -287,13 +423,13 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         
-                        <TextBlock Grid.Column="0" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
+                        <TextBlock Grid.Column="0" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#FF8A80"/>
                         <TextBlock Grid.Column="1" Text="M" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
                         <TextBlock Grid.Column="2" Text="T" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
                         <TextBlock Grid.Column="3" Text="W" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
                         <TextBlock Grid.Column="4" Text="T" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
                         <TextBlock Grid.Column="5" Text="F" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
-                        <TextBlock Grid.Column="6" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#FF6B6B"/>
+                        <TextBlock Grid.Column="6" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#FF8A80"/>
                     </Grid>
                     
                     <!-- Calendar Days Grid -->
@@ -334,29 +470,132 @@
                     </ItemsControl>
                 </Grid>
                 
-                <!-- Current Date Info -->
+                <!-- Enhanced Current Date Info -->
                 <Border Grid.Row="2" 
-                        CornerRadius="10"
+                        CornerRadius="12"
                         Background="#0A000000"
                         BorderBrush="#2000D4FF"
                         BorderThickness="1"
-                        Margin="0,10,0,0"
-                        Padding="12,6">
-                    <StackPanel>
-                        <TextBlock Text="{Binding CurrentDate, StringFormat='{}{0:dddd, MMMM dd, yyyy}'}"
+                        Margin="0,10,0,5"
+                        Padding="12,8">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- Current Date Display -->
+                        <TextBlock Grid.Row="0"
+                                 Text="{Binding CurrentDate, StringFormat='{}{0:dddd, MMMM dd, yyyy}'}"
                                  FontFamily="Segoe UI Semilight"
                                  FontSize="14"
                                  FontWeight="Light"
                                  Foreground="#CCFFFFFF"
-                                 TextAlignment="Center"/>
-                        <TextBlock Text="{Binding WeekInfo}"
-                                 FontFamily="Segoe UI"
-                                 FontSize="11"
-                                 FontWeight="Normal"
-                                 Foreground="#88FFFFFF"
                                  TextAlignment="Center"
-                                 Margin="0,2,0,0"/>
-                    </StackPanel>
+                                 Margin="0,0,0,4"/>
+                        
+                        <!-- Additional Info Grid -->
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <!-- Week Info -->
+                            <Border Grid.Column="0" 
+                                    CornerRadius="6"
+                                    Background="#05000000"
+                                    BorderBrush="#1500D4FF"
+                                    BorderThickness="0.5"
+                                    Margin="0,0,2,0"
+                                    Padding="4,2">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding WeekNumber}"
+                                             Style="{StaticResource SmallInfoStyle}"/>
+                                    <TextBlock Text="Week"
+                                             Style="{StaticResource SmallInfoStyle}"
+                                             FontSize="8"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Day of Year -->
+                            <Border Grid.Column="1" 
+                                    CornerRadius="6"
+                                    Background="#05000000"
+                                    BorderBrush="#1500D4FF"
+                                    BorderThickness="0.5"
+                                    Margin="1,0"
+                                    Padding="4,2">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding DayOfYear}"
+                                             Style="{StaticResource SmallInfoStyle}"/>
+                                    <TextBlock Text="Day"
+                                             Style="{StaticResource SmallInfoStyle}"
+                                             FontSize="8"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <!-- Days Left in Year -->
+                            <Border Grid.Column="2" 
+                                    CornerRadius="6"
+                                    Background="#05000000"
+                                    BorderBrush="#1500D4FF"
+                                    BorderThickness="0.5"
+                                    Margin="2,0,0,0"
+                                    Padding="4,2">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding DaysUntilEndOfYear}"
+                                             Style="{StaticResource SmallInfoStyle}"/>
+                                    <TextBlock Text="Left"
+                                             Style="{StaticResource SmallInfoStyle}"
+                                             FontSize="8"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </Border>
+                
+                <!-- Additional Calendar Info -->
+                <Border Grid.Row="3" 
+                        CornerRadius="10"
+                        Background="#08000000"
+                        BorderBrush="#1500D4FF"
+                        BorderThickness="0.5"
+                        Margin="0,0,0,5"
+                        Padding="10,6">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Moon Phase -->
+                        <StackPanel Grid.Column="0" 
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="🌙" 
+                                     FontSize="12" 
+                                     VerticalAlignment="Center"
+                                     Margin="0,0,4,0"/>
+                            <TextBlock Text="{Binding MoonPhase}"
+                                     Style="{StaticResource SmallInfoStyle}"
+                                     FontSize="9"/>
+                        </StackPanel>
+                        
+                        <!-- Season -->
+                        <StackPanel Grid.Column="1" 
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding SeasonIcon}" 
+                                     FontSize="12" 
+                                     VerticalAlignment="Center"
+                                     Margin="0,0,4,0"/>
+                            <TextBlock Text="{Binding Season}"
+                                     Style="{StaticResource SmallInfoStyle}"
+                                     FontSize="9"/>
+                        </StackPanel>
+                    </Grid>
                 </Border>
             </Grid>
         </Grid>

@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace CalendarWidget
 {
@@ -14,6 +15,8 @@ namespace CalendarWidget
         private ObservableCollection<CalendarDay> _calendarDays = new ObservableCollection<CalendarDay>();
         private bool _highlightToday = true;
         private bool _showWeekNumbers = false;
+        private DateTime _currentDisplayMonth = DateTime.Now;
+        private Storyboard _pulseStoryboard;
 
         public ObservableCollection<CalendarDay> CalendarDays
         {
@@ -25,7 +28,7 @@ namespace CalendarWidget
             }
         }
 
-        public string CurrentMonthYear => DateTime.Now.ToString("MMMM yyyy");
+        public string CurrentMonthYear => _currentDisplayMonth.ToString("MMMM yyyy");
         
         public string CurrentDate => DateTime.Now.ToString("dddd, MMMM dd, yyyy");
         
@@ -37,6 +40,55 @@ namespace CalendarWidget
                 var weekStart = today.AddDays(-(int)today.DayOfWeek);
                 var weekEnd = weekStart.AddDays(6);
                 return $"Week {GetWeekNumber(today)}: {weekStart:MMM dd} - {weekEnd:MMM dd}";
+            }
+        }
+        
+        public string WeekNumber => $"{GetWeekNumber(DateTime.Now)}";
+        
+        public string DayOfYear => $"{DateTime.Now.DayOfYear}";
+        
+        public string DaysUntilEndOfYear
+        {
+            get
+            {
+                var today = DateTime.Now;
+                var endOfYear = new DateTime(today.Year, 12, 31);
+                var daysLeft = (endOfYear - today).Days + 1;
+                return $"{daysLeft}";
+            }
+        }
+        
+        public string MoonPhase
+        {
+            get
+            {
+                var today = DateTime.Now;
+                var phase = CalculateMoonPhase(today);
+                return phase;
+            }
+        }
+        
+        public string Season
+        {
+            get
+            {
+                var today = DateTime.Now;
+                return GetSeason(today.Month);
+            }
+        }
+        
+        public string SeasonIcon
+        {
+            get
+            {
+                var month = DateTime.Now.Month;
+                return month switch
+                {
+                    >= 3 and <= 5 => "🌸", // Spring
+                    >= 6 and <= 8 => "☀️", // Summer
+                    >= 9 and <= 11 => "🍂", // Fall
+                    _ => "❄️" // Winter
+                };
             }
         }
 
@@ -68,13 +120,35 @@ namespace CalendarWidget
         {
             InitializeComponent();
             DataContext = this;
+            
+            // Initialize the pulse animation for today
+            _pulseStoryboard = (Storyboard)FindResource("PulseAnimation");
+            
+            // Set up a timer to update the time-dependent properties
+            var timer = new System.Windows.Threading.DispatcherTimer
+            {
+                Interval = TimeSpan.FromMinutes(1) // Update every minute
+            };
+            timer.Tick += (s, e) =>
+            {
+                OnPropertyChanged(nameof(CurrentDate));
+                OnPropertyChanged(nameof(WeekInfo));
+                OnPropertyChanged(nameof(WeekNumber));
+                OnPropertyChanged(nameof(DayOfYear));
+                OnPropertyChanged(nameof(DaysUntilEndOfYear));
+                OnPropertyChanged(nameof(MoonPhase));
+                OnPropertyChanged(nameof(Season));
+                OnPropertyChanged(nameof(SeasonIcon));
+            };
+            timer.Start();
+            
             RefreshCalendar();
         }
 
         private void RefreshCalendar()
         {
             var today = DateTime.Now;
-            var firstDayOfMonth = new DateTime(today.Year, today.Month, 1);
+            var firstDayOfMonth = new DateTime(_currentDisplayMonth.Year, _currentDisplayMonth.Month, 1);
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
             
             var days = new ObservableCollection<CalendarDay>();
@@ -94,7 +168,7 @@ namespace CalendarWidget
             // Add all days of the month
             for (int day = 1; day <= lastDayOfMonth.Day; day++)
             {
-                var currentDate = new DateTime(today.Year, today.Month, day);
+                var currentDate = new DateTime(_currentDisplayMonth.Year, _currentDisplayMonth.Month, day);
                 var weekRow = ((int)firstDayOfMonth.DayOfWeek + day - 1) / 7 + 1;
                 var weekCol = ((int)firstDayOfMonth.DayOfWeek + day - 1) % 7;
                 
@@ -113,6 +187,9 @@ namespace CalendarWidget
             }
             
             CalendarDays = days;
+            
+            // Update month year display
+            OnPropertyChanged(nameof(CurrentMonthYear));
         }
 
         private int GetWeekNumber(DateTime date)
@@ -174,6 +251,52 @@ namespace CalendarWidget
         private void CloseMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+        
+        private void PreviousMonth_Click(object sender, RoutedEventArgs e)
+        {
+            _currentDisplayMonth = _currentDisplayMonth.AddMonths(-1);
+            RefreshCalendar();
+        }
+        
+        private void NextMonth_Click(object sender, RoutedEventArgs e)
+        {
+            _currentDisplayMonth = _currentDisplayMonth.AddMonths(1);
+            RefreshCalendar();
+        }
+        
+        private string CalculateMoonPhase(DateTime date)
+        {
+            // Simple moon phase calculation (approximate)
+            var knownNewMoon = new DateTime(2000, 1, 6, 18, 14, 0); // Known new moon
+            var lunarCycle = 29.530588861; // Lunar cycle in days
+            
+            var daysSinceNewMoon = (date - knownNewMoon).TotalDays;
+            var currentPhase = daysSinceNewMoon % lunarCycle;
+            
+            return currentPhase switch
+            {
+                < 1.84 => "New Moon",
+                < 5.53 => "Waxing Crescent",
+                < 9.22 => "First Quarter",
+                < 12.91 => "Waxing Gibbous",
+                < 16.61 => "Full Moon",
+                < 20.30 => "Waning Gibbous",
+                < 23.99 => "Last Quarter",
+                < 27.68 => "Waning Crescent",
+                _ => "New Moon"
+            };
+        }
+        
+        private string GetSeason(int month)
+        {
+            return month switch
+            {
+                >= 3 and <= 5 => "Spring",
+                >= 6 and <= 8 => "Summer",
+                >= 9 and <= 11 => "Fall",
+                _ => "Winter"
+            };
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
