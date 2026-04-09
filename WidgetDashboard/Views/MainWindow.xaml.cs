@@ -25,19 +25,8 @@ namespace WidgetDashboard.Views
             {
                 try
                 {
-                    // Create a new instance of the widget
-                    IWidget newWidget;
-                    
-                    if (widgetTemplate is ClockWidgetWrapper)
-                    {
-                        newWidget = new ClockWidgetWrapper();
-                    }
-                    else
-                    {
-                        // For other widget types, we'd need to implement factory pattern
-                        // For now, we'll just use the template
-                        newWidget = widgetTemplate;
-                    }
+                    // Create a new instance of widget using factory pattern
+                    IWidget newWidget = _widgetManager.CreateWidget(widgetTemplate.GetType());
 
                     // Start the widget
                     _widgetManager.StartWidget(newWidget);
@@ -49,7 +38,6 @@ namespace WidgetDashboard.Views
                     _widgetManager.SaveWidgetStates();
                     
                     // Position the widget at a default location
-                    // You could implement smarter positioning here
                     var screenWidth = SystemParameters.PrimaryScreenWidth;
                     var screenHeight = SystemParameters.PrimaryScreenHeight;
                     var widgetCount = _widgetManager.ActiveWidgets.Count;
