@@ -363,7 +363,7 @@ namespace CalendarWidget
             {
                 if (IsToday && Application.Current?.Resources["TodayDayStyle"] is Style todayStyle)
                     return todayStyle;
-                return null;
+                return Application.Current?.Resources["DayNumberStyle"] as Style;
             }
         }
 

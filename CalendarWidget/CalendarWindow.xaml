@@ -41,13 +41,21 @@
         
         <!-- Futuristic Day Number Style -->
         <Style x:Key="DayNumberStyle" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Margin" Value="3"/>
-            <Setter Property="Foreground" Value="#CCFFFFFF"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#000000" 
+                                      BlurRadius="2" 
+                                      ShadowDepth="1" 
+                                      Opacity="0.8"/>
+                </Setter.Value>
+            </Setter>
         </Style>
         
         <!-- Futuristic Today Day Style -->
@@ -55,41 +63,41 @@
             <Setter Property="Background">
                 <Setter.Value>
                     <RadialGradientBrush>
-                        <GradientStop Color="#3000D4FF" Offset="0"/>
-                        <GradientStop Color="#1500D4FF" Offset="0.7"/>
-                        <GradientStop Color="#0A00D4FF" Offset="1"/>
+                        <GradientStop Color="#4000D4FF" Offset="0"/>
+                        <GradientStop Color="#2500D4FF" Offset="0.7"/>
+                        <GradientStop Color="#1500D4FF" Offset="1"/>
                     </RadialGradientBrush>
                 </Setter.Value>
             </Setter>
-            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="CornerRadius" Value="18"/>
             <Setter Property="BorderBrush" Value="#00D4FF"/>
-            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="Margin" Value="2"/>
             <Setter Property="Effect">
                 <Setter.Value>
                     <DropShadowEffect Color="#00D4FF" 
-                                      BlurRadius="8" 
+                                      BlurRadius="10" 
                                       ShadowDepth="0" 
-                                      Opacity="0.6"/>
+                                      Opacity="0.8"/>
                 </Setter.Value>
             </Setter>
         </Style>
         
         <!-- Futuristic Weekend Day Style -->
         <Style x:Key="WeekendDayStyle" TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Margin" Value="3"/>
-            <Setter Property="Foreground" Value="#FF8A80"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Foreground" Value="#7DD3FC"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="#FF8A80" 
-                                      BlurRadius="4" 
-                                      ShadowDepth="0" 
-                                      Opacity="0.3"/>
+                    <DropShadowEffect Color="#000000" 
+                                      BlurRadius="2" 
+                                      ShadowDepth="1" 
+                                      Opacity="0.8"/>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -133,6 +141,12 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <!-- Day Number Shadow Effect -->
+        <DropShadowEffect x:Key="DayNumberShadowEffect" Color="#000000" 
+                          BlurRadius="2" 
+                          ShadowDepth="1" 
+                          Opacity="0.8"/>
     </Window.Resources>
     
     <!-- Enhanced Glassmorphism Container -->
@@ -423,13 +437,13 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         
-                        <TextBlock Grid.Column="0" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#FF8A80"/>
-                        <TextBlock Grid.Column="1" Text="M" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
-                        <TextBlock Grid.Column="2" Text="T" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
-                        <TextBlock Grid.Column="3" Text="W" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
-                        <TextBlock Grid.Column="4" Text="T" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
-                        <TextBlock Grid.Column="5" Text="F" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
-                        <TextBlock Grid.Column="6" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#FF8A80"/>
+                        <TextBlock Grid.Column="0" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC"/>
+                        <TextBlock Grid.Column="1" Text="M" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Grid.Column="2" Text="T" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Grid.Column="3" Text="W" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Grid.Column="4" Text="T" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Grid.Column="5" Text="F" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Grid.Column="6" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC"/>
                     </Grid>
                     
                     <!-- Calendar Days Grid -->
@@ -446,8 +460,13 @@
                                        Margin="1">
                                     <TextBlock Text="{Binding DayNumber}" 
                                              Style="{Binding TextStyle}"
+                                             FontFamily="Segoe UI Semibold"
+                                             FontWeight="SemiBold"
+                                             FontSize="16"
+                                             Foreground="#FFFFFF"
                                              HorizontalAlignment="Center"
-                                             VerticalAlignment="Center"/>
+                                             VerticalAlignment="Center"
+                                             Effect="{StaticResource DayNumberShadowEffect}"/>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
