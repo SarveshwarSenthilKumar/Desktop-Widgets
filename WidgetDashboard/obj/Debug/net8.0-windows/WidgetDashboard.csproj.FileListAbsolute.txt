@@ -71,3 +71,6 @@ C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\Wi
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.pdb
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.deps.json
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.runtimeconfig.json
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.exe
