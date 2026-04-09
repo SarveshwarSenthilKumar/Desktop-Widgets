@@ -5,20 +5,26 @@ using CalendarWidget;
 
 namespace WidgetDashboard.Models
 {
-    public class CalendarWidgetWrapper : IWidget, INotifyPropertyChanged
+    public class CalendarWidgetWrapper : IWidget
     {
         private readonly CalendarWidget.CalendarWidgetWrapper _calendarWidget;
 
         public string Name => _calendarWidget.Name;
         public string Description => _calendarWidget.Description;
         public bool IsRunning => _calendarWidget.IsRunning;
-        public Window? WidgetWindow => _calendarWidget.WidgetWindow;
+        public Window WidgetWindow => _calendarWidget.WidgetWindow;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public CalendarWidgetWrapper()
         {
             _calendarWidget = new CalendarWidget.CalendarWidgetWrapper();
+            
+            // Forward property changed events
+            if (_calendarWidget is INotifyPropertyChanged notifier)
+            {
+                notifier.PropertyChanged += (s, e) => PropertyChanged?.Invoke(this, e);
+            }
         }
 
         public void Start()
@@ -49,11 +55,6 @@ namespace WidgetDashboard.Models
         public void SetSize(double width, double height)
         {
             _calendarWidget.SetSize(width, height);
-        }
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

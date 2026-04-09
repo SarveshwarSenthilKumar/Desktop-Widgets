@@ -1,18 +1,22 @@
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace CalendarWidget
 {
-    public abstract class WidgetBase
+    public abstract class WidgetBase : IWidget
     {
         protected Window? _widgetWindow;
         private bool _isRunning = false;
 
         public bool IsRunning => _isRunning;
-        public Window? WidgetWindow => _widgetWindow;
+        public Window WidgetWindow => _widgetWindow ?? throw new InvalidOperationException("Widget not initialized");
 
         public abstract string Name { get; }
         public abstract string Description { get; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public virtual void Start()
         {
@@ -23,6 +27,7 @@ namespace CalendarWidget
                 {
                     _widgetWindow.Show();
                     _isRunning = true;
+                    OnPropertyChanged(nameof(IsRunning));
                 }
             }
         }
@@ -34,6 +39,7 @@ namespace CalendarWidget
                 _widgetWindow.Close();
                 _widgetWindow = null;
                 _isRunning = false;
+                OnPropertyChanged(nameof(IsRunning));
             }
         }
 
@@ -72,5 +78,10 @@ namespace CalendarWidget
         }
 
         protected abstract Window CreateWidgetWindow();
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
