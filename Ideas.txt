@@ -8,6 +8,7 @@ Updated graphs to make for year and weeks
 add a calendar feature 
 update calendar to look good
 update calendar to use same week calculation as app
+move calendar widget to separate folder
 Update it so closing dash doesnt close widget
 Add run on startup feature and create shortcut
 Add scroll functionality to dashboard

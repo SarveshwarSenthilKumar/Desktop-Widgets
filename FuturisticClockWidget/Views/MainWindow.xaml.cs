@@ -97,9 +97,7 @@ namespace FuturisticClockWidget.Views
             get
             {
                 var culture = System.Globalization.CultureInfo.CurrentCulture;
-                var calendar = culture.Calendar;
-                var weekRule = culture.DateTimeFormat.CalendarWeekRule;
-                var weekOfYear = calendar.GetWeekOfYear(CurrentTime, weekRule, culture.DateTimeFormat.FirstDayOfWeek);
+                var weekOfYear = culture.Calendar.GetWeekOfYear(CurrentTime, System.Globalization.CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Sunday);
                 
                 // Check if window is in small mode
                 if (ActualWidth < 250)
@@ -158,9 +156,7 @@ namespace FuturisticClockWidget.Views
             {
                 // Use the same calculation as WeekNumber for consistency
                 var culture = System.Globalization.CultureInfo.CurrentCulture;
-                var calendar = culture.Calendar;
-                var weekRule = culture.DateTimeFormat.CalendarWeekRule;
-                var weekOfYear = calendar.GetWeekOfYear(CurrentTime, weekRule, culture.DateTimeFormat.FirstDayOfWeek);
+                var weekOfYear = culture.Calendar.GetWeekOfYear(CurrentTime, System.Globalization.CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Sunday);
                 
                 // Check if window is in small mode
                 if (ActualWidth < 250)
