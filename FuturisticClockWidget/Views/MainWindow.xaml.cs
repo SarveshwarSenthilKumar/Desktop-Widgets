@@ -22,6 +22,7 @@ namespace FuturisticClockWidget.Views
         private double _baseDateFontSize = 12; // Increased for better readability
         private double _baseSmallFontSize = 10; // Increased for better readability
         private bool _isLoadingSettings = false;
+        private bool _showDate = true;
         
         public ClockType CurrentClockType
         {
@@ -43,6 +44,19 @@ namespace FuturisticClockWidget.Views
         
         public bool IsAnalogMode => CurrentClockType == ClockType.Analog;
         public bool IsDigitalMode => CurrentClockType == ClockType.Digital;
+        
+        public bool ShowDate
+        {
+            get => _showDate;
+            set
+            {
+                if (_showDate != value)
+                {
+                    _showDate = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         
         public DateTime CurrentTime
         {
@@ -448,6 +462,14 @@ namespace FuturisticClockWidget.Views
         private void SizeExtraLarge_Click(object sender, RoutedEventArgs e)
         {
             SetWindowSize(600, 300, WindowSize.ExtraLarge);
+        }
+        
+        private void ShowDate_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem menuItem)
+            {
+                ShowDate = menuItem.IsChecked;
+            }
         }
         
         private void SetWindowSize(double width, double height, WindowSize presetSize)
