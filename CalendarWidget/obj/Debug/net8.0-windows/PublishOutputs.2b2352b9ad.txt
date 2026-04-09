@@ -1,0 +1,4 @@
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\publish\CalendarWidget.dll
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\publish\CalendarWidget.deps.json
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\publish\CalendarWidget.pdb
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\publish\Microsoft.Xaml.Behaviors.dll

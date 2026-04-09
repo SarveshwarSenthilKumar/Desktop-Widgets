@@ -1,7 +1,7 @@
 ﻿CalendarWidget
 
 
-library
+winexe
 C#
 .cs
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\
@@ -9,10 +9,10 @@ CalendarWidget
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\App.xaml
 1-87397824
 
-4-183671320
+5-1259359649
 199892321775
 CalendarWindow.xaml;
 

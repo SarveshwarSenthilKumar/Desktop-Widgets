@@ -361,9 +361,8 @@ namespace CalendarWidget
         {
             get
             {
-                if (IsToday && Application.Current?.Resources["TodayDayStyle"] is Style todayStyle)
-                    return todayStyle;
-                return Application.Current?.Resources["DayNumberStyle"] as Style;
+                // Return null - styling will be handled in XAML
+                return null;
             }
         }
 
@@ -371,9 +370,8 @@ namespace CalendarWidget
         {
             get
             {
-                if (IsWeekend && Application.Current?.Resources["WeekendDayStyle"] is Style weekendStyle)
-                    return weekendStyle;
-                return Application.Current?.Resources["DayNumberStyle"] as Style;
+                // Return null - styling will be handled in XAML
+                return null;
             }
         }
 
@@ -382,6 +380,47 @@ namespace CalendarWidget
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        // Additional event handlers for menu items
+        private void DigitalClock_Click(object sender, RoutedEventArgs e)
+        {
+            // Placeholder for digital clock functionality
+        }
+
+        private void AnalogClock_Click(object sender, RoutedEventArgs e)
+        {
+            // Placeholder for analog clock functionality
+        }
+
+        private void CardinalMarkers_Click(object sender, RoutedEventArgs e)
+        {
+            // Placeholder for cardinal markers functionality
+        }
+
+        private void FullMarkers_Click(object sender, RoutedEventArgs e)
+        {
+            // Placeholder for full markers functionality
+        }
+
+        private void Format12Hour_Click(object sender, RoutedEventArgs e)
+        {
+            // Placeholder for 12-hour format functionality
+        }
+
+        private void Format24Hour_Click(object sender, RoutedEventArgs e)
+        {
+            // Placeholder for 24-hour format functionality
+        }
+
+        private void ShowDate_Click(object sender, RoutedEventArgs e)
+        {
+            // Placeholder for show date functionality
+        }
+
+        private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Placeholder for settings functionality
         }
     }
 }

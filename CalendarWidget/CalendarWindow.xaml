@@ -150,8 +150,7 @@
     </Window.Resources>
     
     <!-- Enhanced Glassmorphism Container -->
-    <Border CornerRadius="24" 
-            BorderThickness="1">
+    <Border CornerRadius="24" BorderThickness="1">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#0D000000" Offset="0"/>
@@ -229,40 +228,18 @@
                         </Setter>
                     </Style>
                 </ContextMenu.Resources>
+                
+                <!-- Size Menu -->
                 <MenuItem Header="Size">
                     <MenuItem.Icon>
-                        <Path Style="{StaticResource IconPath}" Data="M3 3h18v18H3V3zm16 16V5H5v14h14zM11 7h2v2h-2V7zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2z"/>
+                        <Path Style="{StaticResource IconPath}" Data="M3 3h18v18H3zm16 16V5H5v14h14zM11 7h2v2h-2V7zm0 4h2v2h-2v-2zm0 4h2v2h-2z"/>
                     </MenuItem.Icon>
-                    <MenuItem Header="Small (200x250)" Click="SizeSmall_Click">
-                        <MenuItem.Icon>
-                            <Path Style="{StaticResource IconPath}" Data="M4 4h16v16H4V4zm14 14V6H6v12h12zM8 8h8v2H8V8zm0 4h8v2H8v-2z"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Medium (280x320)" Click="SizeMedium_Click">
-                        <MenuItem.Icon>
-                            <Path Style="{StaticResource IconPath}" Data="M4 4h16v16H4V4zm14 14V6H6v12h12zM8 8h8v4H8V8zm0 6h8v4H8v-4z"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Large (400x450)" Click="SizeLarge_Click">
-                        <MenuItem.Icon>
-                            <Path Style="{StaticResource IconPath}" Data="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h10v2H7v-2z"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
+                    <MenuItem Header="Small (200x250)" Click="SizeSmall_Click"/>
+                    <MenuItem Header="Medium (280x320)" Click="SizeMedium_Click"/>
+                    <MenuItem Header="Large (400x450)" Click="SizeLarge_Click"/>
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="Today Highlight">
-                    <MenuItem.Icon>
-                        <Path Style="{StaticResource IconPath}" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
-                    </MenuItem.Icon>
-                    <MenuItem Header="Highlight Today" IsCheckable="True" IsChecked="{Binding HighlightToday}" Click="HighlightToday_Click"/>
-                    <MenuItem Header="Show Week Numbers" IsCheckable="True" IsChecked="{Binding ShowWeekNumbers}" Click="ShowWeekNumbers_Click"/>
-                </MenuItem>
-                <Separator/>
-                <MenuItem Header="Close" Click="CloseMenuItem_Click">
-                    <MenuItem.Icon>
-                        <Path Style="{StaticResource IconPath}" Data="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                <MenuItem Header="Close" Click="CloseMenuItem_Click"/>
             </ContextMenu>
         </Border.ContextMenu>
         <Border.Effect>
@@ -305,17 +282,6 @@
                         <GradientStop Color="#15FFFFFF" Offset="1"/>
                     </LinearGradientBrush>
                 </Border.Background>
-            </Border>
-            
-            <!-- Top Highlight Layer -->
-            <Border CornerRadius="20" Margin="2" Height="20" VerticalAlignment="Top">
-                <Border.Background>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Color="#40FFFFFF" Offset="0"/>
-                        <GradientStop Color="#20FFFFFF" Offset="0.5"/>
-                        <GradientStop Color="#00FFFFFF" Offset="1"/>
-                    </LinearGradientBrush>
-                </Border.Background>
                 <Border.OpacityMask>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
                         <GradientStop Color="#FFFFFF" Offset="0"/>
@@ -330,7 +296,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
@@ -426,7 +391,7 @@
                     </Grid.RowDefinitions>
                     
                     <!-- Week Day Headers -->
-                    <Grid Grid.Row="0" Margin="0,0,0,5">
+                    <Grid Grid.Row="0" Margin="0,0,0,8">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -437,13 +402,13 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         
-                        <TextBlock Grid.Column="0" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC"/>
-                        <TextBlock Grid.Column="1" Text="M" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Grid.Column="2" Text="T" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Grid.Column="3" Text="W" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Grid.Column="4" Text="T" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Grid.Column="5" Text="F" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#FFFFFF"/>
-                        <TextBlock Grid.Column="6" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC"/>
+                        <TextBlock Grid.Column="0" Text="SUN" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC" FontSize="12"/>
+                        <TextBlock Grid.Column="1" Text="MON" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="2" Text="TUE" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="3" Text="WED" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="4" Text="THU" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="5" Text="FRI" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="6" Text="SAT" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC" FontSize="12"/>
                     </Grid>
                     
                     <!-- Calendar Days Grid -->
@@ -455,11 +420,14 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Style="{Binding DayStyle}"
+                                <Border x:Name="DayBorder"
                                        Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                       Margin="1">
-                                    <TextBlock Text="{Binding DayNumber}" 
-                                             Style="{Binding TextStyle}"
+                                       Margin="1"
+                                       CornerRadius="18"
+                                       BorderThickness="2"
+                                       BorderBrush="#00D4FF"
+                                       Background="Transparent">
+                                    <TextBlock x:Name="DayText" Text="{Binding DayNumber}" 
                                              FontFamily="Segoe UI Semibold"
                                              FontWeight="SemiBold"
                                              FontSize="16"
@@ -468,6 +436,33 @@
                                              VerticalAlignment="Center"
                                              Effect="{StaticResource DayNumberShadowEffect}"/>
                                 </Border>
+                                <DataTemplate.Triggers>
+                                    <!-- Today trigger -->
+                                    <DataTrigger Binding="{Binding IsToday}" Value="True">
+                                        <Setter TargetName="DayBorder" Property="Background">
+                                            <Setter.Value>
+                                                <RadialGradientBrush>
+                                                    <GradientStop Color="#4000D4FF" Offset="0"/>
+                                                    <GradientStop Color="#2500D4FF" Offset="0.7"/>
+                                                    <GradientStop Color="#1500D4FF" Offset="1"/>
+                                                </RadialGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter TargetName="DayBorder" Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect Color="#00D4FF" 
+                                                                  BlurRadius="10" 
+                                                                  ShadowDepth="0" 
+                                                                  Opacity="0.8"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                    <!-- Weekend trigger -->
+                                    <DataTrigger Binding="{Binding IsWeekend}" Value="True">
+                                        <Setter TargetName="DayBorder" Property="BorderBrush" Value="#7DD3FC"/>
+                                        <Setter Property="Foreground" Value="#7DD3FC" TargetName="DayText"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -528,7 +523,7 @@
                                     Background="#05000000"
                                     BorderBrush="#1500D4FF"
                                     BorderThickness="0.5"
-                                    Margin="1,0"
+                                    Margin="1,0,2,0"
                                     Padding="4,2">
                                 <StackPanel>
                                     <TextBlock Text="{Binding DayOfYear}"
