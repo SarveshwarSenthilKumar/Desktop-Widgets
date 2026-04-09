@@ -130,7 +130,7 @@
             <Setter Property="FontWeight" Value="Light"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="#88FFFFFF"/>
             <Setter Property="Effect">
                 <Setter.Value>
@@ -513,7 +513,7 @@
                                              Style="{StaticResource SmallInfoStyle}"/>
                                     <TextBlock Text="Week"
                                              Style="{StaticResource SmallInfoStyle}"
-                                             FontSize="10"/>
+                                             FontSize="12"/>
                                 </StackPanel>
                             </Border>
                             
@@ -530,7 +530,7 @@
                                              Style="{StaticResource SmallInfoStyle}"/>
                                     <TextBlock Text="Day"
                                              Style="{StaticResource SmallInfoStyle}"
-                                             FontSize="10"/>
+                                             FontSize="12"/>
                                 </StackPanel>
                             </Border>
                             
@@ -547,7 +547,7 @@
                                              Style="{StaticResource SmallInfoStyle}"/>
                                     <TextBlock Text="Left"
                                              Style="{StaticResource SmallInfoStyle}"
-                                             FontSize="10"/>
+                                             FontSize="12"/>
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -578,7 +578,7 @@
                                      Margin="0,0,4,0"/>
                             <TextBlock Text="{Binding MoonPhase}"
                                      Style="{StaticResource SmallInfoStyle}"
-                                     FontSize="11"/>
+                                     FontSize="13"/>
                         </StackPanel>
                         
                         <!-- Season -->
@@ -591,7 +591,7 @@
                                      Margin="0,0,4,0"/>
                             <TextBlock Text="{Binding Season}"
                                      Style="{StaticResource SmallInfoStyle}"
-                                     FontSize="11"/>
+                                     FontSize="13"/>
                         </StackPanel>
                     </Grid>
                 </Border>
