@@ -436,34 +436,18 @@
                     <ItemsControl Grid.Row="1" ItemsSource="{Binding CalendarDays}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                </Grid>
+                                <UniformGrid Columns="7" Rows="6"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Grid.Row="{Binding WeekRow}" 
-                                       Grid.Column="{Binding WeekCol}"
-                                       Style="{Binding DayStyle}"
-                                       Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <TextBlock Text="{Binding DayNumber}" Style="{Binding TextStyle}"/>
+                                <Border Style="{Binding DayStyle}"
+                                       Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                       Margin="1">
+                                    <TextBlock Text="{Binding DayNumber}" 
+                                             Style="{Binding TextStyle}"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center"/>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

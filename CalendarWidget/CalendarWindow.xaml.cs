@@ -153,14 +153,12 @@ namespace CalendarWidget
             
             var days = new ObservableCollection<CalendarDay>();
             
-            // Add empty cells for days before month starts
+            // Add empty cells for days before month starts (to align first day correctly)
             for (int i = 0; i < (int)firstDayOfMonth.DayOfWeek; i++)
             {
                 days.Add(new CalendarDay
                 {
                     DayNumber = "",
-                    WeekRow = 0,
-                    WeekCol = i,
                     IsVisible = false
                 });
             }
@@ -169,20 +167,27 @@ namespace CalendarWidget
             for (int day = 1; day <= lastDayOfMonth.Day; day++)
             {
                 var currentDate = new DateTime(_currentDisplayMonth.Year, _currentDisplayMonth.Month, day);
-                var weekRow = ((int)firstDayOfMonth.DayOfWeek + day - 1) / 7 + 1;
-                var weekCol = ((int)firstDayOfMonth.DayOfWeek + day - 1) % 7;
-                
                 var isToday = currentDate.Date == today.Date;
                 var isWeekend = currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday;
                 
                 days.Add(new CalendarDay
                 {
                     DayNumber = day.ToString(),
-                    WeekRow = weekRow,
-                    WeekCol = weekCol,
                     IsVisible = true,
                     IsToday = isToday,
                     IsWeekend = isWeekend
+                });
+            }
+            
+            // Add empty cells to fill the grid (42 cells total = 6 rows × 7 columns)
+            var totalCells = days.Count;
+            var cellsNeeded = 42 - totalCells;
+            for (int i = 0; i < cellsNeeded; i++)
+            {
+                days.Add(new CalendarDay
+                {
+                    DayNumber = "",
+                    IsVisible = false
                 });
             }
             
@@ -322,9 +327,6 @@ namespace CalendarWidget
             }
         }
 
-        public int WeekRow { get; set; }
-        public int WeekCol { get; set; }
-
         public bool IsVisible
         {
             get => _isVisible;
@@ -361,7 +363,7 @@ namespace CalendarWidget
             {
                 if (IsToday && Application.Current?.Resources["TodayDayStyle"] is Style todayStyle)
                     return todayStyle;
-                return Application.Current?.Resources["DayNumberStyle"] as Style;
+                return null;
             }
         }
 
