@@ -68,5 +68,6 @@ C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\Wi
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\tr\Microsoft.Win32.TaskScheduler.resources.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\zh-CN\Microsoft.Win32.TaskScheduler.resources.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\zh-Hant\Microsoft.Win32.TaskScheduler.resources.dll
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\obj\Debug\net8.0-windows\Views\CalendarWindow.baml
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\obj\Debug\net8.0-windows\Views\CalendarWindow.g.cs
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.dll
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.pdb

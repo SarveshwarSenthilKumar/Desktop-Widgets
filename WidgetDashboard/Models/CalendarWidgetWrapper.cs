@@ -1,42 +1,59 @@
 using System;
+using System.ComponentModel;
 using System.Windows;
-using WidgetDashboard.Views;
+using CalendarWidget;
 
 namespace WidgetDashboard.Models
 {
-    public class CalendarWidgetWrapper : WidgetBase
+    public class CalendarWidgetWrapper : IWidget, INotifyPropertyChanged
     {
-        private static int _instanceCount = 0;
-        private readonly int _instanceId;
-        private readonly string _uniqueId;
+        private readonly CalendarWidget.CalendarWidgetWrapper _calendarWidget;
 
-        public override string Name => $"Calendar Widget {_instanceId}";
-        public override string Description => "A modern calendar widget with current date and month view";
+        public string Name => _calendarWidget.Name;
+        public string Description => _calendarWidget.Description;
+        public bool IsRunning => _calendarWidget.IsRunning;
+        public Window? WidgetWindow => _calendarWidget.WidgetWindow;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public CalendarWidgetWrapper()
         {
-            _instanceCount++;
-            _instanceId = _instanceCount;
-            _uniqueId = Guid.NewGuid().ToString("N")[..8]; // Short unique ID
+            _calendarWidget = new CalendarWidget.CalendarWidgetWrapper();
         }
 
-        protected override Window CreateWidgetWindow()
+        public void Start()
         {
-            var calendarWindow = new CalendarWindow();
-            calendarWindow.Title = $"Calendar Widget {_instanceId}-{_uniqueId}";
-            return calendarWindow;
+            _calendarWidget.Start();
         }
 
-        public override void SetSize(double width, double height)
+        public void Stop()
         {
-            base.SetSize(width, height);
-            
-            // Trigger size change logic in calendar widget
-            if (_widgetWindow is CalendarWindow calendarWindow)
-            {
-                calendarWindow.Width = width;
-                calendarWindow.Height = height;
-            }
+            _calendarWidget.Stop();
+        }
+
+        public void Show()
+        {
+            _calendarWidget.Show();
+        }
+
+        public void Hide()
+        {
+            _calendarWidget.Hide();
+        }
+
+        public void SetPosition(double x, double y)
+        {
+            _calendarWidget.SetPosition(x, y);
+        }
+
+        public void SetSize(double width, double height)
+        {
+            _calendarWidget.SetSize(width, height);
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

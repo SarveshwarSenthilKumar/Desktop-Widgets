@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using CalendarWidget;
 
 namespace WidgetDashboard.Models
 {
@@ -36,7 +37,7 @@ namespace WidgetDashboard.Models
         private void RegisterWidgetTypes()
         {
             RegisterWidget<ClockWidgetWrapper>();
-            RegisterWidget<CalendarWidgetWrapper>();
+            RegisterWidget<Models.CalendarWidgetWrapper>();
         }
 
         public void RegisterWidget<T>() where T : IWidget, new()

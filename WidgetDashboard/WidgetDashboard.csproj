@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FuturisticClockWidget\FuturisticClockWidget.csproj" />
+    <ProjectReference Include="..\CalendarWidget\CalendarWidget.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace WidgetDashboard.Views
+namespace CalendarWidget
 {
     public partial class CalendarWindow : Window, INotifyPropertyChanged
     {

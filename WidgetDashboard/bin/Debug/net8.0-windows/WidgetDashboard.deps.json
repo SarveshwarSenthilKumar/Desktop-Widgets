@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "WidgetDashboard/1.0.0": {
         "dependencies": {
+          "CalendarWidget": "1.0.0",
           "CommunityToolkit.Mvvm": "8.2.2",
           "FuturisticClockWidget": "1.0.0",
           "Microsoft.Extensions.DependencyInjection": "8.0.0",
@@ -394,6 +395,14 @@
           "System.Security.Principal.Windows": "5.0.0"
         }
       },
+      "Microsoft.Xaml.Behaviors.Wpf/1.1.77": {
+        "runtime": {
+          "lib/net6.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.77.27830"
+          }
+        }
+      },
       "System.Diagnostics.DiagnosticSource/8.0.0": {},
       "System.Diagnostics.EventLog/8.0.0": {},
       "System.Security.AccessControl/6.0.1": {},
@@ -449,6 +458,17 @@
           },
           "lib/net8.0-windows7.0/zh-Hant/Microsoft.Win32.TaskScheduler.resources.dll": {
             "locale": "zh-Hant"
+          }
+        }
+      },
+      "CalendarWidget/1.0.0": {
+        "dependencies": {
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.77"
+        },
+        "runtime": {
+          "CalendarWidget.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -677,6 +697,13 @@
       "path": "microsoft.win32.registry/5.0.0",
       "hashPath": "microsoft.win32.registry.5.0.0.nupkg.sha512"
     },
+    "Microsoft.Xaml.Behaviors.Wpf/1.1.77": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MCu674ZETgU18EbxfwIlRpUPJ02YbZenLsMCXTkpeA7KUBpXfFaOUDlEO+7UWu5AFnUoydg+aQENJkuaZPheMQ==",
+      "path": "microsoft.xaml.behaviors.wpf/1.1.77",
+      "hashPath": "microsoft.xaml.behaviors.wpf.1.1.77.nupkg.sha512"
+    },
     "System.Diagnostics.DiagnosticSource/8.0.0": {
       "type": "package",
       "serviceable": true,
@@ -725,6 +752,11 @@
       "sha512": "sha512-p9wH58XSNIyUtO7PIFAEldaKUzpYmlj+YWAfnUqBKnGxIZRY51I9BrsBGJijUVwlxrgmLLPUigRIv2ZTD4uPJA==",
       "path": "taskscheduler/2.11.0",
       "hashPath": "taskscheduler.2.11.0.nupkg.sha512"
+    },
+    "CalendarWidget/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "FuturisticClockWidget/1.0.0": {
       "type": "project",
