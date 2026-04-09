@@ -166,31 +166,67 @@
             </LinearGradientBrush>
         </Border.BorderBrush>
         <Border.ContextMenu>
-            <ContextMenu Background="#0F000000" Foreground="#00D4FF">
+            <ContextMenu Background="#0A000000" Foreground="#00D4FF">
                 <ContextMenu.Resources>
+                    <!-- Enhanced MenuItem Style -->
                     <Style TargetType="MenuItem">
                         <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="Foreground" Value="#00D4FF"/>
-                        <Setter Property="FontFamily" Value="Segoe UI Light"/>
+                        <Setter Property="Foreground" Value="#FFFFFF"/>
+                        <Setter Property="FontFamily" Value="Segoe UI"/>
+                        <Setter Property="FontSize" Value="13"/>
+                        <Setter Property="FontWeight" Value="Light"/>
+                        <Setter Property="Padding" Value="12,8"/>
+                        <Setter Property="Margin" Value="2,1"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="MenuItem">
-                                    <Border x:Name="Border" Background="Transparent" BorderThickness="0">
+                                    <Border x:Name="Border" 
+                                            Background="Transparent" 
+                                            BorderThickness="1" 
+                                            BorderBrush="Transparent"
+                                            CornerRadius="6"
+                                            Margin="2,1">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <ContentPresenter Grid.Column="0" Margin="8,0,8,0" VerticalAlignment="Center" ContentSource="Icon"/>
-                                            <ContentPresenter Grid.Column="1" Margin="8,3,8,3" VerticalAlignment="Center" ContentSource="Header"/>
-                                            <Popup Grid.Column="1" x:Name="SubMenuPopup" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Right" PopupAnimation="Slide">
-                                                <Border Background="#0F000000" BorderBrush="#3000D4FF" BorderThickness="1">
+                                            <ContentPresenter Grid.Column="0" 
+                                                            Margin="10,0,8,0" 
+                                                            VerticalAlignment="Center" 
+                                                            ContentSource="Icon"/>
+                                            <ContentPresenter Grid.Column="1" 
+                                                            Margin="6,4,6,4" 
+                                                            VerticalAlignment="Center" 
+                                                            ContentSource="Header"/>
+                                            <TextBlock Grid.Column="2" 
+                                                       x:Name="ShortcutText" 
+                                                       Text="{TemplateBinding InputGestureText}" 
+                                                       Margin="8,0,10,0" 
+                                                       VerticalAlignment="Center" 
+                                                       FontSize="11" 
+                                                       Foreground="#88FFFFFF"/>
+                                            <Popup Grid.Column="1" 
+                                                   x:Name="SubMenuPopup" 
+                                                   IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" 
+                                                   Placement="Right" 
+                                                   PopupAnimation="Slide">
+                                                <Border Background="#0A000000" 
+                                                        BorderBrush="#4000D4FF" 
+                                                        BorderThickness="1" 
+                                                        CornerRadius="8"
+                                                        Margin="2">
+                                                    <Border.Effect>
+                                                        <DropShadowEffect Color="#000000" BlurRadius="8" ShadowDepth="2" Opacity="0.6"/>
+                                                    </Border.Effect>
                                                     <Border.Resources>
                                                         <Style TargetType="MenuItem">
                                                             <Setter Property="Background" Value="Transparent"/>
-                                                            <Setter Property="Foreground" Value="#00D4FF"/>
-                                                            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+                                                            <Setter Property="Foreground" Value="#FFFFFF"/>
+                                                            <Setter Property="FontFamily" Value="Segoe UI"/>
+                                                            <Setter Property="FontSize" Value="12"/>
+                                                            <Setter Property="Padding" Value="10,6"/>
                                                         </Style>
                                                     </Border.Resources>
                                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
@@ -200,29 +236,61 @@
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsHighlighted" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="#2000D4FF"/>
+                                            <Setter TargetName="Border" Property="Background">
+                                                <Setter.Value>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="#3000D4FF" Offset="0"/>
+                                                        <GradientStop Color="#2000D4FF" Offset="1"/>
+                                                    </LinearGradientBrush>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter TargetName="Border" Property="BorderBrush" Value="#00D4FF"/>
+                                            <Setter TargetName="ShortcutText" Property="Foreground" Value="#FFFFFF"/>
                                         </Trigger>
                                         <Trigger Property="IsSubmenuOpen" Value="True">
-                                            <Setter TargetName="Border" Property="Background" Value="#2000D4FF"/>
+                                            <Setter TargetName="Border" Property="Background">
+                                                <Setter.Value>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Color="#3000D4FF" Offset="0"/>
+                                                    <GradientStop Color="#2000D4FF" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                            <Setter TargetName="Border" Property="BorderBrush" Value="#00D4FF"/>
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
                     </Style>
+                    
+                    <!-- Enhanced Icon Style -->
                     <Style TargetType="Path" x:Key="IconPath">
                         <Setter Property="Fill" Value="#00D4FF"/>
                         <Setter Property="Stretch" Value="Uniform"/>
-                        <Setter Property="Width" Value="12"/>
-                        <Setter Property="Height" Value="12"/>
+                        <Setter Property="Width" Value="14"/>
+                        <Setter Property="Height" Value="14"/>
                         <Setter Property="Margin" Value="0"/>
                     </Style>
+                    
+                    <Style TargetType="Path" x:Key="IconPathAccent">
+                        <Setter Property="Fill" Value="#7DD3FC"/>
+                        <Setter Property="Stretch" Value="Uniform"/>
+                        <Setter Property="Width" Value="14"/>
+                        <Setter Property="Height" Value="14"/>
+                        <Setter Property="Margin" Value="0"/>
+                    </Style>
+                    
+                    <!-- Enhanced Separator Style -->
                     <Style TargetType="Separator">
-                        <Setter Property="Background" Value="#3000D4FF"/>
+                        <Setter Property="Background" Value="#4000D4FF"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Separator">
-                                    <Rectangle Height="1" Fill="#3000D4FF" Margin="25,2,25,2"/>
+                                    <Rectangle Height="1" 
+                                               Fill="#4000D4FF" 
+                                               Margin="20,4,20,4" 
+                                               Opacity="0.6"/>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -230,16 +298,72 @@
                 </ContextMenu.Resources>
                 
                 <!-- Size Menu -->
-                <MenuItem Header="Size">
+                <MenuItem Header="Size" InputGestureText="">
                     <MenuItem.Icon>
-                        <Path Style="{StaticResource IconPath}" Data="M3 3h18v18H3zm16 16V5H5v14h14zM11 7h2v2h-2V7zm0 4h2v2h-2v-2zm0 4h2v2h-2z"/>
+                        <Path Style="{StaticResource IconPath}" Data="M4 4h16v16H4zm14 14V6H6v12h12zM11 7h2v2h-2V7zm0 4h2v2h-2v-2zm0 4h2v2h-2z"/>
                     </MenuItem.Icon>
-                    <MenuItem Header="Small (200x250)" Click="SizeSmall_Click"/>
-                    <MenuItem Header="Medium (280x320)" Click="SizeMedium_Click"/>
-                    <MenuItem Header="Large (400x450)" Click="SizeLarge_Click"/>
+                    <MenuItem Header="🟉 Small" 
+                              InputGestureText="Ctrl+1" 
+                              Click="SizeSmall_Click"/>
+                    <MenuItem Header="🟉 Medium" 
+                              InputGestureText="Ctrl+2" 
+                              Click="SizeMedium_Click"/>
+                    <MenuItem Header="🟉 Large" 
+                              InputGestureText="Ctrl+3" 
+                              Click="SizeLarge_Click"/>
                 </MenuItem>
+                
+                <!-- Display Options -->
+                <MenuItem Header="Display" InputGestureText="">
+                    <MenuItem.Icon>
+                        <Path Style="{StaticResource IconPathAccent}" Data="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </MenuItem.Icon>
+                    <MenuItem Header="✨ Highlight Today" 
+                              IsCheckable="True" 
+                              IsChecked="{Binding HighlightToday}" 
+                              Click="HighlightToday_Click"/>
+                    <MenuItem Header="📊 Show Week Numbers" 
+                              IsCheckable="True" 
+                              IsChecked="{Binding ShowWeekNumbers}" 
+                              Click="ShowWeekNumbers_Click"/>
+                </MenuItem>
+                
+                <!-- Navigation -->
+                <MenuItem Header="Navigation" InputGestureText="">
+                    <MenuItem.Icon>
+                        <Path Style="{StaticResource IconPath}" Data="M8 5v14l11-7z"/>
+                    </MenuItem.Icon>
+                    <MenuItem Header="◀ Previous Month" 
+                              InputGestureText="Left" 
+                              Click="PreviousMonth_Click"/>
+                    <MenuItem Header="▶ Next Month" 
+                              InputGestureText="Right" 
+                              Click="NextMonth_Click"/>
+                    <MenuItem Header="🏠 Today" 
+                              InputGestureText="Home" 
+                              Click="Today_Click"/>
+                </MenuItem>
+                
                 <Separator/>
-                <MenuItem Header="Close" Click="CloseMenuItem_Click"/>
+                
+                <!-- Actions -->
+                <MenuItem Header="🔄 Refresh" 
+                          InputGestureText="F5" 
+                          Click="RefreshCalendar_Click"/>
+                <MenuItem Header="📋 Copy Date" 
+                          InputGestureText="Ctrl+C" 
+                          Click="CopyDate_Click"/>
+                
+                <Separator/>
+                
+                <!-- Close -->
+                <MenuItem Header="✖ Close" 
+                          InputGestureText="Alt+F4" 
+                          Click="CloseMenuItem_Click">
+                    <MenuItem.Icon>
+                        <Path Style="{StaticResource IconPath}" Data="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </ContextMenu>
         </Border.ContextMenu>
         <Border.Effect>

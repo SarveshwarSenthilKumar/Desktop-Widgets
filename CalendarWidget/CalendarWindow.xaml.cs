@@ -270,6 +270,30 @@ namespace CalendarWidget
             RefreshCalendar();
         }
         
+        private void Today_Click(object sender, RoutedEventArgs e)
+        {
+            _currentDisplayMonth = DateTime.Now;
+            RefreshCalendar();
+        }
+        
+        private void RefreshCalendar_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshCalendar();
+        }
+        
+        private void CopyDate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var currentDate = DateTime.Now.ToString("dddd, MMMM dd, yyyy");
+                Clipboard.SetText(currentDate);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error copying date: {ex.Message}");
+            }
+        }
+        
         private string CalculateMoonPhase(DateTime date)
         {
             // Simple moon phase calculation (approximate)
