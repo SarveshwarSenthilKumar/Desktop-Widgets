@@ -36,6 +36,7 @@ namespace WidgetDashboard.Models
         private void RegisterWidgetTypes()
         {
             RegisterWidget<ClockWidgetWrapper>();
+            RegisterWidget<CalendarWidgetWrapper>();
         }
 
         public void RegisterWidget<T>() where T : IWidget, new()

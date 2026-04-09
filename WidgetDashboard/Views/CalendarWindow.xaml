@@ -1,0 +1,364 @@
+<Window x:Class="WidgetDashboard.Views.CalendarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Calendar Widget" 
+        Height="320" Width="280"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterScreen"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseRightButtonDown="Window_MouseRightButtonDown"
+        SizeChanged="Window_SizeChanged">
+    
+    <Window.Resources>
+        <!-- Boolean to Visibility Converter -->
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        
+        <!-- Calendar Header Style -->
+        <Style x:Key="CalendarHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="#00D4FF"/>
+            <Setter Property="Margin" Value="0,5"/>
+        </Style>
+        
+        <!-- Day Number Style -->
+        <Style x:Key="DayNumberStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+        
+        <!-- Today Day Style -->
+        <Style x:Key="TodayDayStyle" TargetType="Border">
+            <Setter Property="Background" Value="#2000D4FF"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="BorderBrush" Value="#00D4FF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="1"/>
+        </Style>
+        
+        <!-- Weekend Day Style -->
+        <Style x:Key="WeekendDayStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Foreground" Value="#FF6B6B"/>
+        </Style>
+        
+        <!-- Liquid Animation -->
+        <Storyboard x:Key="LiquidAnimation" RepeatBehavior="Forever">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                           From="0.7" To="0.95" Duration="0:0:3"
+                           AutoReverse="true">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Window.Resources>
+    
+    <!-- Enhanced Glassmorphism Container -->
+    <Border CornerRadius="24" 
+            BorderThickness="1">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#0D000000" Offset="0"/>
+                <GradientStop Color="#15000000" Offset="0.5"/>
+                <GradientStop Color="#0A000000" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+        <Border.BorderBrush>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#30FFFFFF" Offset="0"/>
+                <GradientStop Color="#15FFFFFF" Offset="0.5"/>
+                <GradientStop Color="#25FFFFFF" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.BorderBrush>
+        <Border.ContextMenu>
+            <ContextMenu Background="#0F000000" Foreground="#00D4FF">
+                <ContextMenu.Resources>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Foreground" Value="#00D4FF"/>
+                        <Setter Property="FontFamily" Value="Segoe UI Light"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="MenuItem">
+                                    <Border x:Name="Border" Background="Transparent" BorderThickness="0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ContentPresenter Grid.Column="0" Margin="8,0,8,0" VerticalAlignment="Center" ContentSource="Icon"/>
+                                            <ContentPresenter Grid.Column="1" Margin="8,3,8,3" VerticalAlignment="Center" ContentSource="Header"/>
+                                            <Popup Grid.Column="1" x:Name="SubMenuPopup" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Right" PopupAnimation="Slide">
+                                                <Border Background="#0F000000" BorderBrush="#3000D4FF" BorderThickness="1">
+                                                    <Border.Resources>
+                                                        <Style TargetType="MenuItem">
+                                                            <Setter Property="Background" Value="Transparent"/>
+                                                            <Setter Property="Foreground" Value="#00D4FF"/>
+                                                            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+                                                        </Style>
+                                                    </Border.Resources>
+                                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle"/>
+                                                </Border>
+                                            </Popup>
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="#2000D4FF"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSubmenuOpen" Value="True">
+                                            <Setter TargetName="Border" Property="Background" Value="#2000D4FF"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <Style TargetType="Path" x:Key="IconPath">
+                        <Setter Property="Fill" Value="#00D4FF"/>
+                        <Setter Property="Stretch" Value="Uniform"/>
+                        <Setter Property="Width" Value="12"/>
+                        <Setter Property="Height" Value="12"/>
+                        <Setter Property="Margin" Value="0"/>
+                    </Style>
+                    <Style TargetType="Separator">
+                        <Setter Property="Background" Value="#3000D4FF"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Separator">
+                                    <Rectangle Height="1" Fill="#3000D4FF" Margin="25,2,25,2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ContextMenu.Resources>
+                <MenuItem Header="Size">
+                    <MenuItem.Icon>
+                        <Path Style="{StaticResource IconPath}" Data="M3 3h18v18H3V3zm16 16V5H5v14h14zM11 7h2v2h-2V7zm0 4h2v2h-2v-2zm0 4h2v2h-2v-2z"/>
+                    </MenuItem.Icon>
+                    <MenuItem Header="Small (200x250)" Click="SizeSmall_Click">
+                        <MenuItem.Icon>
+                            <Path Style="{StaticResource IconPath}" Data="M4 4h16v16H4V4zm14 14V6H6v12h12zM8 8h8v2H8V8zm0 4h8v2H8v-2z"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Medium (280x320)" Click="SizeMedium_Click">
+                        <MenuItem.Icon>
+                            <Path Style="{StaticResource IconPath}" Data="M4 4h16v16H4V4zm14 14V6H6v12h12zM8 8h8v4H8V8zm0 6h8v4H8v-4z"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Large (400x450)" Click="SizeLarge_Click">
+                        <MenuItem.Icon>
+                            <Path Style="{StaticResource IconPath}" Data="M3 3h18v18H3V3zm16 16V5H5v14h14zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h10v2H7v-2z"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Today Highlight">
+                    <MenuItem.Icon>
+                        <Path Style="{StaticResource IconPath}" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                    </MenuItem.Icon>
+                    <MenuItem Header="Highlight Today" IsCheckable="True" IsChecked="{Binding HighlightToday}" Click="HighlightToday_Click"/>
+                    <MenuItem Header="Show Week Numbers" IsCheckable="True" IsChecked="{Binding ShowWeekNumbers}" Click="ShowWeekNumbers_Click"/>
+                </MenuItem>
+                <Separator/>
+                <MenuItem Header="Close" Click="CloseMenuItem_Click">
+                    <MenuItem.Icon>
+                        <Path Style="{StaticResource IconPath}" Data="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+        </Border.ContextMenu>
+        <Border.Effect>
+            <DropShadowEffect Color="#00D4FF" 
+                            BlurRadius="25" 
+                            ShadowDepth="0" 
+                            Opacity="0.4"/>
+        </Border.Effect>
+        
+        <!-- Enhanced Glass Layers -->
+        <Grid>
+            <!-- Background Blur Layer -->
+            <Border CornerRadius="22" Margin="1">
+                <Border.Background>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#0F111111" Offset="0"/>
+                        <GradientStop Color="#0A222222" Offset="0.7"/>
+                        <GradientStop Color="#05333333" Offset="1"/>
+                    </RadialGradientBrush>
+                </Border.Background>
+                <Border.Effect>
+                    <BlurEffect Radius="8" KernelType="Gaussian"/>
+                </Border.Effect>
+                <Border.OpacityMask>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FFFFFF" Offset="0"/>
+                        <GradientStop Color="#CCFFFFFF" Offset="0.8"/>
+                        <GradientStop Color="#AAFFFFFF" Offset="1"/>
+                    </RadialGradientBrush>
+                </Border.OpacityMask>
+            </Border>
+            
+            <!-- Glass Reflection Layer -->
+            <Border CornerRadius="20" Margin="2">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#25FFFFFF" Offset="0"/>
+                        <GradientStop Color="#10FFFFFF" Offset="0.3"/>
+                        <GradientStop Color="#08FFFFFF" Offset="0.7"/>
+                        <GradientStop Color="#15FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            
+            <!-- Top Highlight Layer -->
+            <Border CornerRadius="20" Margin="2" Height="20" VerticalAlignment="Top">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#40FFFFFF" Offset="0"/>
+                        <GradientStop Color="#20FFFFFF" Offset="0.5"/>
+                        <GradientStop Color="#00FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#FFFFFF" Offset="0"/>
+                        <GradientStop Color="#FFFFFF" Offset="0.5"/>
+                        <GradientStop Color="#00FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.OpacityMask>
+            </Border>
+            
+            <!-- Content Layer -->
+            <Grid Margin="20,25">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!-- Calendar Header -->
+                <TextBlock Grid.Row="0"
+                         Text="{Binding CurrentMonthYear}"
+                         Style="{StaticResource CalendarHeaderStyle}">
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard Storyboard="{StaticResource LiquidAnimation}"/>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+                
+                <!-- Calendar Grid -->
+                <Grid Grid.Row="1" Margin="0,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Week Day Headers -->
+                    <Grid Grid.Row="0" Margin="0,0,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
+                        <TextBlock Grid.Column="1" Text="M" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
+                        <TextBlock Grid.Column="2" Text="T" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
+                        <TextBlock Grid.Column="3" Text="W" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
+                        <TextBlock Grid.Column="4" Text="T" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
+                        <TextBlock Grid.Column="5" Text="F" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#00D4FF"/>
+                        <TextBlock Grid.Column="6" Text="S" Style="{StaticResource DayNumberStyle}" FontWeight="SemiBold" Foreground="#FF6B6B"/>
+                    </Grid>
+                    
+                    <!-- Calendar Days Grid -->
+                    <ItemsControl Grid.Row="1" ItemsSource="{Binding CalendarDays}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Grid.Row="{Binding WeekRow}" 
+                                       Grid.Column="{Binding WeekCol}"
+                                       Style="{Binding DayStyle}"
+                                       Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock Text="{Binding DayNumber}" Style="{Binding TextStyle}"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+                
+                <!-- Current Date Info -->
+                <Border Grid.Row="2" 
+                        CornerRadius="10"
+                        Background="#0A000000"
+                        BorderBrush="#2000D4FF"
+                        BorderThickness="1"
+                        Margin="0,10,0,0"
+                        Padding="12,6">
+                    <StackPanel>
+                        <TextBlock Text="{Binding CurrentDate, StringFormat='{}{0:dddd, MMMM dd, yyyy}'}"
+                                 FontFamily="Segoe UI Semilight"
+                                 FontSize="14"
+                                 FontWeight="Light"
+                                 Foreground="#CCFFFFFF"
+                                 TextAlignment="Center"/>
+                        <TextBlock Text="{Binding WeekInfo}"
+                                 FontFamily="Segoe UI"
+                                 FontSize="11"
+                                 FontWeight="Normal"
+                                 Foreground="#88FFFFFF"
+                                 TextAlignment="Center"
+                                 Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

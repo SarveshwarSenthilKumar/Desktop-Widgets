@@ -168,9 +168,11 @@ namespace WidgetDashboard.Models
             try
             {
                 // Search for widget windows across all processes
-                var allWindows = WindowFinder.FindAllWindowsByTitle("Clock Widget");
+                var clockWindows = WindowFinder.FindAllWindowsByTitle("Clock Widget");
+                var calendarWindows = WindowFinder.FindAllWindowsByTitle("Calendar Widget");
                 
-                existingWindows.AddRange(allWindows);
+                existingWindows.AddRange(clockWindows);
+                existingWindows.AddRange(calendarWindows);
                 
                 // Remove duplicates
                 existingWindows = existingWindows.GroupBy(w => w.Handle).Select(g => g.First()).ToList();
