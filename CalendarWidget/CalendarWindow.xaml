@@ -45,8 +45,8 @@
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Margin" Value="1"/>
             <Setter Property="Foreground" Value="#FFFFFF"/>
             <Setter Property="Effect">
                 <Setter.Value>
@@ -402,13 +402,13 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         
-                        <TextBlock Grid.Column="0" Text="SUN" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC" FontSize="14"/>
-                        <TextBlock Grid.Column="1" Text="MON" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="14"/>
-                        <TextBlock Grid.Column="2" Text="TUE" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="14"/>
-                        <TextBlock Grid.Column="3" Text="WED" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="14"/>
-                        <TextBlock Grid.Column="4" Text="THU" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="14"/>
-                        <TextBlock Grid.Column="5" Text="FRI" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="14"/>
-                        <TextBlock Grid.Column="6" Text="SAT" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC" FontSize="14"/>
+                        <TextBlock Grid.Column="0" Text="SUN" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC" FontSize="12"/>
+                        <TextBlock Grid.Column="1" Text="MON" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="2" Text="TUE" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="3" Text="WED" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="4" Text="THU" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="5" Text="FRI" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="6" Text="SAT" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC" FontSize="12"/>
                     </Grid>
                     
                     <!-- Calendar Days Grid -->
@@ -422,15 +422,15 @@
                             <DataTemplate>
                                 <Border x:Name="DayBorder"
                                        Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                       Margin="1"
-                                       CornerRadius="18"
-                                       BorderThickness="2"
+                                       Margin="0.5"
+                                       CornerRadius="12"
+                                       BorderThickness="1.5"
                                        BorderBrush="#00D4FF"
                                        Background="Transparent">
                                     <TextBlock x:Name="DayText" Text="{Binding DayNumber}" 
                                              FontFamily="Segoe UI Semibold"
                                              FontWeight="SemiBold"
-                                             FontSize="20"
+                                             FontSize="16"
                                              Foreground="#FFFFFF"
                                              HorizontalAlignment="Center"
                                              VerticalAlignment="Center"

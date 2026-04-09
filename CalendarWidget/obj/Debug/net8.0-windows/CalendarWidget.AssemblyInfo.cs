@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CalendarWidget")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+806868353cab337757859f2990dfe3308bb3dd86")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dd5d5e5ae8341d86e79d35ebdf82887fa8b1805d")]
 [assembly: System.Reflection.AssemblyProductAttribute("CalendarWidget")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CalendarWidget")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
