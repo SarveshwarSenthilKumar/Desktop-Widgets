@@ -421,6 +421,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
                 <!-- Calendar Header with Navigation -->
@@ -737,13 +739,13 @@
                     </Grid>
                 </Border>
                 
-                <!-- Additional Calendar Info -->
+                <!-- Fiscal Quarter Info -->
                 <Border Grid.Row="3" 
                         CornerRadius="10"
                         Background="#08000000"
                         BorderBrush="#1500D4FF"
                         BorderThickness="0.5"
-                        Margin="0,0,0,5"
+                        Margin="0,0,0,3"
                         Padding="10,6">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -751,15 +753,15 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         
-                        <!-- Moon Phase -->
+                        <!-- Fiscal Quarter -->
                         <StackPanel Grid.Column="0" 
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Center">
-                            <TextBlock Text="🌙" 
+                            <TextBlock Text="📊" 
                                      FontSize="14" 
                                      VerticalAlignment="Center"
                                      Margin="0,0,4,0"/>
-                            <TextBlock Text="{Binding MoonPhase}"
+                            <TextBlock Text="{Binding FiscalQuarterInfo}"
                                      Style="{StaticResource SmallInfoStyle}"
                                      FontSize="13"/>
                         </StackPanel>
@@ -772,11 +774,28 @@
                                      FontSize="14" 
                                      VerticalAlignment="Center"
                                      Margin="0,0,4,0"/>
-                            <TextBlock Text="{Binding Season}"
+                            <TextBlock Text="{Binding SeasonInfo}"
                                      Style="{StaticResource SmallInfoStyle}"
                                      FontSize="13"/>
                         </StackPanel>
                     </Grid>
+                </Border>
+                
+                <!-- Enhanced Moon Phase Info -->
+                <Border Grid.Row="4" 
+                        CornerRadius="10"
+                        Background="#08000000"
+                        BorderBrush="#1500D4FF"
+                        BorderThickness="0.5"
+                        Margin="0,0,0,5"
+                        Padding="10,6">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding MoonPhaseInfo}"
+                                 Style="{StaticResource SmallInfoStyle}"
+                                 FontSize="13"
+                                 FontWeight="SemiBold"
+                                 Foreground="#E0E0E0"/>
+                    </StackPanel>
                 </Border>
             </Grid>
         </Grid>

@@ -104,6 +104,91 @@ namespace CalendarWidget
                 };
             }
         }
+        
+        public string FiscalQuarter
+        {
+            get
+            {
+                var today = DateTime.Now;
+                var month = today.Month;
+                
+                // Fiscal year typically starts in October (Q1) or January (Q1)
+                // Using standard fiscal year starting in January
+                var quarter = ((month - 1) / 3) + 1;
+                return $"Q{quarter}";
+            }
+        }
+        
+        public string FiscalQuarterInfo
+        {
+            get
+            {
+                var today = DateTime.Now;
+                var quarter = FiscalQuarter;
+                var year = today.Year;
+                
+                // Calculate days left in current fiscal quarter
+                var quarterStartMonth = ((today.Month - 1) / 3) * 3 + 1;
+                var quarterEndMonth = quarterStartMonth + 2;
+                var quarterEnd = new DateTime(today.Year, quarterEndMonth, DateTime.DaysInMonth(today.Year, quarterEndMonth));
+                var daysLeftInQuarter = (quarterEnd - today).Days + 1;
+                
+                return $"{quarter} ({daysLeftInQuarter}d left)";
+            }
+        }
+        
+        public string SeasonInfo
+        {
+            get
+            {
+                var today = DateTime.Now;
+                var season = GetSeason(today.Month);
+                var seasonStartMonth = season switch
+                {
+                    "Spring" => 3,
+                    "Summer" => 6,
+                    "Fall" => 9,
+                    "Winter" => 12,
+                    _ => 1
+                };
+                
+                // Calculate season end
+                var seasonEndMonth = seasonStartMonth + 2;
+                if (seasonEndMonth > 12) seasonEndMonth -= 12;
+                var seasonEndYear = seasonEndMonth < seasonStartMonth ? today.Year + 1 : today.Year;
+                var seasonEnd = new DateTime(seasonEndYear, seasonEndMonth, DateTime.DaysInMonth(seasonEndYear, seasonEndMonth));
+                var daysLeftInSeason = (seasonEnd - today).Days + 1;
+                
+                return $"{season} ({daysLeftInSeason}d left)";
+            }
+        }
+        
+        public string MoonPhaseInfo
+        {
+            get
+            {
+                var today = DateTime.Now;
+                var phase = CalculateMoonPhase(today);
+                var phaseEmoji = phase switch
+                {
+                    "New Moon" => "🌑",
+                    "Waxing Crescent" => "🌒",
+                    "First Quarter" => "🌓",
+                    "Waxing Gibbous" => "🌔",
+                    "Full Moon" => "🌕",
+                    "Waning Gibbous" => "🌖",
+                    "Last Quarter" => "🌗",
+                    "Waning Crescent" => "🌘",
+                    _ => "🌑"
+                };
+                
+                // Calculate days until next full moon
+                var daysUntilNextFullMoon = CalculateDaysUntilNextFullMoon(today);
+                var fullMoonInfo = daysUntilNextFullMoon <= 7 ? $" (Full in {daysUntilNextFullMoon}d)" : "";
+                
+                return $"{phaseEmoji} {phase}{fullMoonInfo}";
+            }
+        }
 
         public bool ShowWeekNumbers
         {
@@ -213,6 +298,17 @@ namespace CalendarWidget
         {
             var culture = System.Globalization.CultureInfo.CurrentCulture;
             return culture.Calendar.GetWeekOfYear(date, System.Globalization.CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Sunday);
+        }
+        
+        private int CalculateDaysUntilNextFullMoon(DateTime date)
+        {
+            // Approximate lunar cycle is 29.53 days
+            // This is a simplified calculation
+            var knownNewMoon = new DateTime(2000, 1, 6); // Known new moon date
+            var daysSinceNewMoon = (date - knownNewMoon).Days;
+            var lunarCycle = daysSinceNewMoon % 29;
+            var daysUntilFullMoon = (15 - lunarCycle + 29) % 29;
+            return daysUntilFullMoon;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
