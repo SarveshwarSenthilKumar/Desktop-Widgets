@@ -5,18 +5,10 @@ Timer option
 Stopwatch option
 Update it to get darker for visibility based on bg
 Updated graphs to make for year and weeks
-add a calendar feature 
-update calendar to look good
-update calendar to use same week calculation as app
-move calendar widget to separate folder
-Update it so closing dash doesnt close widget
 Add run on startup feature and create shortcut
 Add scroll functionality to dashboard
 remove all unnecessary markdown files
 
-make sure small mode does not squish days
-make font size better and everything bigger and ore readable
-make sure you can have multiple calendar widgets
 
 prompt of position memory:
 go through everything and get a thorough understanding of the codebase and use local memory and everything to store positions for everything so that when its stopped and recreated, its in the same spot and create a ui within the dashboard to configure where everything is properly, and refresh position logic entirely 
