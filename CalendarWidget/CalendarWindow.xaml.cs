@@ -17,7 +17,6 @@ namespace CalendarWidget
     {
         private ObservableCollection<CalendarDay> _calendarDays = new ObservableCollection<CalendarDay>();
         private ObservableCollection<CalendarDay> _weekNumbers = new ObservableCollection<CalendarDay>();
-        private bool _highlightToday = true;
         private bool _showWeekNumbers = false;
         private DateTime _currentDisplayMonth = DateTime.Now;
         private Storyboard _pulseStoryboard;
@@ -103,20 +102,6 @@ namespace CalendarWidget
                     >= 9 and <= 11 => "🍂", // Fall
                     _ => "❄️" // Winter
                 };
-            }
-        }
-
-        public bool HighlightToday
-        {
-            get => _highlightToday;
-            set
-            {
-                if (_highlightToday != value)
-                {
-                    _highlightToday = value;
-                    OnPropertyChanged();
-                    RefreshCalendar();
-                }
             }
         }
 
@@ -270,10 +255,6 @@ namespace CalendarWidget
             Height = 450;
         }
 
-        private void HighlightToday_Click(object sender, RoutedEventArgs e)
-        {
-            // Toggle handled by binding
-        }
 
         private void ShowWeekNumbers_Click(object sender, RoutedEventArgs e)
         {
