@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FuturisticClockWidget")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+830bd800c48cf2b22715af8fd33745710815097b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ff4c40555d7e31e824bc58b697dd8f1755872c3")]
 [assembly: System.Reflection.AssemblyProductAttribute("FuturisticClockWidget")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FuturisticClockWidget")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

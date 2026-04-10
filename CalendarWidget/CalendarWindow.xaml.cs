@@ -1,11 +1,14 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace CalendarWidget
@@ -13,6 +16,7 @@ namespace CalendarWidget
     public partial class CalendarWindow : Window, INotifyPropertyChanged
     {
         private ObservableCollection<CalendarDay> _calendarDays = new ObservableCollection<CalendarDay>();
+        private ObservableCollection<CalendarDay> _weekNumbers = new ObservableCollection<CalendarDay>();
         private bool _highlightToday = true;
         private bool _showWeekNumbers = false;
         private DateTime _currentDisplayMonth = DateTime.Now;
@@ -24,6 +28,16 @@ namespace CalendarWidget
             set
             {
                 _calendarDays = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<CalendarDay> WeekNumbers
+        {
+            get => _weekNumbers;
+            set
+            {
+                _weekNumbers = value;
                 OnPropertyChanged();
             }
         }
@@ -97,9 +111,12 @@ namespace CalendarWidget
             get => _highlightToday;
             set
             {
-                _highlightToday = value;
-                OnPropertyChanged();
-                RefreshCalendar();
+                if (_highlightToday != value)
+                {
+                    _highlightToday = value;
+                    OnPropertyChanged();
+                    RefreshCalendar();
+                }
             }
         }
 
@@ -108,9 +125,12 @@ namespace CalendarWidget
             get => _showWeekNumbers;
             set
             {
-                _showWeekNumbers = value;
-                OnPropertyChanged();
-                RefreshCalendar();
+                if (_showWeekNumbers != value)
+                {
+                    _showWeekNumbers = value;
+                    OnPropertyChanged();
+                    RefreshCalendar();
+                }
             }
         }
 
@@ -152,46 +172,53 @@ namespace CalendarWidget
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
             
             var days = new ObservableCollection<CalendarDay>();
+            var weekNumbers = new ObservableCollection<CalendarDay>();
             
-            // Add empty cells for days before month starts (to align first day correctly)
-            for (int i = 0; i < (int)firstDayOfMonth.DayOfWeek; i++)
-            {
-                days.Add(new CalendarDay
-                {
-                    DayNumber = "",
-                    IsVisible = false
-                });
-            }
+            // Calculate the starting day (adjust for Sunday as first day)
+            int startDayOfWeek = (int)firstDayOfMonth.DayOfWeek;
             
-            // Add all days of the month
-            for (int day = 1; day <= lastDayOfMonth.Day; day++)
+            // Start from the Sunday of the first week
+            var calendarStart = firstDayOfMonth.AddDays(-startDayOfWeek);
+            
+            // Generate 6 weeks of calendar data
+            for (int week = 0; week < 6; week++)
             {
-                var currentDate = new DateTime(_currentDisplayMonth.Year, _currentDisplayMonth.Month, day);
-                var isToday = currentDate.Date == today.Date;
-                var isWeekend = currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday;
+                var weekStart = calendarStart.AddDays(week * 7);
+                var weekNumber = GetWeekNumber(weekStart);
                 
-                days.Add(new CalendarDay
-                {
-                    DayNumber = day.ToString(),
-                    IsVisible = true,
-                    IsToday = isToday,
-                    IsWeekend = isWeekend
-                });
-            }
-            
-            // Add empty cells to fill the grid (42 cells total = 6 rows × 7 columns)
-            var totalCells = days.Count;
-            var cellsNeeded = 42 - totalCells;
-            for (int i = 0; i < cellsNeeded; i++)
-            {
-                days.Add(new CalendarDay
+                // Add week number
+                weekNumbers.Add(new CalendarDay
                 {
                     DayNumber = "",
-                    IsVisible = false
+                    IsVisible = _showWeekNumbers,
+                    WeekNumber = weekNumber,
+                    Date = weekStart
                 });
+                
+                // Add days for this week (Sunday to Saturday)
+                for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
+                {
+                    var currentDate = weekStart.AddDays(dayOfWeek);
+                    var isCurrentMonth = currentDate.Month == _currentDisplayMonth.Month && 
+                                     currentDate.Year == _currentDisplayMonth.Year;
+                    var isToday = currentDate.Date == today.Date;
+                    var isWeekend = currentDate.DayOfWeek == DayOfWeek.Saturday || 
+                                   currentDate.DayOfWeek == DayOfWeek.Sunday;
+                    
+                    days.Add(new CalendarDay
+                    {
+                        DayNumber = isCurrentMonth ? currentDate.Day.ToString() : "",
+                        IsVisible = isCurrentMonth,
+                        IsToday = isToday,
+                        IsWeekend = isWeekend,
+                        WeekNumber = weekNumber,
+                        Date = currentDate
+                    });
+                }
             }
             
             CalendarDays = days;
+            WeekNumbers = weekNumbers;
             
             // Update month year display
             OnPropertyChanged(nameof(CurrentMonthYear));
@@ -334,12 +361,37 @@ namespace CalendarWidget
         }
     }
 
+    public class WeekNumberToBackgroundConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            // Find the parent window to check ShowWeekNumbers property
+            if (value is int weekNumber && weekNumber > 0)
+            {
+                // Try to find the parent CalendarWindow
+                var window = Application.Current.Windows.OfType<CalendarWindow>().FirstOrDefault();
+                if (window != null && window.ShowWeekNumbers)
+                {
+                    return new SolidColorBrush(Color.FromArgb(40, 255, 107, 107)); // Semi-transparent red
+                }
+            }
+            return Brushes.Transparent;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class CalendarDay : INotifyPropertyChanged
     {
         private string _dayNumber = string.Empty;
         private bool _isVisible = true;
         private bool _isToday = false;
         private bool _isWeekend = false;
+        private int _weekNumber = 0;
+        private DateTime _date;
 
         public string DayNumber
         {
@@ -377,6 +429,26 @@ namespace CalendarWidget
             set
             {
                 _isWeekend = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int WeekNumber
+        {
+            get => _weekNumber;
+            set
+            {
+                _weekNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DateTime Date
+        {
+            get => _date;
+            set
+            {
+                _date = value;
                 OnPropertyChanged();
             }
         }

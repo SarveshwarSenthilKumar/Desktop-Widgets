@@ -5,10 +5,12 @@ C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\Ca
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\CalendarWidget.pdb
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget.csproj.AssemblyReference.cache
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWindow.baml
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWindow.g.cs
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget_MarkupCompile.cache
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget_MarkupCompile.lref
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWindow.baml
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget.g.resources
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\CalendarWidget\obj\Debug\net8.0-windows\CalendarWidget.AssemblyInfoInputs.cache

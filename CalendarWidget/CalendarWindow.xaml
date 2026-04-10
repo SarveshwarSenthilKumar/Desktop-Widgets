@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalendarWidget"
         mc:Ignorable="d"
         Title="Calendar Widget" 
         Height="320" Width="280"
@@ -19,6 +20,9 @@
     <Window.Resources>
         <!-- Boolean to Visibility Converter -->
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        
+        <!-- Week Number to Background Converter -->
+        <local:WeekNumberToBackgroundConverter x:Key="WeekNumberToBackgroundConverter"/>
         
         <!-- Futuristic Calendar Header Style -->
         <Style x:Key="CalendarHeaderStyle" TargetType="TextBlock">
@@ -517,6 +521,7 @@
                     <!-- Week Day Headers -->
                     <Grid Grid.Row="0" Margin="0,0,0,8">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/> <!-- Week numbers -->
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -526,70 +531,128 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         
-                        <TextBlock Grid.Column="0" Text="SUN" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC" FontSize="12"/>
-                        <TextBlock Grid.Column="1" Text="MON" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
-                        <TextBlock Grid.Column="2" Text="TUE" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
-                        <TextBlock Grid.Column="3" Text="WED" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
-                        <TextBlock Grid.Column="4" Text="THU" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
-                        <TextBlock Grid.Column="5" Text="FRI" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
-                        <TextBlock Grid.Column="6" Text="SAT" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC" FontSize="12"/>
+                        <!-- Week Number Header -->
+                        <Border Grid.Column="0" 
+                                Visibility="{Binding ShowWeekNumbers, Converter={StaticResource BoolToVisibilityConverter}}"
+                                Margin="2,0,4,0">
+                            <TextBlock Text="Wk" 
+                                     Style="{StaticResource DayNumberStyle}" 
+                                     FontWeight="Bold" 
+                                     Foreground="#FF6B6B" 
+                                     FontSize="10"
+                                     HorizontalAlignment="Center"/>
+                        </Border>
+                        
+                        <TextBlock Grid.Column="1" Text="SUN" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC" FontSize="12"/>
+                        <TextBlock Grid.Column="2" Text="MON" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="3" Text="TUE" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="4" Text="WED" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="5" Text="THU" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="6" Text="FRI" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#00D4FF" FontSize="12"/>
+                        <TextBlock Grid.Column="7" Text="SAT" Style="{StaticResource DayNumberStyle}" FontWeight="Bold" Foreground="#7DD3FC" FontSize="12"/>
                     </Grid>
                     
-                    <!-- Calendar Days Grid -->
-                    <ItemsControl Grid.Row="1" ItemsSource="{Binding CalendarDays}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="7" Rows="6"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border x:Name="DayBorder"
-                                       Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                                       Margin="0.5"
-                                       CornerRadius="12"
-                                       BorderThickness="1.5"
-                                       BorderBrush="#00D4FF"
-                                       Background="Transparent">
-                                    <TextBlock x:Name="DayText" Text="{Binding DayNumber}" 
-                                             FontFamily="Segoe UI Semibold"
-                                             FontWeight="SemiBold"
-                                             FontSize="16"
-                                             Foreground="#FFFFFF"
-                                             HorizontalAlignment="Center"
-                                             VerticalAlignment="Center"
-                                             Effect="{StaticResource DayNumberShadowEffect}"/>
-                                </Border>
-                                <DataTemplate.Triggers>
-                                    <!-- Today trigger -->
-                                    <DataTrigger Binding="{Binding IsToday}" Value="True">
-                                        <Setter TargetName="DayBorder" Property="Background">
-                                            <Setter.Value>
-                                                <RadialGradientBrush>
-                                                    <GradientStop Color="#4000D4FF" Offset="0"/>
-                                                    <GradientStop Color="#2500D4FF" Offset="0.7"/>
-                                                    <GradientStop Color="#1500D4FF" Offset="1"/>
-                                                </RadialGradientBrush>
-                                            </Setter.Value>
-                                        </Setter>
-                                        <Setter TargetName="DayBorder" Property="Effect">
-                                            <Setter.Value>
-                                                <DropShadowEffect Color="#00D4FF" 
-                                                                  BlurRadius="10" 
-                                                                  ShadowDepth="0" 
-                                                                  Opacity="0.8"/>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </DataTrigger>
-                                    <!-- Weekend trigger -->
-                                    <DataTrigger Binding="{Binding IsWeekend}" Value="True">
-                                        <Setter TargetName="DayBorder" Property="BorderBrush" Value="#7DD3FC"/>
-                                        <Setter Property="Foreground" Value="#7DD3FC" TargetName="DayText"/>
-                                    </DataTrigger>
-                                </DataTemplate.Triggers>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                    <!-- Calendar Days Grid Container -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/> <!-- Week numbers column -->
+                            <ColumnDefinition Width="*"/> <!-- Days columns -->
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Week Numbers Column -->
+                        <ItemsControl Grid.Column="0" 
+                                    ItemsSource="{Binding WeekNumbers}"
+                                    Visibility="{Binding ShowWeekNumbers, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Margin="0,0,4,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="1" Rows="6"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#28FF6B6B"
+                                           Margin="2,0.5"
+                                           Width="16"
+                                           CornerRadius="6"
+                                           HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding WeekNumber}" 
+                                                 FontFamily="Segoe UI"
+                                                 FontWeight="Light"
+                                                 FontSize="9"
+                                                 Foreground="#FF6B6B"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"/>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        
+                        <!-- Calendar Days Grid -->
+                        <ItemsControl Grid.Column="1" ItemsSource="{Binding CalendarDays}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="7" Rows="6"/> <!-- 7 columns for days only -->
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border x:Name="DayBorder"
+                                           Visibility="{Binding IsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+                                           Margin="0.5"
+                                           CornerRadius="12"
+                                           BorderThickness="1.5"
+                                           BorderBrush="#00D4FF"
+                                           Background="Transparent">
+                                        <TextBlock x:Name="DayText" 
+                                                 Text="{Binding DayNumber}" 
+                                                 FontFamily="Segoe UI Semibold"
+                                                 FontWeight="SemiBold"
+                                                 FontSize="16"
+                                                 Foreground="#FFFFFF"
+                                                 HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 Effect="{StaticResource DayNumberShadowEffect}"/>
+                                    </Border>
+                                    <DataTemplate.Triggers>
+                                        <!-- Today trigger - Enhanced highlighting -->
+                                        <DataTrigger Binding="{Binding IsToday}" Value="True">
+                                            <Setter TargetName="DayBorder" Property="Background">
+                                                <Setter.Value>
+                                                    <RadialGradientBrush>
+                                                        <GradientStop Color="#6000D4FF" Offset="0"/>
+                                                        <GradientStop Color="#4000D4FF" Offset="0.5"/>
+                                                        <GradientStop Color="#2500D4FF" Offset="1"/>
+                                                    </RadialGradientBrush>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter TargetName="DayBorder" Property="BorderBrush" Value="#00FFFF"/>
+                                            <Setter TargetName="DayBorder" Property="BorderThickness" Value="2"/>
+                                            <Setter TargetName="DayBorder" Property="Effect">
+                                                <Setter.Value>
+                                                    <DropShadowEffect Color="#00FFFF" 
+                                                                      BlurRadius="12" 
+                                                                      ShadowDepth="0" 
+                                                                      Opacity="0.9"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter TargetName="DayText" Property="FontWeight" Value="Bold"/>
+                                            <Setter TargetName="DayText" Property="FontSize" Value="18"/>
+                                        </DataTrigger>
+                                        <!-- Weekend trigger -->
+                                        <DataTrigger Binding="{Binding IsWeekend}" Value="True">
+                                            <Setter TargetName="DayBorder" Property="BorderBrush" Value="#7DD3FC"/>
+                                            <Setter Property="Foreground" Value="#7DD3FC" TargetName="DayText"/>
+                                        </DataTrigger>
+                                        <!-- Empty cells styling -->
+                                        <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                                            <Setter TargetName="DayBorder" Property="BorderThickness" Value="0"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
                 </Grid>
                 
                 <!-- Enhanced Current Date Info -->
