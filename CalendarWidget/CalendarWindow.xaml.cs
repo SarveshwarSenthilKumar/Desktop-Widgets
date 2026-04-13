@@ -453,14 +453,42 @@ namespace CalendarWidget
         {
             try
             {
-                // Update text colors by modifying the styles
-                // This will be handled through resource updates
-                OnPropertyChanged(nameof(BaseColorBrush));
+                // Update text shadow effects and colors by finding all TextBlock elements
+                var textBlocks = FindVisualChildren<System.Windows.Controls.TextBlock>(this);
+                foreach (var textBlock in textBlocks)
+                {
+                    try
+                    {
+                        // Update shadow color
+                        if (textBlock.Effect is System.Windows.Media.Effects.DropShadowEffect shadowEffect)
+                        {
+                            shadowEffect.Color = _baseColor;
+                        }
+                        
+                        // Update text foreground color to match base color
+                        if (textBlock.Foreground is SolidColorBrush textBrush)
+                        {
+                            // Use the base color directly for text
+                            // Ensure full opacity for good visibility
+                            var textColor = WpfColor.FromArgb(
+                                255, // Full opacity for text
+                                _baseColor.R,
+                                _baseColor.G,
+                                _baseColor.B
+                            );
+                            textBrush.Color = textColor;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error updating text block: {ex.Message}");
+                        // Continue with other text blocks
+                    }
+                }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error updating text colors: {ex.Message}");
-                // Don't crash the application, just log the error
+                System.Diagnostics.Debug.WriteLine($"Error in UpdateTextColors: {ex.Message}");
             }
         }
         
@@ -596,6 +624,26 @@ namespace CalendarWidget
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < System.Windows.Media.VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = System.Windows.Media.VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+                    
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
         }
     }
 
