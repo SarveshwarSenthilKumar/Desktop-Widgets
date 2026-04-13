@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -10,6 +13,10 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using WpfColor = System.Windows.Media.Color;
+using DrawingColor = System.Drawing.Color;
+using WpfApplication = System.Windows.Application;
+using WpfClipboard = System.Windows.Clipboard;
 
 namespace CalendarWidget
 {
@@ -20,6 +27,8 @@ namespace CalendarWidget
         private bool _showWeekNumbers = false;
         private DateTime _currentDisplayMonth = DateTime.Now;
         private Storyboard _pulseStoryboard;
+        private WpfColor _backgroundColor = WpfColor.FromArgb(20, 0, 0, 0);
+        private WpfColor _baseColor = WpfColor.FromRgb(0, 212, 255);
 
         public ObservableCollection<CalendarDay> CalendarDays
         {
@@ -203,6 +212,37 @@ namespace CalendarWidget
                 }
             }
         }
+        
+        public WpfColor BackgroundColor
+        {
+            get => _backgroundColor;
+            set
+            {
+                if (_backgroundColor != value)
+                {
+                    _backgroundColor = value;
+                    OnPropertyChanged();
+                    UpdateColors();
+                }
+            }
+        }
+        
+        public WpfColor BaseColor
+        {
+            get => _baseColor;
+            set
+            {
+                if (_baseColor != value)
+                {
+                    _baseColor = value;
+                    OnPropertyChanged();
+                    UpdateColors();
+                }
+            }
+        }
+        
+        public SolidColorBrush BackgroundBrush => new SolidColorBrush(_backgroundColor);
+        public SolidColorBrush BaseColorBrush => new SolidColorBrush(_baseColor);
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -356,6 +396,82 @@ namespace CalendarWidget
         {
             // Toggle handled by binding
         }
+        
+        private void UpdateColors()
+        {
+            // Update the main background
+            Border mainBackground = null;
+            if (FindName("MainBackground") is Border foundBackground)
+            {
+                mainBackground = foundBackground;
+                
+                // Create a gradient based on the background color
+                var gradient = new LinearGradientBrush();
+                gradient.StartPoint = new System.Windows.Point(0, 0);
+                gradient.EndPoint = new System.Windows.Point(1, 1);
+                
+                // Create gradient stops based on the background color
+                var baseColor = _backgroundColor;
+                gradient.GradientStops.Add(new GradientStop(baseColor, 0));
+                gradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(
+                    (byte)Math.Min(255, baseColor.A + 20), 
+                    baseColor.R, baseColor.G, baseColor.B), 0.5));
+                gradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(
+                    (byte)Math.Min(255, baseColor.A + 10), 
+                    baseColor.R, baseColor.G, baseColor.B), 1));
+                
+                mainBackground.Background = gradient;
+            }
+            
+            // Update border brush with base color
+            if (mainBackground != null)
+            {
+                var borderGradient = new LinearGradientBrush();
+                borderGradient.StartPoint = new System.Windows.Point(0, 0);
+                borderGradient.EndPoint = new System.Windows.Point(1, 1);
+                
+                var borderColor = _baseColor;
+                borderGradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(48, borderColor.R, borderColor.G, borderColor.B), 0));
+                borderGradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(21, borderColor.R, borderColor.G, borderColor.B), 0.5));
+                borderGradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(37, borderColor.R, borderColor.G, borderColor.B), 1));
+                
+                mainBackground.BorderBrush = borderGradient;
+            }
+            
+            // Update dynamic resources that use the base color
+            OnPropertyChanged(nameof(BackgroundBrush));
+            OnPropertyChanged(nameof(BaseColorBrush));
+        }
+        
+        private void ChangeBackgroundColor_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.ColorDialog();
+            dialog.Color = DrawingColor.FromArgb(_backgroundColor.A, _backgroundColor.R, _backgroundColor.G, _backgroundColor.B);
+            
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var color = dialog.Color;
+                BackgroundColor = WpfColor.FromArgb(color.A, color.R, color.G, color.B);
+            }
+        }
+        
+        private void ChangeBaseColor_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.ColorDialog();
+            dialog.Color = DrawingColor.FromArgb(_baseColor.A, _baseColor.R, _baseColor.G, _baseColor.B);
+            
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var color = dialog.Color;
+                BaseColor = WpfColor.FromArgb(color.A, color.R, color.G, color.B);
+            }
+        }
+        
+        private void ResetColors_Click(object sender, RoutedEventArgs e)
+        {
+            BackgroundColor = WpfColor.FromArgb(20, 0, 0, 0);
+            BaseColor = WpfColor.FromRgb(0, 212, 255);
+        }
 
         private void CloseMenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -390,7 +506,7 @@ namespace CalendarWidget
             try
             {
                 var currentDate = DateTime.Now.ToString("dddd, MMMM dd, yyyy");
-                Clipboard.SetText(currentDate);
+                WpfClipboard.SetText(currentDate);
             }
             catch (Exception ex)
             {
@@ -446,13 +562,13 @@ namespace CalendarWidget
             if (value is int weekNumber && weekNumber > 0)
             {
                 // Try to find the parent CalendarWindow
-                var window = Application.Current.Windows.OfType<CalendarWindow>().FirstOrDefault();
+                var window = WpfApplication.Current.Windows.OfType<CalendarWindow>().FirstOrDefault();
                 if (window != null && window.ShowWeekNumbers)
                 {
-                    return new SolidColorBrush(Color.FromArgb(40, 255, 107, 107)); // Semi-transparent red
+                    return new SolidColorBrush(WpfColor.FromArgb(40, 255, 107, 107)); // Semi-transparent red
                 }
             }
-            return Brushes.Transparent;
+            return System.Windows.Media.Brushes.Transparent;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

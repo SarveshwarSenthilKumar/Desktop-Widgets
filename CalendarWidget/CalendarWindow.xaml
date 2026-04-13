@@ -154,7 +154,7 @@
     </Window.Resources>
     
     <!-- Enhanced Glassmorphism Container -->
-    <Border CornerRadius="24" BorderThickness="1">
+    <Border x:Name="MainBackground" CornerRadius="24" BorderThickness="1">
         <Border.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#0D000000" Offset="0"/>
@@ -326,6 +326,19 @@
                               IsCheckable="True" 
                               IsChecked="{Binding ShowWeekNumbers}" 
                               Click="ShowWeekNumbers_Click"/>
+                </MenuItem>
+                
+                <!-- Appearance -->
+                <MenuItem Header="Appearance" InputGestureText="">
+                    <MenuItem.Icon>
+                        <Path Style="{StaticResource IconPathAccent}" Data="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </MenuItem.Icon>
+                    <MenuItem Header="🎨 Background Color" 
+                              Click="ChangeBackgroundColor_Click"/>
+                    <MenuItem Header="🖌️ Base Color" 
+                              Click="ChangeBaseColor_Click"/>
+                    <MenuItem Header="🔄 Reset Colors" 
+                              Click="ResetColors_Click"/>
                 </MenuItem>
                 
                 <!-- Navigation -->

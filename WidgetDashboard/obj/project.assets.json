@@ -831,7 +831,7 @@
           "bin/placeholder/CalendarWidget.dll": {}
         },
         "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WPF"
+          "Microsoft.WindowsDesktop.App"
         ]
       },
       "FuturisticClockWidget/1.0.0": {
