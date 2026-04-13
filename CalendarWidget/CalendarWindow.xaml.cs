@@ -555,11 +555,18 @@ namespace CalendarWidget
         {
             base.OnClosed(e);
             
+            System.Diagnostics.Debug.WriteLine("CalendarWindow.OnClosed called");
+            
             // Notify the wrapper that the widget was closed
             // This will trigger the WidgetClosed event
             if (Tag is CalendarWidget.CalendarWidgetWrapper wrapper)
             {
+                System.Diagnostics.Debug.WriteLine("Found wrapper in Tag, calling NotifyClosed");
                 wrapper.NotifyClosed();
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"Tag is {Tag?.GetType().Name ?? "null"}, expected CalendarWidgetWrapper");
             }
         }
         

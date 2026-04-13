@@ -61,7 +61,9 @@ namespace WidgetDashboard.Models
         {
             // This method is called by the CalendarWindow when it's closed
             // Trigger the WidgetClosed event to notify the dashboard
+            System.Diagnostics.Debug.WriteLine("CalendarWidgetWrapper.NotifyClosed called");
             WidgetClosed?.Invoke(this, EventArgs.Empty);
+            System.Diagnostics.Debug.WriteLine("WidgetClosed event invoked");
         }
 
         public void SetPosition(double x, double y)
