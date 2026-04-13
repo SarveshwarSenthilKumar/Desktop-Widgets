@@ -15,6 +15,7 @@ namespace WidgetDashboard.Models
         public Window WidgetWindow => _calendarWidget.WidgetWindow;
 
         public event PropertyChangedEventHandler? PropertyChanged;
+        public event EventHandler? WidgetClosed;
 
         public CalendarWidgetWrapper()
         {
@@ -25,11 +26,20 @@ namespace WidgetDashboard.Models
             {
                 notifier.PropertyChanged += (s, e) => PropertyChanged?.Invoke(this, e);
             }
+            
+            // Forward widget closed events
+            _calendarWidget.WidgetClosed += (s, e) => WidgetClosed?.Invoke(this, e);
         }
 
         public void Start()
         {
             _calendarWidget.Start();
+            
+            // Set the Tag property so the window can reference back to this wrapper
+            if (_calendarWidget.WidgetWindow is Window window)
+            {
+                window.Tag = this;
+            }
         }
 
         public void Stop()
@@ -45,6 +55,13 @@ namespace WidgetDashboard.Models
         public void Hide()
         {
             _calendarWidget.Hide();
+        }
+
+        public void NotifyClosed()
+        {
+            // This method is called by the CalendarWindow when it's closed
+            // Trigger the WidgetClosed event to notify the dashboard
+            WidgetClosed?.Invoke(this, EventArgs.Empty);
         }
 
         public void SetPosition(double x, double y)

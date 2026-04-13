@@ -39,5 +39,12 @@ namespace CalendarWidget
                 calendarWindow.Height = height;
             }
         }
+        
+        public void NotifyClosed()
+        {
+            // This method is called by the CalendarWindow when it's closed
+            // Trigger the WidgetClosed event to notify the dashboard
+            NotifyWidgetClosed();
+        }
     }
 }

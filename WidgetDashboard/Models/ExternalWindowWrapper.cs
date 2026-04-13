@@ -18,6 +18,7 @@ namespace WidgetDashboard.Models
         public bool IsRunning => _isRunning;
 
         public event PropertyChangedEventHandler? PropertyChanged;
+        public event EventHandler? WidgetClosed;
 
         public ExternalWindowWrapper(WindowInfo windowInfo, WidgetBase baseWidget)
         {
@@ -41,6 +42,9 @@ namespace WidgetDashboard.Models
             
             _isRunning = false;
             OnPropertyChanged(nameof(IsRunning));
+            
+            // Notify that the widget was closed
+            WidgetClosed?.Invoke(this, EventArgs.Empty);
         }
 
         public void Show()

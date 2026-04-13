@@ -551,6 +551,18 @@ namespace CalendarWidget
             Close();
         }
         
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            
+            // Notify the wrapper that the widget was closed
+            // This will trigger the WidgetClosed event
+            if (Tag is CalendarWidget.CalendarWidgetWrapper wrapper)
+            {
+                wrapper.NotifyClosed();
+            }
+        }
+        
         private void PreviousMonth_Click(object sender, RoutedEventArgs e)
         {
             _currentDisplayMonth = _currentDisplayMonth.AddMonths(-1);

@@ -17,6 +17,7 @@ namespace CalendarWidget
         public abstract string Description { get; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+        public event EventHandler? WidgetClosed;
 
         public virtual void Start()
         {
@@ -25,6 +26,8 @@ namespace CalendarWidget
                 _widgetWindow = CreateWidgetWindow();
                 if (_widgetWindow != null)
                 {
+                    // Set the Tag property so the window can reference back to this wrapper
+                    _widgetWindow.Tag = this;
                     _widgetWindow.Show();
                     _isRunning = true;
                     OnPropertyChanged(nameof(IsRunning));
@@ -40,6 +43,7 @@ namespace CalendarWidget
                 _widgetWindow = null;
                 _isRunning = false;
                 OnPropertyChanged(nameof(IsRunning));
+                WidgetClosed?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -82,6 +86,11 @@ namespace CalendarWidget
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+        protected void NotifyWidgetClosed()
+        {
+            WidgetClosed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

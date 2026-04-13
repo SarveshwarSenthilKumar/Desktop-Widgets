@@ -70,6 +70,9 @@ namespace WidgetDashboard.Models
             {
                 widget.Start();
                 _activeWidgets.Add(widget);
+                
+                // Listen for widget closed events
+                widget.WidgetClosed += OnWidgetClosed;
             }
         }
 
@@ -77,6 +80,9 @@ namespace WidgetDashboard.Models
         {
             if (widget != null && _activeWidgets.Contains(widget))
             {
+                // Unsubscribe from widget closed events
+                widget.WidgetClosed -= OnWidgetClosed;
+                
                 widget.Stop();
                 _activeWidgets.Remove(widget);
             }
@@ -157,6 +163,21 @@ namespace WidgetDashboard.Models
             _persistenceManager.ClearPersistedStates();
         }
 
+        private void OnWidgetClosed(object? sender, EventArgs e)
+        {
+            if (sender is IWidget widget && _activeWidgets.Contains(widget))
+            {
+                // Unsubscribe from events to prevent memory leaks
+                widget.WidgetClosed -= OnWidgetClosed;
+                
+                // Remove from active widgets
+                _activeWidgets.Remove(widget);
+                
+                // Save the updated widget states
+                SaveWidgetStates();
+            }
+        }
+        
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

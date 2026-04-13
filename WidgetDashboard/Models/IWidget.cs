@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Windows;
 
@@ -9,6 +10,8 @@ namespace WidgetDashboard.Models
         string Description { get; }
         Window WidgetWindow { get; }
         bool IsRunning { get; }
+        
+        event EventHandler? WidgetClosed;
         
         void Start();
         void Stop();

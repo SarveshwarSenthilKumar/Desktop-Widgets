@@ -17,6 +17,7 @@ namespace WidgetDashboard.Models
         public bool IsRunning => _isRunning;
 
         public event PropertyChangedEventHandler? PropertyChanged;
+        public event EventHandler? WidgetClosed;
 
         public virtual void Start()
         {
@@ -44,6 +45,9 @@ namespace WidgetDashboard.Models
             _widgetWindow = null!;
             _isRunning = false;
             OnPropertyChanged(nameof(IsRunning));
+            
+            // Notify that the widget was closed
+            WidgetClosed?.Invoke(this, EventArgs.Empty);
         }
 
         public virtual void Show()
@@ -82,6 +86,11 @@ namespace WidgetDashboard.Models
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+        protected void NotifyWidgetClosed()
+        {
+            WidgetClosed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

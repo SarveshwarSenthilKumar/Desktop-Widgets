@@ -1,13 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Threading;
-using System.Windows.Media;
 using System.Windows.Controls;
-using System.Collections.Generic;
-using System.Linq;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
 using System.Windows.Shapes;
 using FuturisticClockWidget.Models;
 using FuturisticClockWidget.Services;
@@ -931,6 +930,16 @@ namespace FuturisticClockWidget.Views
                 SettingsManager.Current.Window.Width = Width;
                 SettingsManager.Current.Window.Height = Height;
                 SettingsManager.SaveSettings();
+            }
+            
+            // Notify the wrapper that the widget was closed
+            // This will trigger the WidgetClosed event
+            if (Tag != null)
+            {
+                // Use reflection to call the NotifyClosed method if it exists
+                var wrapperType = Tag.GetType();
+                var notifyMethod = wrapperType.GetMethod("NotifyClosed");
+                notifyMethod?.Invoke(Tag, null);
             }
             
             _timer?.Stop();

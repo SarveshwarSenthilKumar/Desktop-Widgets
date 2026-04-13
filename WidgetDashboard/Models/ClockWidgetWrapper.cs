@@ -24,6 +24,10 @@ namespace WidgetDashboard.Models
         {
             var clockWindow = new MainWindow();
             clockWindow.Title = $"Clock Widget {_instanceId}-{_uniqueId}";
+            
+            // Set the Tag property so the window can reference back to this wrapper
+            clockWindow.Tag = this;
+            
             return clockWindow;
         }
 
@@ -38,6 +42,13 @@ namespace WidgetDashboard.Models
                 clockWindow.Width = width;
                 clockWindow.Height = height;
             }
+        }
+        
+        public void NotifyClosed()
+        {
+            // This method is called by the MainWindow when it's closed
+            // Trigger the WidgetClosed event to notify the dashboard
+            NotifyWidgetClosed();
         }
     }
 }
