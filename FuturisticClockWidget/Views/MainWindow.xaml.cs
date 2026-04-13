@@ -701,78 +701,163 @@ namespace FuturisticClockWidget.Views
         
         private void UpdateColors()
         {
-            // Update the main background
-            Border mainBackground = null;
-            if (FindName("MainBackground") is Border foundBackground)
+            try
             {
-                mainBackground = foundBackground;
+                // Update the main background
+                Border mainBackground = FindName("MainBackground") as Border;
+                if (mainBackground != null)
+                {
+                    // Create a gradient based on the background color
+                    var gradient = new LinearGradientBrush();
+                    gradient.StartPoint = new System.Windows.Point(0, 0);
+                    gradient.EndPoint = new System.Windows.Point(1, 1);
+                    
+                    // Create gradient stops based on the background color
+                    var baseColor = _backgroundColor;
+                    gradient.GradientStops.Add(new GradientStop(baseColor, 0));
+                    gradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(
+                        (byte)Math.Min(255, baseColor.A + 20), 
+                        baseColor.R, baseColor.G, baseColor.B), 0.5));
+                    gradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(
+                        (byte)Math.Min(255, baseColor.A + 10), 
+                        baseColor.R, baseColor.G, baseColor.B), 1));
+                    
+                    mainBackground.Background = gradient;
+                    
+                    // Update border brush with base color
+                    var borderGradient = new LinearGradientBrush();
+                    borderGradient.StartPoint = new System.Windows.Point(0, 0);
+                    borderGradient.EndPoint = new System.Windows.Point(1, 1);
+                    
+                    var borderColor = _baseColor;
+                    borderGradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(48, borderColor.R, borderColor.G, borderColor.B), 0));
+                    borderGradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(21, borderColor.R, borderColor.G, borderColor.B), 0.5));
+                    borderGradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(37, borderColor.R, borderColor.G, borderColor.B), 1));
+                    
+                    mainBackground.BorderBrush = borderGradient;
+                    
+                    // Update the main border drop shadow
+                    var dropShadow = new System.Windows.Media.Effects.DropShadowEffect
+                    {
+                        Color = _baseColor,
+                        BlurRadius = 25,
+                        ShadowDepth = 0,
+                        Opacity = 0.4
+                    };
+                    mainBackground.Effect = dropShadow;
+                }
                 
-                // Create a gradient based on the background color
-                var gradient = new LinearGradientBrush();
-                gradient.StartPoint = new System.Windows.Point(0, 0);
-                gradient.EndPoint = new System.Windows.Point(1, 1);
+                // Update text colors safely
+                UpdateTextColorsSafely();
                 
-                // Create gradient stops based on the background color
-                var baseColor = _backgroundColor;
-                gradient.GradientStops.Add(new GradientStop(baseColor, 0));
-                gradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(
-                    (byte)Math.Min(255, baseColor.A + 20), 
-                    baseColor.R, baseColor.G, baseColor.B), 0.5));
-                gradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(
-                    (byte)Math.Min(255, baseColor.A + 10), 
-                    baseColor.R, baseColor.G, baseColor.B), 1));
-                
-                mainBackground.Background = gradient;
+                // Update dynamic resources that use the base color
+                OnPropertyChanged(nameof(BackgroundBrush));
+                OnPropertyChanged(nameof(BaseColorBrush));
             }
-            
-            // Update border brush with base color
-            if (mainBackground != null)
+            catch (Exception ex)
             {
-                var borderGradient = new LinearGradientBrush();
-                borderGradient.StartPoint = new System.Windows.Point(0, 0);
-                borderGradient.EndPoint = new System.Windows.Point(1, 1);
-                
-                var borderColor = _baseColor;
-                borderGradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(48, borderColor.R, borderColor.G, borderColor.B), 0));
-                borderGradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(21, borderColor.R, borderColor.G, borderColor.B), 0.5));
-                borderGradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(37, borderColor.R, borderColor.G, borderColor.B), 1));
-                
-                mainBackground.BorderBrush = borderGradient;
+                System.Diagnostics.Debug.WriteLine($"Error updating colors: {ex.Message}");
+                // Don't crash the application, just log the error
             }
-            
-            // Update dynamic resources that use the base color
-            OnPropertyChanged(nameof(BackgroundBrush));
-            OnPropertyChanged(nameof(BaseColorBrush));
         }
+        
+        private void UpdateTextColorsSafely()
+        {
+            try
+            {
+                // Update text shadow effects and colors by finding all TextBlock elements
+                var textBlocks = FindVisualChildren<System.Windows.Controls.TextBlock>(this);
+                foreach (var textBlock in textBlocks)
+                {
+                    try
+                    {
+                        // Update shadow color
+                        if (textBlock.Effect is System.Windows.Media.Effects.DropShadowEffect shadowEffect)
+                        {
+                            shadowEffect.Color = _baseColor;
+                        }
+                        
+                        // Update text foreground color to match base color
+                        // Only update if it's not a special element that should keep its original color
+                        if (textBlock.Name != "SpecialElement" && textBlock.Foreground is SolidColorBrush textBrush)
+                        {
+                            // Use the base color directly for text
+                            // Ensure full opacity for good visibility
+                            var textColor = System.Windows.Media.Color.FromArgb(
+                                255, // Full opacity for text
+                                _baseColor.R,
+                                _baseColor.G,
+                                _baseColor.B
+                            );
+                            textBrush.Color = textColor;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Error updating text block: {ex.Message}");
+                        // Continue with other text blocks
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in UpdateTextColorsSafely: {ex.Message}");
+            }
+        }
+        
         
         private void ChangeBackgroundColor_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.ColorDialog();
-            dialog.Color = System.Drawing.Color.FromArgb(_backgroundColor.A, _backgroundColor.R, _backgroundColor.G, _backgroundColor.B);
-            
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            try
             {
-                var color = dialog.Color;
-                BackgroundColor = System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+                var dialog = new System.Windows.Forms.ColorDialog();
+                dialog.Color = System.Drawing.Color.FromArgb(_backgroundColor.A, _backgroundColor.R, _backgroundColor.G, _backgroundColor.B);
+                
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var color = dialog.Color;
+                    BackgroundColor = System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error changing background color: {ex.Message}");
+                MessageBox.Show($"Error changing background color: {ex.Message}", "Color Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         
         private void ChangeBaseColor_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.ColorDialog();
-            dialog.Color = System.Drawing.Color.FromArgb(_baseColor.A, _baseColor.R, _baseColor.G, _baseColor.B);
-            
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            try
             {
-                var color = dialog.Color;
-                BaseColor = System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+                var dialog = new System.Windows.Forms.ColorDialog();
+                dialog.Color = System.Drawing.Color.FromArgb(_baseColor.A, _baseColor.R, _baseColor.G, _baseColor.B);
+                
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var color = dialog.Color;
+                    BaseColor = System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error changing base color: {ex.Message}");
+                MessageBox.Show($"Error changing base color: {ex.Message}", "Color Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         
         private void ResetColors_Click(object sender, RoutedEventArgs e)
         {
-            BackgroundColor = System.Windows.Media.Color.FromArgb(20, 0, 0, 0);
-            BaseColor = System.Windows.Media.Color.FromRgb(0, 212, 255);
+            try
+            {
+                BackgroundColor = System.Windows.Media.Color.FromArgb(20, 0, 0, 0);
+                BaseColor = System.Windows.Media.Color.FromRgb(0, 212, 255);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error resetting colors: {ex.Message}");
+                MessageBox.Show($"Error resetting colors: {ex.Message}", "Color Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
         
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

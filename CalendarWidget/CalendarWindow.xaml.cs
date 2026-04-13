@@ -399,78 +399,123 @@ namespace CalendarWidget
         
         private void UpdateColors()
         {
-            // Update the main background
-            Border mainBackground = null;
-            if (FindName("MainBackground") is Border foundBackground)
+            try
             {
-                mainBackground = foundBackground;
+                // Update the main background
+                Border mainBackground = FindName("MainBackground") as Border;
+                if (mainBackground != null)
+                {
+                    // Create a gradient based on the background color
+                    var gradient = new LinearGradientBrush();
+                    gradient.StartPoint = new System.Windows.Point(0, 0);
+                    gradient.EndPoint = new System.Windows.Point(1, 1);
+                    
+                    // Create gradient stops based on the background color
+                    var baseColor = _backgroundColor;
+                    gradient.GradientStops.Add(new GradientStop(baseColor, 0));
+                    gradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(
+                        (byte)Math.Min(255, baseColor.A + 20), 
+                        baseColor.R, baseColor.G, baseColor.B), 0.5));
+                    gradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(
+                        (byte)Math.Min(255, baseColor.A + 10), 
+                        baseColor.R, baseColor.G, baseColor.B), 1));
+                    
+                    mainBackground.Background = gradient;
+                    
+                    // Update border brush with base color
+                    var borderGradient = new LinearGradientBrush();
+                    borderGradient.StartPoint = new System.Windows.Point(0, 0);
+                    borderGradient.EndPoint = new System.Windows.Point(1, 1);
+                    
+                    var borderColor = _baseColor;
+                    borderGradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(48, borderColor.R, borderColor.G, borderColor.B), 0));
+                    borderGradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(21, borderColor.R, borderColor.G, borderColor.B), 0.5));
+                    borderGradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(37, borderColor.R, borderColor.G, borderColor.B), 1));
+                    
+                    mainBackground.BorderBrush = borderGradient;
+                }
                 
-                // Create a gradient based on the background color
-                var gradient = new LinearGradientBrush();
-                gradient.StartPoint = new System.Windows.Point(0, 0);
-                gradient.EndPoint = new System.Windows.Point(1, 1);
+                // Update text colors to match base color
+                UpdateTextColors();
                 
-                // Create gradient stops based on the background color
-                var baseColor = _backgroundColor;
-                gradient.GradientStops.Add(new GradientStop(baseColor, 0));
-                gradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(
-                    (byte)Math.Min(255, baseColor.A + 20), 
-                    baseColor.R, baseColor.G, baseColor.B), 0.5));
-                gradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(
-                    (byte)Math.Min(255, baseColor.A + 10), 
-                    baseColor.R, baseColor.G, baseColor.B), 1));
-                
-                mainBackground.Background = gradient;
+                // Update dynamic resources that use the base color
+                OnPropertyChanged(nameof(BackgroundBrush));
+                OnPropertyChanged(nameof(BaseColorBrush));
             }
-            
-            // Update border brush with base color
-            if (mainBackground != null)
+            catch (Exception ex)
             {
-                var borderGradient = new LinearGradientBrush();
-                borderGradient.StartPoint = new System.Windows.Point(0, 0);
-                borderGradient.EndPoint = new System.Windows.Point(1, 1);
-                
-                var borderColor = _baseColor;
-                borderGradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(48, borderColor.R, borderColor.G, borderColor.B), 0));
-                borderGradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(21, borderColor.R, borderColor.G, borderColor.B), 0.5));
-                borderGradient.GradientStops.Add(new GradientStop(WpfColor.FromArgb(37, borderColor.R, borderColor.G, borderColor.B), 1));
-                
-                mainBackground.BorderBrush = borderGradient;
+                System.Diagnostics.Debug.WriteLine($"Error updating colors: {ex.Message}");
+                // Don't crash the application, just log the error
             }
-            
-            // Update dynamic resources that use the base color
-            OnPropertyChanged(nameof(BackgroundBrush));
-            OnPropertyChanged(nameof(BaseColorBrush));
+        }
+        
+        private void UpdateTextColors()
+        {
+            try
+            {
+                // Update text colors by modifying the styles
+                // This will be handled through resource updates
+                OnPropertyChanged(nameof(BaseColorBrush));
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error updating text colors: {ex.Message}");
+                // Don't crash the application, just log the error
+            }
         }
         
         private void ChangeBackgroundColor_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.ColorDialog();
-            dialog.Color = DrawingColor.FromArgb(_backgroundColor.A, _backgroundColor.R, _backgroundColor.G, _backgroundColor.B);
-            
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            try
             {
-                var color = dialog.Color;
-                BackgroundColor = WpfColor.FromArgb(color.A, color.R, color.G, color.B);
+                var dialog = new System.Windows.Forms.ColorDialog();
+                dialog.Color = DrawingColor.FromArgb(_backgroundColor.A, _backgroundColor.R, _backgroundColor.G, _backgroundColor.B);
+                
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var color = dialog.Color;
+                    BackgroundColor = WpfColor.FromArgb(color.A, color.R, color.G, color.B);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error changing background color: {ex.Message}");
+                System.Windows.MessageBox.Show($"Error changing background color: {ex.Message}", "Color Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         
         private void ChangeBaseColor_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new System.Windows.Forms.ColorDialog();
-            dialog.Color = DrawingColor.FromArgb(_baseColor.A, _baseColor.R, _baseColor.G, _baseColor.B);
-            
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            try
             {
-                var color = dialog.Color;
-                BaseColor = WpfColor.FromArgb(color.A, color.R, color.G, color.B);
+                var dialog = new System.Windows.Forms.ColorDialog();
+                dialog.Color = DrawingColor.FromArgb(_baseColor.A, _baseColor.R, _baseColor.G, _baseColor.B);
+                
+                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    var color = dialog.Color;
+                    BaseColor = WpfColor.FromArgb(color.A, color.R, color.G, color.B);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error changing base color: {ex.Message}");
+                System.Windows.MessageBox.Show($"Error changing base color: {ex.Message}", "Color Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         
         private void ResetColors_Click(object sender, RoutedEventArgs e)
         {
-            BackgroundColor = WpfColor.FromArgb(20, 0, 0, 0);
-            BaseColor = WpfColor.FromRgb(0, 212, 255);
+            try
+            {
+                BackgroundColor = WpfColor.FromArgb(20, 0, 0, 0);
+                BaseColor = WpfColor.FromRgb(0, 212, 255);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error resetting colors: {ex.Message}");
+                System.Windows.MessageBox.Show($"Error resetting colors: {ex.Message}", "Color Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void CloseMenuItem_Click(object sender, RoutedEventArgs e)
