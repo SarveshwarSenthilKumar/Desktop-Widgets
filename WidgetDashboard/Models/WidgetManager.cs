@@ -165,8 +165,12 @@ namespace WidgetDashboard.Models
 
         private void OnWidgetClosed(object? sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine($"OnWidgetClosed called with sender: {sender?.GetType().Name ?? "null"}");
+            
             if (sender is IWidget widget && _activeWidgets.Contains(widget))
             {
+                System.Diagnostics.Debug.WriteLine($"Removing widget {widget.Name} from active list");
+                
                 // Unsubscribe from events to prevent memory leaks
                 widget.WidgetClosed -= OnWidgetClosed;
                 
@@ -175,6 +179,12 @@ namespace WidgetDashboard.Models
                 
                 // Save the updated widget states
                 SaveWidgetStates();
+                
+                System.Diagnostics.Debug.WriteLine($"Widget {widget.Name} removed from active list. Active widgets count: {_activeWidgets.Count}");
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine($"Widget not found in active list or sender is null");
             }
         }
         

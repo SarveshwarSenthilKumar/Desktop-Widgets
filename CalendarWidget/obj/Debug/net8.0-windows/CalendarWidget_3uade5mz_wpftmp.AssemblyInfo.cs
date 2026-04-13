@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("FuturisticClockWidget")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("CalendarWidget")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84174e5bfc70d8145f741131a70759d64d4dc33d")]
-[assembly: System.Reflection.AssemblyProductAttribute("FuturisticClockWidget")]
-[assembly: System.Reflection.AssemblyTitleAttribute("FuturisticClockWidget")]
+[assembly: System.Reflection.AssemblyProductAttribute("CalendarWidget")]
+[assembly: System.Reflection.AssemblyTitleAttribute("CalendarWidget")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
