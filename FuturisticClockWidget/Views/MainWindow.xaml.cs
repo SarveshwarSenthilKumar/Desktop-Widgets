@@ -23,6 +23,8 @@ namespace FuturisticClockWidget.Views
         private double _baseSmallFontSize = 10; // Increased for better readability
         private bool _isLoadingSettings = false;
         private bool _showDate = true;
+        private System.Windows.Media.Color _backgroundColor = System.Windows.Media.Color.FromArgb(20, 0, 0, 0);
+        private System.Windows.Media.Color _baseColor = System.Windows.Media.Color.FromRgb(0, 212, 255);
         
         public ClockType CurrentClockType
         {
@@ -57,6 +59,37 @@ namespace FuturisticClockWidget.Views
                 }
             }
         }
+        
+        public System.Windows.Media.Color BackgroundColor
+        {
+            get => _backgroundColor;
+            set
+            {
+                if (_backgroundColor != value)
+                {
+                    _backgroundColor = value;
+                    OnPropertyChanged();
+                    UpdateColors();
+                }
+            }
+        }
+        
+        public System.Windows.Media.Color BaseColor
+        {
+            get => _baseColor;
+            set
+            {
+                if (_baseColor != value)
+                {
+                    _baseColor = value;
+                    OnPropertyChanged();
+                    UpdateColors();
+                }
+            }
+        }
+        
+        public SolidColorBrush BackgroundBrush => new SolidColorBrush(_backgroundColor);
+        public SolidColorBrush BaseColorBrush => new SolidColorBrush(_baseColor);
         
         public DateTime CurrentTime
         {
@@ -664,6 +697,82 @@ namespace FuturisticClockWidget.Views
                     }
                 }
             }
+        }
+        
+        private void UpdateColors()
+        {
+            // Update the main background
+            Border mainBackground = null;
+            if (FindName("MainBackground") is Border foundBackground)
+            {
+                mainBackground = foundBackground;
+                
+                // Create a gradient based on the background color
+                var gradient = new LinearGradientBrush();
+                gradient.StartPoint = new System.Windows.Point(0, 0);
+                gradient.EndPoint = new System.Windows.Point(1, 1);
+                
+                // Create gradient stops based on the background color
+                var baseColor = _backgroundColor;
+                gradient.GradientStops.Add(new GradientStop(baseColor, 0));
+                gradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(
+                    (byte)Math.Min(255, baseColor.A + 20), 
+                    baseColor.R, baseColor.G, baseColor.B), 0.5));
+                gradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(
+                    (byte)Math.Min(255, baseColor.A + 10), 
+                    baseColor.R, baseColor.G, baseColor.B), 1));
+                
+                mainBackground.Background = gradient;
+            }
+            
+            // Update border brush with base color
+            if (mainBackground != null)
+            {
+                var borderGradient = new LinearGradientBrush();
+                borderGradient.StartPoint = new System.Windows.Point(0, 0);
+                borderGradient.EndPoint = new System.Windows.Point(1, 1);
+                
+                var borderColor = _baseColor;
+                borderGradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(48, borderColor.R, borderColor.G, borderColor.B), 0));
+                borderGradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(21, borderColor.R, borderColor.G, borderColor.B), 0.5));
+                borderGradient.GradientStops.Add(new GradientStop(System.Windows.Media.Color.FromArgb(37, borderColor.R, borderColor.G, borderColor.B), 1));
+                
+                mainBackground.BorderBrush = borderGradient;
+            }
+            
+            // Update dynamic resources that use the base color
+            OnPropertyChanged(nameof(BackgroundBrush));
+            OnPropertyChanged(nameof(BaseColorBrush));
+        }
+        
+        private void ChangeBackgroundColor_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.ColorDialog();
+            dialog.Color = System.Drawing.Color.FromArgb(_backgroundColor.A, _backgroundColor.R, _backgroundColor.G, _backgroundColor.B);
+            
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var color = dialog.Color;
+                BackgroundColor = System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+            }
+        }
+        
+        private void ChangeBaseColor_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.ColorDialog();
+            dialog.Color = System.Drawing.Color.FromArgb(_baseColor.A, _baseColor.R, _baseColor.G, _baseColor.B);
+            
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                var color = dialog.Color;
+                BaseColor = System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
+            }
+        }
+        
+        private void ResetColors_Click(object sender, RoutedEventArgs e)
+        {
+            BackgroundColor = System.Windows.Media.Color.FromArgb(20, 0, 0, 0);
+            BaseColor = System.Windows.Media.Color.FromRgb(0, 212, 255);
         }
         
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

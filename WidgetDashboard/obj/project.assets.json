@@ -850,7 +850,7 @@
           "bin/placeholder/FuturisticClockWidget.dll": {}
         },
         "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WPF"
+          "Microsoft.WindowsDesktop.App"
         ]
       }
     }
