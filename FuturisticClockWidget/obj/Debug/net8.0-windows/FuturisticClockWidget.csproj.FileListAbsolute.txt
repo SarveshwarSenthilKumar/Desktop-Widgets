@@ -46,9 +46,13 @@ C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\Fu
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\FuturisticClockWidget.csproj.AssemblyReference.cache
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\Views\MainWindow.baml
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\Views\SettingsWindow.baml
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\Views\TimerInputDialog.baml
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\Views\TimerWindow.baml
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\App.baml
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\Views\MainWindow.g.cs
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\Views\SettingsWindow.g.cs
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\Views\TimerInputDialog.g.cs
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\Views\TimerWindow.g.cs
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\App.g.cs
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\FuturisticClockWidget_MarkupCompile.cache
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\FuturisticClockWidget.g.resources

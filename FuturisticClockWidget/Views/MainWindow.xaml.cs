@@ -845,33 +845,63 @@ namespace FuturisticClockWidget.Views
             }
         }
         
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Enable window dragging
+            try
+            {
+                DragMove();
+            }
+            catch
+            {
+                // If drag fails, just ignore it
+            }
+        }
+        
         private void ResetColors_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                // Reset to default colors
                 BackgroundColor = System.Windows.Media.Color.FromArgb(20, 0, 0, 0);
                 BaseColor = System.Windows.Media.Color.FromRgb(0, 212, 255);
+                
+                // Save to settings - use the correct property names
+                SettingsManager.Current.Appearance.PrimaryColor = "#00D4FF";
+                SettingsManager.SaveSettings();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error resetting colors: {ex.Message}");
-                MessageBox.Show($"Error resetting colors: {ex.Message}", "Color Error", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void OpenTimerWidget_Click(object sender, RoutedEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
+            try
             {
-                // Enable window dragging
-                try
+                var timerWindow = new TimerWindow();
+                
+                // Position the timer widget relative to the clock widget
+                timerWindow.Left = Left + Width + 20;
+                timerWindow.Top = Top;
+                
+                // Ensure it stays on screen
+                if (timerWindow.Left + timerWindow.Width > SystemParameters.PrimaryScreenWidth)
                 {
-                    DragMove();
+                    timerWindow.Left = Left - timerWindow.Width - 20;
                 }
-                catch
+                if (timerWindow.Left < 0)
                 {
-                    // If drag fails, just ignore it
+                    timerWindow.Left = 20;
                 }
+                
+                timerWindow.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to open timer widget: {ex.Message}", "Error", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         

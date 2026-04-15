@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\App.xaml
-2302661862
+4-1479397851
 
-6348177058
+8-533764334
 236280043501
-Views\MainWindow.xaml;Views\SettingsWindow.xaml;
+Views\MainWindow.xaml;Views\SettingsWindow.xaml;Views\TimerInputDialog.xaml;Views\TimerWindow.xaml;
 
 False
 
