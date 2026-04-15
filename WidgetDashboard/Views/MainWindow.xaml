@@ -80,6 +80,48 @@
             <Setter Property="FontWeight" Value="Normal"/>
             <Setter Property="Foreground" Value="#888888"/>
         </Style>
+
+        <!-- Modern ScrollViewer Style -->
+        <Style x:Key="ModernScrollViewerStyle" TargetType="ScrollViewer">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollViewer">
+                        <Grid Background="{TemplateBinding Background}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <ScrollContentPresenter Grid.Column="0" Grid.Row="0"/>
+                            
+                            <ScrollBar Grid.Column="1" Grid.Row="0" 
+                                       Name="PART_VerticalScrollBar" 
+                                       Orientation="Vertical"
+                                       Maximum="{TemplateBinding ScrollableHeight}"
+                                       ViewportSize="{TemplateBinding ViewportHeight}"
+                                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                       Value="{TemplateBinding VerticalOffset}"
+                                       Background="#2D2D30"
+                                       Foreground="#007ACC"/>
+                            
+                            <ScrollBar Grid.Column="0" Grid.Row="1" 
+                                       Name="PART_HorizontalScrollBar" 
+                                       Orientation="Horizontal"
+                                       Maximum="{TemplateBinding ScrollableWidth}"
+                                       ViewportSize="{TemplateBinding ViewportWidth}"
+                                       Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                       Value="{TemplateBinding HorizontalOffset}"
+                                       Background="#2D2D30"
+                                       Foreground="#007ACC"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -112,11 +154,24 @@
 
             <!-- Available Widgets Panel -->
             <Border Grid.Column="0" Style="{StaticResource CardStyle}">
-                <StackPanel>
-                    <TextBlock Text="📦 Available Widgets" Style="{StaticResource HeaderTextStyle}"/>
-                    <TextBlock Text="Click to launch widgets" Style="{StaticResource StatusTextStyle}" Margin="0,0,0,15"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
                     
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <!-- Header -->
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="📦 Available Widgets" Style="{StaticResource HeaderTextStyle}"/>
+                        <TextBlock Text="Click to launch widgets" Style="{StaticResource StatusTextStyle}" Margin="0,0,0,15"/>
+                    </StackPanel>
+                    
+                    <!-- Scrollable Content -->
+                    <ScrollViewer Grid.Row="1" 
+                                  VerticalScrollBarVisibility="Auto" 
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  CanContentScroll="False"
+                                  Style="{StaticResource ModernScrollViewerStyle}">
                         <ItemsControl ItemsSource="{Binding AvailableWidgets}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -144,16 +199,31 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
-                </StackPanel>
+                </Grid>
             </Border>
 
             <!-- Active Widgets Panel -->
             <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="15,5,5,5">
-                <StackPanel>
-                    <TextBlock Text="🎯 Active Widgets" Style="{StaticResource HeaderTextStyle}"/>
-                    <TextBlock Text="Manage running widgets" Style="{StaticResource StatusTextStyle}" Margin="0,0,0,15"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
                     
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <!-- Header -->
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="🎯 Active Widgets" Style="{StaticResource HeaderTextStyle}"/>
+                        <TextBlock Text="Manage running widgets" Style="{StaticResource StatusTextStyle}" Margin="0,0,0,15"/>
+                    </StackPanel>
+                    
+                    <!-- Scrollable Content -->
+                    <ScrollViewer Grid.Row="1" 
+                                  VerticalScrollBarVisibility="Auto" 
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  CanContentScroll="False"
+                                  Margin="0,0,0,10"
+                                  Style="{StaticResource ModernScrollViewerStyle}">
                         <ItemsControl ItemsSource="{Binding ActiveWidgets}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -201,13 +271,15 @@
                     </ScrollViewer>
                     
                     <!-- Stop All Button -->
-                    <Separator Margin="0,15,0,10" Background="#3F3F46"/>
-                    <Button Content="🛑 Stop All Widgets" 
-                           Style="{StaticResource ModernButtonStyle}"
-                           Background="#8B0000"
-                           Click="StopAllWidgets_Click"
-                           HorizontalAlignment="Stretch"/>
-                </StackPanel>
+                    <StackPanel Grid.Row="2">
+                        <Separator Margin="0,0,0,10" Background="#3F3F46"/>
+                        <Button Content="🛑 Stop All Widgets" 
+                               Style="{StaticResource ModernButtonStyle}"
+                               Background="#8B0000"
+                               Click="StopAllWidgets_Click"
+                               HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+                </Grid>
             </Border>
         </Grid>
     </Grid>
