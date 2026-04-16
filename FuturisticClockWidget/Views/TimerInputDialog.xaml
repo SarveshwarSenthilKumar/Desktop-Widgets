@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Set Timer" 
-        Height="200" Width="300"
+        Height="280" Width="360"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Background="#1E1E1E"
         Foreground="#00D4FF">
     
     <Window.Resources>
-        <!-- Input Style -->
+        <!-- Enhanced Input Style -->
         <Style x:Key="TimerInputStyle" TargetType="TextBox">
             <Setter Property="Background" Value="#2D2D30"/>
             <Setter Property="Foreground" Value="#00D4FF"/>
@@ -20,32 +20,84 @@
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="8"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Light"/>
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Width" Value="60"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                            <ScrollViewer x:Name="PART_ContentHost" 
+                                        Margin="{TemplateBinding Padding}"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         
         <!-- Label Style -->
         <Style x:Key="TimerLabelStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="12"/>
             <Setter Property="Foreground" Value="#CCFFFFFF"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Margin" Value="5,2,5,5"/>
         </Style>
         
-        <!-- Button Style -->
+        <!-- Quick Preset Button Style -->
+        <Style x:Key="QuickPresetButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="#1500D4FF"/>
+            <Setter Property="Foreground" Value="#00D4FF"/>
+            <Setter Property="BorderBrush" Value="#3000D4FF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#2500D4FF"/>
+                                <Setter Property="BorderBrush" Value="#5000D4FF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#3500D4FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Main Button Style -->
         <Style x:Key="TimerDialogButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#2000D4FF"/>
             <Setter Property="Foreground" Value="#00D4FF"/>
             <Setter Property="BorderBrush" Value="#4000D4FF"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="20,8"/>
-            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="25,10"/>
+            <Setter Property="Margin" Value="8"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -55,7 +107,7 @@
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4">
+                                CornerRadius="6">
                             <ContentPresenter HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             Margin="{TemplateBinding Padding}"/>
@@ -83,7 +135,8 @@
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             
@@ -91,14 +144,33 @@
             <TextBlock Grid.Row="0"
                        Text="Set Timer Duration"
                        FontFamily="Segoe UI Light"
-                       FontSize="18"
+                       FontSize="20"
                        FontWeight="Light"
                        Foreground="#00D4FF"
                        HorizontalAlignment="Center"
-                       Margin="0,0,0,20"/>
+                       Margin="0,0,0,15"/>
+            
+            <!-- Quick Presets -->
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,15">
+                <TextBlock Text="Quick Presets"
+                           FontFamily="Segoe UI Light"
+                           FontSize="12"
+                           FontWeight="Light"
+                           Foreground="#CCFFFFFF"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,8"/>
+                <WrapPanel HorizontalAlignment="Center">
+                    <Button Content="1 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset1Min_Click"/>
+                    <Button Content="5 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset5Min_Click"/>
+                    <Button Content="10 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset10Min_Click"/>
+                    <Button Content="15 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset15Min_Click"/>
+                    <Button Content="30 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset30Min_Click"/>
+                    <Button Content="1 hour" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset1Hour_Click"/>
+                </WrapPanel>
+            </StackPanel>
             
             <!-- Input Section -->
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -140,7 +212,7 @@
             </Grid>
             
             <!-- Buttons -->
-            <StackPanel Grid.Row="2" 
+            <StackPanel Grid.Row="3" 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Center"
                         Margin="0,20,0,0">

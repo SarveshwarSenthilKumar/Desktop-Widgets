@@ -338,6 +338,46 @@ namespace FuturisticClockWidget.Views
             }
         }
 
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            
+            // Escape key to close
+            if (e.Key == Key.Escape)
+            {
+                Close();
+                return;
+            }
+            
+            // Space to start/pause timer
+            if (e.Key == Key.Space)
+            {
+                StartPause_Click(this, new RoutedEventArgs());
+                return;
+            }
+            
+            // R to reset timer
+            if (e.Key == Key.R)
+            {
+                Reset_Click(this, new RoutedEventArgs());
+                return;
+            }
+            
+            // S to set timer
+            if (e.Key == Key.S)
+            {
+                Set_Click(this, new RoutedEventArgs());
+                return;
+            }
+            
+            // T to toggle topmost
+            if (e.Key == Key.T && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                Topmost = !Topmost;
+                return;
+            }
+        }
+
         protected override void OnClosed(EventArgs e)
         {
             _timer?.Stop();

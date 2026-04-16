@@ -83,5 +83,42 @@ namespace FuturisticClockWidget.Views
             DialogResult = false;
             Close();
         }
+
+        private void QuickPreset1Min_Click(object sender, RoutedEventArgs e)
+        {
+            SetTimeValues(0, 1, 0);
+        }
+
+        private void QuickPreset5Min_Click(object sender, RoutedEventArgs e)
+        {
+            SetTimeValues(0, 5, 0);
+        }
+
+        private void QuickPreset10Min_Click(object sender, RoutedEventArgs e)
+        {
+            SetTimeValues(0, 10, 0);
+        }
+
+        private void QuickPreset15Min_Click(object sender, RoutedEventArgs e)
+        {
+            SetTimeValues(0, 15, 0);
+        }
+
+        private void QuickPreset30Min_Click(object sender, RoutedEventArgs e)
+        {
+            SetTimeValues(0, 30, 0);
+        }
+
+        private void QuickPreset1Hour_Click(object sender, RoutedEventArgs e)
+        {
+            SetTimeValues(1, 0, 0);
+        }
+
+        private void SetTimeValues(int hours, int minutes, int seconds)
+        {
+            HoursTextBox.Text = hours.ToString();
+            MinutesTextBox.Text = minutes.ToString();
+            SecondsTextBox.Text = seconds.ToString();
+        }
     }
 }
