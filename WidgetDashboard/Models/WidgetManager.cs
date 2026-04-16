@@ -5,6 +5,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Threading;
 using CalendarWidget;
 
 namespace WidgetDashboard.Models
@@ -15,6 +18,8 @@ namespace WidgetDashboard.Models
         private readonly ObservableCollection<IWidget> _activeWidgets;
         private readonly ObservableCollection<IWidget> _availableWidgets;
         private readonly WidgetPersistenceManager _persistenceManager;
+        private readonly DispatcherTimer _monitoringTimer;
+        private readonly HashSet<IntPtr> _monitoredWindowHandles;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -27,11 +32,20 @@ namespace WidgetDashboard.Models
             _activeWidgets = new ObservableCollection<IWidget>();
             _availableWidgets = new ObservableCollection<IWidget>();
             _persistenceManager = new WidgetPersistenceManager();
+            _monitoredWindowHandles = new HashSet<IntPtr>();
+            _monitoringTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(2) // Check every 2 seconds
+            };
+            _monitoringTimer.Tick += MonitorExternalWindows;
 
             AvailableWidgets = new ReadOnlyObservableCollection<IWidget>(_availableWidgets);
             ActiveWidgets = new ReadOnlyObservableCollection<IWidget>(_activeWidgets);
 
             RegisterWidgetTypes();
+            
+            // Start monitoring for external widget closures
+            _monitoringTimer.Start();
         }
 
         private void RegisterWidgetTypes()
@@ -74,6 +88,16 @@ namespace WidgetDashboard.Models
                 
                 // Listen for widget closed events
                 widget.WidgetClosed += OnWidgetClosed;
+                
+                // Track external window handle if applicable
+                if (widget is ExternalWindowWrapper externalWrapper)
+                {
+                    var windowInfo = _persistenceManager.FindWidgetWindowByExactTitle(widget.Name);
+                    if (windowInfo != null)
+                    {
+                        _monitoredWindowHandles.Add(windowInfo.Handle);
+                    }
+                }
             }
         }
 
@@ -83,6 +107,16 @@ namespace WidgetDashboard.Models
             {
                 // Unsubscribe from widget closed events
                 widget.WidgetClosed -= OnWidgetClosed;
+                
+                // Remove window handle from monitoring
+                if (widget is ExternalWindowWrapper externalWrapper)
+                {
+                    var windowInfo = _persistenceManager.FindWidgetWindowByExactTitle(widget.Name);
+                    if (windowInfo != null)
+                    {
+                        _monitoredWindowHandles.Remove(windowInfo.Handle);
+                    }
+                }
                 
                 widget.Stop();
                 _activeWidgets.Remove(widget);
@@ -162,6 +196,55 @@ namespace WidgetDashboard.Models
         public void ClearPersistedStates()
         {
             _persistenceManager.ClearPersistedStates();
+        }
+
+        private void MonitorExternalWindows(object? sender, EventArgs e)
+        {
+            var handlesToRemove = new List<IntPtr>();
+            
+            foreach (var handle in _monitoredWindowHandles)
+            {
+                if (!IsWindowValid(handle))
+                {
+                    handlesToRemove.Add(handle);
+                }
+            }
+            
+            foreach (var handle in handlesToRemove)
+            {
+                _monitoredWindowHandles.Remove(handle);
+                
+                // Find the corresponding widget and remove it
+                var widgetToRemove = _activeWidgets.FirstOrDefault(w => 
+                    w is ExternalWindowWrapper externalWrapper &&
+                    GetWindowHandle(externalWrapper) == handle);
+                
+                if (widgetToRemove != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"External widget {widgetToRemove.Name} window closed, removing from active list");
+                    
+                    // Unsubscribe from events
+                    widgetToRemove.WidgetClosed -= OnWidgetClosed;
+                    
+                    // Remove from active widgets
+                    _activeWidgets.Remove(widgetToRemove);
+                    
+                    // Save the updated widget states
+                    SaveWidgetStates();
+                }
+            }
+        }
+        
+        private bool IsWindowValid(IntPtr handle)
+        {
+            return handle != IntPtr.Zero && User32.IsWindow(handle);
+        }
+        
+        private IntPtr GetWindowHandle(ExternalWindowWrapper wrapper)
+        {
+            // Try to get the window handle from the wrapper
+            var windowInfo = _persistenceManager.FindWidgetWindowByExactTitle(wrapper.Name);
+            return windowInfo?.Handle ?? IntPtr.Zero;
         }
 
         private void OnWidgetClosed(object? sender, EventArgs e)
