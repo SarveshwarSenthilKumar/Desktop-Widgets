@@ -213,9 +213,9 @@ namespace FuturisticClockWidget.Views
         {
             try
             {
-                // Flash the window
+                // Flash the window with cyan color
                 var originalBackground = MainBackground.Background;
-                var flashBrush = new SolidColorBrush(Color.FromRgb(255, 107, 107));
+                var flashBrush = new SolidColorBrush(Color.FromRgb(0, 212, 255));
                 MainBackground.Background = flashBrush;
                 
                 var flashTimer = new DispatcherTimer

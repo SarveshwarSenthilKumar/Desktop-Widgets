@@ -25,7 +25,7 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="#FF6B6B" 
+                    <DropShadowEffect Color="#00D4FF" 
                                       BlurRadius="15" 
                                       ShadowDepth="0" 
                                       Opacity="0.8"/>
@@ -35,10 +35,10 @@
         
         <!-- Timer Button Style -->
         <Style x:Key="TimerButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#20FF6B6B"/>
-            <Setter Property="Foreground" Value="#FF6B6B"/>
+            <Setter Property="Background" Value="#2000D4FF"/>
+            <Setter Property="Foreground" Value="#00D4FF"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#40FF6B6B"/>
+            <Setter Property="BorderBrush" Value="#4000D4FF"/>
             <Setter Property="Padding" Value="8,4"/>
             <Setter Property="Margin" Value="2"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
@@ -57,11 +57,11 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#40FF6B6B"/>
-                                <Setter Property="BorderBrush" Value="#60FF6B6B"/>
+                                <Setter Property="Background" Value="#4000D4FF"/>
+                                <Setter Property="BorderBrush" Value="#6000D4FF"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#60FF6B6B"/>
+                                <Setter Property="Background" Value="#6000D4FF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -82,25 +82,25 @@
         </Border.Background>
         <Border.BorderBrush>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                <GradientStop Color="#30FF6B6B" Offset="0"/>
-                <GradientStop Color="#15FF6B6B" Offset="0.5"/>
-                <GradientStop Color="#25FF6B6B" Offset="1"/>
+                <GradientStop Color="#30FFFFFF" Offset="0"/>
+                <GradientStop Color="#15FFFFFF" Offset="0.5"/>
+                <GradientStop Color="#25FFFFFF" Offset="1"/>
             </LinearGradientBrush>
         </Border.BorderBrush>
         <Border.ContextMenu>
-            <ContextMenu Background="#0F000000" Foreground="#FF6B6B">
+            <ContextMenu Background="#0F000000" Foreground="#00D4FF">
                 <ContextMenu.Resources>
                     <Style TargetType="MenuItem">
                         <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="Foreground" Value="#FF6B6B"/>
+                        <Setter Property="Foreground" Value="#00D4FF"/>
                         <Setter Property="FontFamily" Value="Segoe UI Light"/>
                     </Style>
                     <Style TargetType="Separator">
-                        <Setter Property="Background" Value="#30FF6B6B"/>
+                        <Setter Property="Background" Value="#3000D4FF"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Separator">
-                                    <Rectangle Height="1" Fill="#30FF6B6B" Margin="25,2,25,2"/>
+                                    <Rectangle Height="1" Fill="#3000D4FF" Margin="25,2,25,2"/>
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -108,35 +108,88 @@
                 </ContextMenu.Resources>
                 <MenuItem Header="Reset Timer" Click="ResetTimer_Click">
                     <MenuItem.Icon>
-                        <Path Fill="#FF6B6B" Data="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6z"/>
+                        <Path Fill="#00D4FF" Data="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6z"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Set Timer" Click="SetTimer_Click">
                     <MenuItem.Icon>
-                        <Path Fill="#FF6B6B" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                        <Path Fill="#00D4FF" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="Close" Click="CloseMenuItem_Click">
                     <MenuItem.Icon>
-                        <Path Fill="#FF6B6B" Data="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        <Path Fill="#00D4FF" Data="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </ContextMenu>
         </Border.ContextMenu>
         <Border.Effect>
-            <DropShadowEffect Color="#FF6B6B" 
+            <DropShadowEffect Color="#00D4FF" 
                             BlurRadius="25" 
                             ShadowDepth="0" 
                             Opacity="0.4"/>
         </Border.Effect>
         
-        <!-- Content Layer -->
-        <Grid Margin="25,15">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <!-- Enhanced Glass Layers -->
+        <Grid>
+            <!-- Background Blur Layer -->
+            <Border CornerRadius="22" Margin="1">
+                <Border.Background>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#0F111111" Offset="0"/>
+                        <GradientStop Color="#0A222222" Offset="0.7"/>
+                        <GradientStop Color="#05333333" Offset="1"/>
+                    </RadialGradientBrush>
+                </Border.Background>
+                <Border.Effect>
+                    <BlurEffect Radius="8" KernelType="Gaussian"/>
+                </Border.Effect>
+                <Border.OpacityMask>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FFFFFF" Offset="0"/>
+                        <GradientStop Color="#CCFFFFFF" Offset="0.8"/>
+                        <GradientStop Color="#AAFFFFFF" Offset="1"/>
+                    </RadialGradientBrush>
+                </Border.OpacityMask>
+            </Border>
+            
+            <!-- Glass Reflection Layer -->
+            <Border CornerRadius="20" Margin="2">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#25FFFFFF" Offset="0"/>
+                        <GradientStop Color="#10FFFFFF" Offset="0.3"/>
+                        <GradientStop Color="#08FFFFFF" Offset="0.7"/>
+                        <GradientStop Color="#15FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            
+            <!-- Top Highlight Layer -->
+            <Border CornerRadius="20" Margin="2" Height="20" VerticalAlignment="Top">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#40FFFFFF" Offset="0"/>
+                        <GradientStop Color="#20FFFFFF" Offset="0.5"/>
+                        <GradientStop Color="#00FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.OpacityMask>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#FFFFFF" Offset="0"/>
+                        <GradientStop Color="#FFFFFF" Offset="0.5"/>
+                        <GradientStop Color="#00FFFFFF" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.OpacityMask>
+            </Border>
+            
+            <!-- Content Layer -->
+            <Grid Margin="25,15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
             
             <!-- Timer Display -->
             <Grid Grid.Row="0">
@@ -151,7 +204,7 @@
                          Text="{Binding FormattedTime}"
                          Style="{StaticResource NeonTextStyle}"
                          FontSize="48"
-                         Foreground="#FF6B6B"
+                         Foreground="#00D4FF"
                          Margin="0,0,0,5"/>
                 
                 <!-- Timer Status -->
@@ -161,7 +214,7 @@
                          FontFamily="Segoe UI Light"
                          FontSize="12"
                          FontWeight="Light"
-                         Foreground="#CCFF6B6B"
+                         Foreground="#CCFFFFFF"
                          HorizontalAlignment="Center"
                          VerticalAlignment="Center"/>
             </Grid>
@@ -180,10 +233,11 @@
                         Style="{StaticResource TimerButtonStyle}"
                         Click="Reset_Click"/>
                 <Button x:Name="SetButton"
-                        Content="⏰ Set"
+                        Content="Set"
                         Style="{StaticResource TimerButtonStyle}"
                         Click="Set_Click"/>
             </StackPanel>
+            </Grid>
         </Grid>
     </Border>
 </Window>
