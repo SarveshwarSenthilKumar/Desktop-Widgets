@@ -559,14 +559,36 @@ namespace CalendarWidget
             
             // Notify the wrapper that the widget was closed
             // This will trigger the WidgetClosed event
-            if (Tag is CalendarWidget.CalendarWidgetWrapper wrapper)
+            if (Tag is CalendarWidget.CalendarWidgetWrapper originalWrapper)
             {
-                System.Diagnostics.Debug.WriteLine("Found wrapper in Tag, calling NotifyClosed");
-                wrapper.NotifyClosed();
+                System.Diagnostics.Debug.WriteLine("Found original CalendarWidgetWrapper in Tag, calling NotifyClosed");
+                originalWrapper.NotifyClosed();
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine($"Tag is {Tag?.GetType().Name ?? "null"}, expected CalendarWidgetWrapper");
+                
+                // Try to call NotifyClosed via reflection for dashboard wrapper or any other wrapper type
+                try
+                {
+                    if (Tag != null)
+                    {
+                        var notifyClosedMethod = Tag.GetType().GetMethod("NotifyClosed");
+                        if (notifyClosedMethod != null)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Found NotifyClosed method via reflection on {Tag.GetType().Name}");
+                            notifyClosedMethod.Invoke(Tag, null);
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine($"No NotifyClosed method found on {Tag.GetType().Name}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Failed to call NotifyClosed via reflection: {ex.Message}");
+                }
             }
         }
         

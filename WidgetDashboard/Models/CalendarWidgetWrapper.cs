@@ -36,9 +36,11 @@ namespace WidgetDashboard.Models
             _calendarWidget.Start();
             
             // Set the Tag property so the window can reference back to this wrapper
+            // This ensures the CalendarWindow can call NotifyClosed on the correct wrapper
             if (_calendarWidget.WidgetWindow is Window window)
             {
                 window.Tag = this;
+                System.Diagnostics.Debug.WriteLine($"Set Tag on CalendarWindow to {this.GetType().Name}");
             }
         }
 
@@ -60,10 +62,10 @@ namespace WidgetDashboard.Models
         public void NotifyClosed()
         {
             // This method is called by the CalendarWindow when it's closed
-            // Trigger the WidgetClosed event to notify the dashboard
+            // Forward the notification to the underlying calendar widget
             System.Diagnostics.Debug.WriteLine("CalendarWidgetWrapper.NotifyClosed called");
-            WidgetClosed?.Invoke(this, EventArgs.Empty);
-            System.Diagnostics.Debug.WriteLine("WidgetClosed event invoked");
+            _calendarWidget.NotifyClosed();
+            System.Diagnostics.Debug.WriteLine("Forwarded NotifyClosed to underlying calendar widget");
         }
 
         public void SetPosition(double x, double y)
