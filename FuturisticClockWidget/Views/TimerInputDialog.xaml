@@ -135,8 +135,7 @@
         <Grid Margin="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             
@@ -150,72 +149,80 @@
                        HorizontalAlignment="Center"
                        Margin="0,0,0,15"/>
             
-            <!-- Quick Presets -->
-            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,15">
-                <TextBlock Text="Quick Presets"
-                           FontFamily="Segoe UI Light"
-                           FontSize="12"
-                           FontWeight="Light"
-                           Foreground="#CCFFFFFF"
-                           HorizontalAlignment="Center"
-                           Margin="0,0,0,8"/>
-                <WrapPanel HorizontalAlignment="Center">
-                    <Button Content="1 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset1Min_Click"/>
-                    <Button Content="5 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset5Min_Click"/>
-                    <Button Content="10 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset10Min_Click"/>
-                    <Button Content="15 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset15Min_Click"/>
-                    <Button Content="30 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset30Min_Click"/>
-                    <Button Content="1 hour" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset1Hour_Click"/>
-                </WrapPanel>
-            </StackPanel>
-            
-            <!-- Input Section -->
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                
-                <!-- Hours -->
-                <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-                    <TextBox x:Name="HoursTextBox"
-                             Style="{StaticResource TimerInputStyle}"
-                             Text="0"
-                             MaxLength="2"
-                             PreviewTextInput="NumberValidationTextBox"/>
-                    <TextBlock Text="Hours"
-                               Style="{StaticResource TimerLabelStyle}"/>
+            <!-- Scrollable Content -->
+            <ScrollViewer Grid.Row="1" 
+                          VerticalScrollBarVisibility="Auto" 
+                          HorizontalScrollBarVisibility="Disabled"
+                          CanContentScroll="False">
+                <StackPanel>
+                    <!-- Quick Presets -->
+                    <StackPanel HorizontalAlignment="Center" Margin="0,0,0,15">
+                        <TextBlock Text="Quick Presets"
+                                   FontFamily="Segoe UI Light"
+                                   FontSize="12"
+                                   FontWeight="Light"
+                                   Foreground="#CCFFFFFF"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,0,0,8"/>
+                        <WrapPanel HorizontalAlignment="Center">
+                            <Button Content="1 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset1Min_Click"/>
+                            <Button Content="5 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset5Min_Click"/>
+                            <Button Content="10 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset10Min_Click"/>
+                            <Button Content="15 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset15Min_Click"/>
+                            <Button Content="30 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset30Min_Click"/>
+                            <Button Content="1 hour" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset1Hour_Click"/>
+                        </WrapPanel>
+                    </StackPanel>
+                    
+                    <!-- Input Section -->
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Hours -->
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                            <TextBox x:Name="HoursTextBox"
+                                     Style="{StaticResource TimerInputStyle}"
+                                     Text="0"
+                                     MaxLength="2"
+                                     PreviewTextInput="NumberValidationTextBox"/>
+                            <TextBlock Text="Hours"
+                                       Style="{StaticResource TimerLabelStyle}"/>
+                        </StackPanel>
+                        
+                        <!-- Minutes -->
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                            <TextBox x:Name="MinutesTextBox"
+                                     Style="{StaticResource TimerInputStyle}"
+                                     Text="5"
+                                     MaxLength="2"
+                                     PreviewTextInput="NumberValidationTextBox"/>
+                            <TextBlock Text="Minutes"
+                                       Style="{StaticResource TimerLabelStyle}"/>
+                        </StackPanel>
+                        
+                        <!-- Seconds -->
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                            <TextBox x:Name="SecondsTextBox"
+                                     Style="{StaticResource TimerInputStyle}"
+                                     Text="0"
+                                     MaxLength="2"
+                                     PreviewTextInput="NumberValidationTextBox"/>
+                            <TextBlock Text="Seconds"
+                                       Style="{StaticResource TimerLabelStyle}"/>
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
-                
-                <!-- Minutes -->
-                <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                    <TextBox x:Name="MinutesTextBox"
-                             Style="{StaticResource TimerInputStyle}"
-                             Text="5"
-                             MaxLength="2"
-                             PreviewTextInput="NumberValidationTextBox"/>
-                    <TextBlock Text="Minutes"
-                               Style="{StaticResource TimerLabelStyle}"/>
-                </StackPanel>
-                
-                <!-- Seconds -->
-                <StackPanel Grid.Column="2" HorizontalAlignment="Center">
-                    <TextBox x:Name="SecondsTextBox"
-                             Style="{StaticResource TimerInputStyle}"
-                             Text="0"
-                             MaxLength="2"
-                             PreviewTextInput="NumberValidationTextBox"/>
-                    <TextBlock Text="Seconds"
-                               Style="{StaticResource TimerLabelStyle}"/>
-                </StackPanel>
-            </Grid>
+            </ScrollViewer>
             
             <!-- Buttons -->
-            <StackPanel Grid.Row="3" 
+            <StackPanel Grid.Row="2" 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Center"
-                        Margin="0,20,0,0">
+                        Margin="0,15,0,0">
                 <Button Content="OK"
                         Style="{StaticResource TimerDialogButtonStyle}"
                         Click="OK_Click"
