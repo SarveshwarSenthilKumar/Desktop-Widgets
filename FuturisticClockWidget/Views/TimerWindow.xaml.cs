@@ -253,13 +253,7 @@ namespace FuturisticClockWidget.Views
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // Adjust font sizes based on window size
-            if (TimerTextBlock != null)
-            {
-                double scale = Math.Min(ActualWidth / 280.0, ActualHeight / 120.0);
-                double fontSize = Math.Max(20, 48 * scale);
-                TimerTextBlock.FontSize = fontSize;
-            }
+            UpdateFontSizes();
         }
 
         private void ResetTimer_Click(object sender, RoutedEventArgs e)
@@ -275,6 +269,73 @@ namespace FuturisticClockWidget.Views
         private void CloseMenuItem_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void SizeSmall_Click(object sender, RoutedEventArgs e)
+        {
+            SetWindowSize(200, 100);
+        }
+
+        private void SizeMedium_Click(object sender, RoutedEventArgs e)
+        {
+            SetWindowSize(280, 120);
+        }
+
+        private void SizeLarge_Click(object sender, RoutedEventArgs e)
+        {
+            SetWindowSize(400, 180);
+        }
+
+        private void SizeExtraLarge_Click(object sender, RoutedEventArgs e)
+        {
+            SetWindowSize(600, 240);
+        }
+
+        private void SetWindowSize(double width, double height)
+        {
+            Width = width;
+            Height = height;
+            
+            // Keep current position, adjust if needed to stay on screen
+            if (Left + width > SystemParameters.PrimaryScreenWidth)
+                Left = SystemParameters.PrimaryScreenWidth - width;
+            if (Top + height > SystemParameters.PrimaryScreenHeight)
+                Top = SystemParameters.PrimaryScreenHeight - height;
+            
+            // Update font sizes based on new window size
+            UpdateFontSizes();
+        }
+
+        private void UpdateFontSizes()
+        {
+            // Safety check: ensure window dimensions are valid
+            if (ActualWidth <= 0 || ActualHeight <= 0)
+                return;
+                
+            // Calculate scale factors based on window size
+            double widthScale = ActualWidth / 280.0; // Base width is 280
+            double heightScale = ActualHeight / 120.0; // Base height is 120
+            double scale = Math.Min(widthScale, heightScale);
+            
+            // Ensure scale is never 0 or negative
+            scale = Math.Max(0.1, scale); // Minimum scale to prevent 0 font sizes
+            
+            // Apply exponential scaling for timer text
+            double exponentialScale = Math.Pow(scale, 0.8);
+            
+            // Apply scaling to timer display font size with minimum constraint
+            if (TimerTextBlock != null)
+            {
+                double calculatedSize = 48 * exponentialScale; // Base size is 48
+                TimerTextBlock.FontSize = Math.Max(12.0, calculatedSize); // Minimum 12pt font
+            }
+            
+            // Apply scaling to status text font size
+            if (StatusTextBlock != null)
+            {
+                double calculatedSize = 12 * exponentialScale; // Base size is 12
+                StatusTextBlock.FontSize = Math.Max(8.0, calculatedSize); // Minimum 8pt font
+            }
         }
 
         protected override void OnClosed(EventArgs e)
