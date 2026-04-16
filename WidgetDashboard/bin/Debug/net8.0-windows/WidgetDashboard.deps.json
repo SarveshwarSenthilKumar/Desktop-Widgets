@@ -12,7 +12,8 @@
           "CommunityToolkit.Mvvm": "8.2.2",
           "FuturisticClockWidget": "1.0.0",
           "Microsoft.Extensions.DependencyInjection": "8.0.0",
-          "Microsoft.Extensions.Hosting": "8.0.0"
+          "Microsoft.Extensions.Hosting": "8.0.0",
+          "StopwatchWidget": "1.0.0"
         },
         "runtime": {
           "WidgetDashboard.dll": {}
@@ -485,6 +486,17 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "StopwatchWidget/1.0.0": {
+        "dependencies": {
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.77"
+        },
+        "runtime": {
+          "StopwatchWidget.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -759,6 +771,11 @@
       "sha512": ""
     },
     "FuturisticClockWidget/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "StopwatchWidget/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

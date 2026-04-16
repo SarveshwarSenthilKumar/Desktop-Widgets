@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "evSc4BpMcSI=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\sarve\\Documents\\Desktop Contents\\GitHub Repositories\\Desktop Widgets\\StopwatchWidget\\StopwatchWidget.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\sarve\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.77\\microsoft.xaml.behaviors.wpf.1.1.77.nupkg.sha512"
+  ],
+  "logs": []
+}

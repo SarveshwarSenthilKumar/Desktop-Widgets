@@ -852,6 +852,22 @@
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App"
         ]
+      },
+      "StopwatchWidget/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.77"
+        },
+        "compile": {
+          "bin/placeholder/StopwatchWidget.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/StopwatchWidget.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App"
+        ]
       }
     }
   },
@@ -2216,6 +2232,11 @@
       "type": "project",
       "path": "../FuturisticClockWidget/FuturisticClockWidget.csproj",
       "msbuildProject": "../FuturisticClockWidget/FuturisticClockWidget.csproj"
+    },
+    "StopwatchWidget/1.0.0": {
+      "type": "project",
+      "path": "../StopwatchWidget/StopwatchWidget.csproj",
+      "msbuildProject": "../StopwatchWidget/StopwatchWidget.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -2224,7 +2245,8 @@
       "CommunityToolkit.Mvvm >= 8.2.2",
       "FuturisticClockWidget >= 1.0.0",
       "Microsoft.Extensions.DependencyInjection >= 8.0.0",
-      "Microsoft.Extensions.Hosting >= 8.0.0"
+      "Microsoft.Extensions.Hosting >= 8.0.0",
+      "StopwatchWidget >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2265,6 +2287,9 @@
             },
             "C:\\Users\\sarve\\Documents\\Desktop Contents\\GitHub Repositories\\Desktop Widgets\\FuturisticClockWidget\\FuturisticClockWidget.csproj": {
               "projectPath": "C:\\Users\\sarve\\Documents\\Desktop Contents\\GitHub Repositories\\Desktop Widgets\\FuturisticClockWidget\\FuturisticClockWidget.csproj"
+            },
+            "C:\\Users\\sarve\\Documents\\Desktop Contents\\GitHub Repositories\\Desktop Widgets\\StopwatchWidget\\StopwatchWidget.csproj": {
+              "projectPath": "C:\\Users\\sarve\\Documents\\Desktop Contents\\GitHub Repositories\\Desktop Widgets\\StopwatchWidget\\StopwatchWidget.csproj"
             }
           }
         }
