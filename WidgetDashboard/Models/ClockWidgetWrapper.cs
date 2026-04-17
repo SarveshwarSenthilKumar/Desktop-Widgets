@@ -10,7 +10,7 @@ namespace WidgetDashboard.Models
         private readonly int _instanceId;
         private readonly string _uniqueId;
 
-        public override string Name => $"Futuristic Clock {_instanceId}";
+        public override string Name => $"Futuristic Clock Widget";
         public override string Description => "A modern digital and analog clock widget with customizable styling";
 
         public ClockWidgetWrapper()

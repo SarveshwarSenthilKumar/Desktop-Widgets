@@ -9,7 +9,7 @@ namespace StopwatchWidget
         private readonly int _instanceId;
         private readonly string _uniqueId;
 
-        public override string Name => $"Stopwatch {_instanceId}";
+        public override string Name => $"Stopwatch Widget";
         public override string Description => "A professional stopwatch with lap times and precision timing";
         
         public string WidgetId => $"Stopwatch_{_instanceId}_{_uniqueId}";
