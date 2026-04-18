@@ -33,6 +33,12 @@
             </Setter>
         </Style>
         
+        <!-- Analog Clock Style -->
+        <Style x:Key="AnalogClockStyle" TargetType="Canvas">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="120"/>
+        </Style>
+        
         <!-- Timer Button Style -->
         <Style x:Key="TimerButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="#2000D4FF"/>
@@ -139,6 +145,11 @@
                     </MenuItem>
                 </MenuItem>
                 <Separator/>
+                <MenuItem Header="Toggle Analog/Digital" Click="ToggleAnalogDigital_Click">
+                    <MenuItem.Icon>
+                        <Path Fill="#00D4FF" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5l7.51-3.49L17.5 6.5 12 12z"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="Reset Timer" Click="ResetTimer_Click">
                     <MenuItem.Icon>
                         <Path Fill="#00D4FF" Data="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6z"/>
@@ -231,25 +242,91 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 
-                <!-- Timer Text -->
-                <TextBlock Grid.Row="0"
-                         x:Name="TimerTextBlock"
-                         Text="{Binding FormattedTime}"
-                         Style="{StaticResource NeonTextStyle}"
-                         FontSize="48"
-                         Foreground="#00D4FF"
-                         Margin="0,0,0,5"/>
+                <!-- Digital Display -->
+                <Grid x:Name="DigitalDisplay" Grid.Row="0" Grid.RowSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Timer Text -->
+                    <TextBlock Grid.Row="0"
+                             x:Name="TimerTextBlock"
+                             Text="{Binding FormattedTime}"
+                             Style="{StaticResource NeonTextStyle}"
+                             FontSize="48"
+                             Foreground="#00D4FF"
+                             Margin="0,0,0,5"/>
+                    
+                    <!-- Timer Status -->
+                    <TextBlock Grid.Row="1"
+                             x:Name="StatusTextBlock"
+                             Text="{Binding TimerStatus}"
+                             FontFamily="Segoe UI Light"
+                             FontSize="12"
+                             FontWeight="Light"
+                             Foreground="#CCFFFFFF"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"/>
+                </Grid>
                 
-                <!-- Timer Status -->
-                <TextBlock Grid.Row="1"
-                         x:Name="StatusTextBlock"
-                         Text="{Binding TimerStatus}"
-                         FontFamily="Segoe UI Light"
-                         FontSize="12"
-                         FontWeight="Light"
-                         Foreground="#CCFFFFFF"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"/>
+                <!-- Analog Display -->
+                <Grid x:Name="AnalogDisplay" Grid.Row="0" Grid.RowSpan="2" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Analog Clock -->
+                    <Canvas x:Name="AnalogClock" Grid.Row="0" Style="{StaticResource AnalogClockStyle}" 
+                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                        
+                        <!-- Clock Face Background -->
+                        <Ellipse Width="120" Height="120" Fill="#0A000000" Stroke="#3000D4FF" StrokeThickness="2"/>
+                        
+                        <!-- Hour Markers -->
+                        <Ellipse Width="8" Height="8" Fill="#00D4FF" Canvas.Left="56" Canvas.Top="4"/>
+                        <Ellipse Width="8" Height="8" Fill="#00D4FF" Canvas.Left="108" Canvas.Top="56"/>
+                        <Ellipse Width="8" Height="8" Fill="#00D4FF" Canvas.Left="56" Canvas.Top="108"/>
+                        <Ellipse Width="8" Height="8" Fill="#00D4FF" Canvas.Left="4" Canvas.Top="56"/>
+                        
+                        <!-- Minute Markers -->
+                        <Ellipse Width="4" Height="4" Fill="#6000D4FF" Canvas.Left="56" Canvas.Top="16"/>
+                        <Ellipse Width="4" Height="4" Fill="#6000D4FF" Canvas.Left="96" Canvas.Top="56"/>
+                        <Ellipse Width="4" Height="4" Fill="#6000D4FF" Canvas.Left="56" Canvas.Top="96"/>
+                        <Ellipse Width="4" Height="4" Fill="#6000D4FF" Canvas.Left="16" Canvas.Top="56"/>
+                        
+                        <!-- Timer Progress Arc -->
+                        <Path x:Name="ProgressArc" Stroke="#00D4FF" StrokeThickness="3" Fill="Transparent"/>
+                        
+                        <!-- Center Dot -->
+                        <Ellipse Width="10" Height="10" Fill="#00D4FF" Canvas.Left="55" Canvas.Top="55">
+                            <Ellipse.Effect>
+                                <DropShadowEffect Color="#00D4FF" BlurRadius="8" ShadowDepth="0" Opacity="0.8"/>
+                            </Ellipse.Effect>
+                        </Ellipse>
+                        
+                        <!-- Timer Hand (points to current position) -->
+                        <Line x:Name="TimerHand" X1="60" Y1="60" X2="60" Y2="20" 
+                              Stroke="#00D4FF" StrokeThickness="2" StrokeEndLineCap="Round">
+                            <Line.Effect>
+                                <DropShadowEffect Color="#00D4FF" BlurRadius="4" ShadowDepth="0" Opacity="0.6"/>
+                            </Line.Effect>
+                        </Line>
+                    </Canvas>
+                    
+                    <!-- Timer Status -->
+                    <TextBlock Grid.Row="1"
+                             x:Name="AnalogStatusTextBlock"
+                             Text="{Binding TimerStatus}"
+                             FontFamily="Segoe UI Light"
+                             FontSize="12"
+                             FontWeight="Light"
+                             Foreground="#CCFFFFFF"
+                             HorizontalAlignment="Center"
+                             VerticalAlignment="Center"
+                             Margin="0,5,0,0"/>
+                </Grid>
             </Grid>
             
             <!-- Control Buttons -->

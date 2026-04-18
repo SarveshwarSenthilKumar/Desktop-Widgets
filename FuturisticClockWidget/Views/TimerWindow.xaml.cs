@@ -16,6 +16,7 @@ namespace FuturisticClockWidget.Views
         private TimeSpan _initialTime;
         private bool _isRunning;
         private TimerState _timerState;
+        private bool _isAnalogMode = false;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -91,6 +92,12 @@ namespace FuturisticClockWidget.Views
             {
                 RemainingTime = RemainingTime.Subtract(TimeSpan.FromMilliseconds(100));
                 
+                // Update analog display if in analog mode
+                if (_isAnalogMode)
+                {
+                    UpdateAnalogDisplay();
+                }
+                
                 if (RemainingTime.TotalSeconds <= 0)
                 {
                     RemainingTime = TimeSpan.Zero;
@@ -101,6 +108,12 @@ namespace FuturisticClockWidget.Views
                     // Update UI
                     OnPropertyChanged(nameof(TimerStatus));
                     UpdateButtonStates();
+                    
+                    // Update analog display one final time
+                    if (_isAnalogMode)
+                    {
+                        UpdateAnalogDisplay();
+                    }
                     
                     // Show notification
                     ShowTimerCompleteNotification();
@@ -144,6 +157,12 @@ namespace FuturisticClockWidget.Views
             
             OnPropertyChanged(nameof(TimerStatus));
             UpdateButtonStates();
+            
+            // Update analog display
+            if (_isAnalogMode)
+            {
+                UpdateAnalogDisplay();
+            }
         }
 
         private void PauseTimer()
@@ -165,6 +184,12 @@ namespace FuturisticClockWidget.Views
             
             OnPropertyChanged(nameof(TimerStatus));
             UpdateButtonStates();
+            
+            // Update analog display
+            if (_isAnalogMode)
+            {
+                UpdateAnalogDisplay();
+            }
         }
 
         private void ShowTimerDialog()
@@ -387,6 +412,86 @@ namespace FuturisticClockWidget.Views
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ToggleAnalogDigital_Click(object sender, RoutedEventArgs e)
+        {
+            _isAnalogMode = !_isAnalogMode;
+            
+            if (_isAnalogMode)
+            {
+                DigitalDisplay.Visibility = Visibility.Collapsed;
+                AnalogDisplay.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                DigitalDisplay.Visibility = Visibility.Visible;
+                AnalogDisplay.Visibility = Visibility.Collapsed;
+            }
+            
+            // Update analog display if switching to analog mode
+            if (_isAnalogMode)
+            {
+                UpdateAnalogDisplay();
+            }
+        }
+
+        private void UpdateAnalogDisplay()
+        {
+            if (!_isAnalogMode) return;
+
+            // Calculate progress (0 to 1, where 1 is completed)
+            double progress = _initialTime.TotalSeconds > 0 
+                ? 1 - (RemainingTime.TotalSeconds / _initialTime.TotalSeconds)
+                : 1;
+
+            // Update the timer hand position (12 o'clock is fully completed, clockwise rotation)
+            double angle = -90 + (progress * 360); // Start at 12 o'clock (-90 degrees)
+            
+            // Calculate hand endpoint
+            double handLength = 35; // Length of the timer hand
+            double radians = angle * Math.PI / 180;
+            double endX = 60 + handLength * Math.Cos(radians);
+            double endY = 60 + handLength * Math.Sin(radians);
+            
+            TimerHand.X2 = endX;
+            TimerHand.Y2 = endY;
+            
+            // Update progress arc
+            UpdateProgressArc(progress);
+        }
+
+        private void UpdateProgressArc(double progress)
+        {
+            if (progress <= 0) return;
+
+            // Create an arc path from 12 o'clock clockwise
+            var startAngle = -90; // Start at 12 o'clock
+            var endAngle = startAngle + (progress * 360);
+            var radius = 55;
+            var center = new Point(60, 60);
+
+            var pathGeometry = new PathGeometry();
+            var pathFigure = new PathFigure
+            {
+                StartPoint = new Point(
+                    center.X + radius * Math.Cos(startAngle * Math.PI / 180),
+                    center.Y + radius * Math.Sin(startAngle * Math.PI / 180))
+            };
+
+            var arcSegment = new ArcSegment
+            {
+                Size = new Size(radius, radius),
+                SweepDirection = SweepDirection.Clockwise,
+                Point = new Point(
+                    center.X + radius * Math.Cos(endAngle * Math.PI / 180),
+                    center.Y + radius * Math.Sin(endAngle * Math.PI / 180))
+            };
+
+            pathFigure.Segments.Add(arcSegment);
+            pathGeometry.Figures.Add(pathFigure);
+
+            ProgressArc.Data = pathGeometry;
         }
     }
 

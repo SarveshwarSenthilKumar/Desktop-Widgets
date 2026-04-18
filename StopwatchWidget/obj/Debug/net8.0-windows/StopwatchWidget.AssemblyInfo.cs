@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StopwatchWidget")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c40d49f69c37c2bb025641e193457efd92e45bed")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e0fd8f4110a018522e3c5aeb5323a4e1cf01944f")]
 [assembly: System.Reflection.AssemblyProductAttribute("StopwatchWidget")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StopwatchWidget")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
