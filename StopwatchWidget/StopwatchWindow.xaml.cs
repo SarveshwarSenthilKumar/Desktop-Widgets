@@ -459,11 +459,11 @@ namespace StopwatchWidget
             // Calculate hand angle (12 o'clock is 0 degrees, clockwise)
             double angle = -90 + (seconds * 6); // 6 degrees per second
             
-            // Calculate hand endpoint
-            double handLength = 35; // Length of the stopwatch hand
+            // Calculate hand endpoint (canvas is 100x100, center is 50,50)
+            double handLength = 30; // Length of the stopwatch hand
             double radians = angle * Math.PI / 180;
-            double endX = 60 + handLength * Math.Cos(radians);
-            double endY = 60 + handLength * Math.Sin(radians);
+            double endX = 50 + handLength * Math.Cos(radians);
+            double endY = 50 + handLength * Math.Sin(radians);
             
             StopwatchHand.X2 = endX;
             StopwatchHand.Y2 = endY;

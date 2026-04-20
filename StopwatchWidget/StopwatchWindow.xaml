@@ -98,9 +98,9 @@
             <Setter Property="FontWeight" Value="Light"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontSize" Value="9"/>
             <Setter Property="Foreground" Value="#CCFFFFFF"/>
-            <Setter Property="Margin" Value="5,1"/>
+            <Setter Property="Margin" Value="3,1"/>
         </Style>
     </Window.Resources>
     
@@ -174,7 +174,7 @@
         </Border.Effect>
         
         <!-- Content Grid -->
-        <Grid Margin="20,15">
+        <Grid Margin="10,8">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -186,7 +186,8 @@
             <!-- Header -->
             <TextBlock Grid.Row="0" 
                        Text="STOPWATCH" 
-                       Style="{StaticResource StopwatchHeaderStyle}"/>
+                       Style="{StaticResource StopwatchHeaderStyle}"
+                       Margin="0,0,0,5"/>
             
             <!-- Time Display -->
             <!-- Digital Display -->
@@ -194,72 +195,68 @@
                 <TextBlock x:Name="TimeDisplay"
                          Text="{Binding ElapsedTimeString}"
                          Style="{StaticResource TimeDisplayStyle}"
-                         Margin="0,10"/>
+                         Margin="0,5"/>
             </Grid>
             
             <!-- Analog Display -->
             <Grid x:Name="AnalogDisplay" Grid.Row="1" Visibility="Collapsed">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <!-- Analog Stopwatch -->
-                    <Viewbox Stretch="Uniform" MaxWidth="120" MaxHeight="120" 
+                    <Viewbox Stretch="Uniform" MaxWidth="100" MaxHeight="100" 
                              HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Canvas Width="120" Height="120" x:Name="AnalogStopwatch">
+                        <Canvas Width="100" Height="100" x:Name="AnalogStopwatch">
                             
                             <!-- Clock Face Background -->
-                            <Ellipse Width="120" Height="120" Fill="#0A000000" Stroke="#4000D4FF" StrokeThickness="2"/>
+                            <Ellipse Width="100" Height="100" Fill="#0A000000" Stroke="#4000D4FF" StrokeThickness="2"/>
                             
                             <!-- Inner ring for depth -->
-                            <Ellipse Width="100" Height="100" Fill="Transparent" Stroke="#2000D4FF" StrokeThickness="1" 
+                            <Ellipse Width="80" Height="80" Fill="Transparent" Stroke="#2000D4FF" StrokeThickness="1" 
                                      Canvas.Left="10" Canvas.Top="10"/>
                             
                             <!-- Hour Markers (12, 3, 6, 9) -->
-                            <Rectangle Width="2" Height="12" Fill="#00D4FF" Canvas.Left="59" Canvas.Top="2"/>
-                            <Rectangle Width="12" Height="2" Fill="#00D4FF" Canvas.Left="106" Canvas.Top="59"/>
-                            <Rectangle Width="2" Height="12" Fill="#00D4FF" Canvas.Left="59" Canvas.Top="106"/>
-                            <Rectangle Width="12" Height="2" Fill="#00D4FF" Canvas.Left="2" Canvas.Top="59"/>
+                            <Rectangle Width="2" Height="10" Fill="#00D4FF" Canvas.Left="49" Canvas.Top="2"/>
+                            <Rectangle Width="10" Height="2" Fill="#00D4FF" Canvas.Left="88" Canvas.Top="49"/>
+                            <Rectangle Width="2" Height="10" Fill="#00D4FF" Canvas.Left="49" Canvas.Top="88"/>
+                            <Rectangle Width="10" Height="2" Fill="#00D4FF" Canvas.Left="2" Canvas.Top="49"/>
                             
                             <!-- Additional Hour Markers (1, 2, 4, 5, 7, 8, 10, 11) -->
-                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="71" Canvas.Top="6"/>
-                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="81" Canvas.Top="6"/>
-                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="81" Canvas.Top="106"/>
-                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="71" Canvas.Top="106"/>
-                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="48" Canvas.Top="106"/>
-                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="38" Canvas.Top="106"/>
-                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="38" Canvas.Top="6"/>
-                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="48" Canvas.Top="6"/>
+                            <Rectangle Width="1" Height="6" Fill="#6000D4FF" Canvas.Left="59" Canvas.Top="5"/>
+                            <Rectangle Width="1" Height="6" Fill="#6000D4FF" Canvas.Left="67" Canvas.Top="5"/>
+                            <Rectangle Width="1" Height="6" Fill="#6000D4FF" Canvas.Left="67" Canvas.Top="89"/>
+                            <Rectangle Width="1" Height="6" Fill="#6000D4FF" Canvas.Left="59" Canvas.Top="89"/>
+                            <Rectangle Width="1" Height="6" Fill="#6000D4FF" Canvas.Left="40" Canvas.Top="89"/>
+                            <Rectangle Width="1" Height="6" Fill="#6000D4FF" Canvas.Left="31" Canvas.Top="89"/>
+                            <Rectangle Width="1" Height="6" Fill="#6000D4FF" Canvas.Left="31" Canvas.Top="5"/>
+                            <Rectangle Width="1" Height="6" Fill="#6000D4FF" Canvas.Left="40" Canvas.Top="5"/>
                             
                             <!-- Minute Markers -->
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="60" Canvas.Top="12"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="90" Canvas.Top="18"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="102" Canvas.Top="30"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="102" Canvas.Top="48"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="102" Canvas.Top="72"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="102" Canvas.Top="90"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="90" Canvas.Top="102"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="60" Canvas.Top="102"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="30" Canvas.Top="102"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="18" Canvas.Top="102"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="6" Canvas.Top="90"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="6" Canvas.Top="72"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="6" Canvas.Top="48"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="6" Canvas.Top="30"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="18" Canvas.Top="18"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="90" Canvas.Top="18"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="90" Canvas.Top="90"/>
-                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="18" Canvas.Top="90"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="50" Canvas.Top="10"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="75" Canvas.Top="15"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="85" Canvas.Top="25"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="85" Canvas.Top="50"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="85" Canvas.Top="75"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="75" Canvas.Top="85"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="50" Canvas.Top="85"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="25" Canvas.Top="85"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="15" Canvas.Top="85"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="15" Canvas.Top="75"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="10" Canvas.Top="50"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="25" Canvas.Top="50"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="50" Canvas.Top="25"/>
+                            <Ellipse Width="1.5" Height="1.5" Fill="#4000D4FF" Canvas.Left="10" Canvas.Top="10"/>
                             
                             <!-- Center Dot -->
-                            <Ellipse Width="10" Height="10" Fill="#00D4FF" Canvas.Left="55" Canvas.Top="55">
+                            <Ellipse Width="8" Height="8" Fill="#00D4FF" Canvas.Left="46" Canvas.Top="46">
                                 <Ellipse.Effect>
-                                    <DropShadowEffect Color="#00D4FF" BlurRadius="8" ShadowDepth="0" Opacity="0.8"/>
+                                    <DropShadowEffect Color="#00D4FF" BlurRadius="6" ShadowDepth="0" Opacity="0.8"/>
                                 </Ellipse.Effect>
                             </Ellipse>
                             
                             <!-- Stopwatch Hand (points to current seconds position) -->
-                            <Line x:Name="StopwatchHand" X1="60" Y1="60" X2="60" Y2="20" 
-                                  Stroke="#00D4FF" StrokeThickness="2" StrokeEndLineCap="Round">
+                            <Line x:Name="StopwatchHand" X1="50" Y1="50" X2="50" Y2="15" 
+                                  Stroke="#00D4FF" StrokeThickness="1.5" StrokeEndLineCap="Round">
                                 <Line.Effect>
-                                    <DropShadowEffect Color="#00D4FF" BlurRadius="4" ShadowDepth="0" Opacity="0.6"/>
+                                    <DropShadowEffect Color="#00D4FF" BlurRadius="3" ShadowDepth="0" Opacity="0.6"/>
                                 </Line.Effect>
                             </Line>
                         </Canvas>
@@ -267,29 +264,29 @@
                     
                     <!-- Digital Time Overlay -->
                     <Border Background="#0A000000" 
-                            CornerRadius="8" 
-                            Padding="12,6"
+                            CornerRadius="6" 
+                            Padding="8,4"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Margin="0,8,0,0"
-                            MinWidth="80">
+                            Margin="0,5,0,0"
+                            MinWidth="60">
                         <Border.Effect>
                             <DropShadowEffect Color="#00D4FF" 
-                                              BlurRadius="8" 
+                                              BlurRadius="6" 
                                               ShadowDepth="0" 
                                               Opacity="0.6"/>
                         </Border.Effect>
                         <TextBlock x:Name="AnalogDigitalOverlay"
                                  Text="{Binding ElapsedTimeString}"
                                  FontFamily="Segoe UI Light"
-                                 FontSize="16"
+                                 FontSize="14"
                                  FontWeight="UltraLight"
                                  Foreground="#00D4FF"
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center">
                             <TextBlock.Effect>
                                 <DropShadowEffect Color="#00D4FF" 
-                                                  BlurRadius="6" 
+                                                  BlurRadius="4" 
                                                   ShadowDepth="0" 
                                                   Opacity="1.0"/>
                             </TextBlock.Effect>
@@ -299,7 +296,7 @@
             </Grid>
             
             <!-- Control Buttons -->
-            <Grid Grid.Row="2" Margin="0,10,0,10">
+            <Grid Grid.Row="2" Margin="0,5,0,5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -310,6 +307,8 @@
                         x:Name="StartStopButton"
                         Content="Start" 
                         Style="{StaticResource StopwatchButtonStyle}"
+                        Padding="6,3"
+                        FontSize="11"
                         Click="StartStop_Click"/>
                 
                 <Button Grid.Column="1" 
@@ -317,11 +316,15 @@
                         Content="Lap" 
                         Style="{StaticResource StopwatchButtonStyle}"
                         IsEnabled="False"
+                        Padding="6,3"
+                        FontSize="11"
                         Click="Lap_Click"/>
                 
                 <Button Grid.Column="2" 
                         Content="Reset" 
                         Style="{StaticResource StopwatchButtonStyle}"
+                        Padding="6,3"
+                        FontSize="11"
                         Click="Reset_Click"/>
             </Grid>
             
@@ -330,6 +333,7 @@
                           x:Name="LapTimesScrollViewer"
                           VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled"
+                          MaxHeight="80"
                           Visibility="{Binding HasLapTimes, Converter={StaticResource BoolToVisibilityConverter}}">
                 <ItemsControl ItemsSource="{Binding LapTimes}">
                     <ItemsControl.ItemTemplate>
