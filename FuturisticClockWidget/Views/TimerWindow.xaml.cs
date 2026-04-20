@@ -448,7 +448,7 @@ namespace FuturisticClockWidget.Views
             if (!_isAnalogMode) return;
 
             // Calculate optimal size based on window dimensions
-            double availableHeight = ActualHeight - 80; // Account for buttons and margins
+            double availableHeight = ActualHeight - 100; // Account for buttons, digital display, and margins
             double availableWidth = ActualWidth - 50; // Account for margins
             
             // Use the smaller dimension for a perfect circle
