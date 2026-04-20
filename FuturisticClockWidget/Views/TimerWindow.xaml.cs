@@ -279,6 +279,12 @@ namespace FuturisticClockWidget.Views
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateFontSizes();
+            
+            // Update analog clock size if in analog mode
+            if (_isAnalogMode)
+            {
+                UpdateAnalogClockSize();
+            }
         }
 
         private void ResetTimer_Click(object sender, RoutedEventArgs e)
@@ -422,6 +428,7 @@ namespace FuturisticClockWidget.Views
             {
                 DigitalDisplay.Visibility = Visibility.Collapsed;
                 AnalogDisplay.Visibility = Visibility.Visible;
+                UpdateAnalogClockSize();
             }
             else
             {
@@ -434,6 +441,46 @@ namespace FuturisticClockWidget.Views
             {
                 UpdateAnalogDisplay();
             }
+        }
+
+        private void UpdateAnalogClockSize()
+        {
+            if (!_isAnalogMode) return;
+
+            // Calculate optimal size based on window dimensions
+            double availableHeight = ActualHeight - 80; // Account for buttons and margins
+            double availableWidth = ActualWidth - 50; // Account for margins
+            
+            // Use the smaller dimension for a perfect circle
+            double maxSize = Math.Min(availableHeight, availableWidth);
+            
+            // Ensure minimum size for visibility
+            maxSize = Math.Max(maxSize, 60);
+            
+            // Apply size constraints
+            var viewbox = FindChild<Viewbox>(AnalogDisplay);
+            if (viewbox != null)
+            {
+                viewbox.MaxWidth = maxSize;
+                viewbox.MaxHeight = maxSize;
+            }
+        }
+
+        private T FindChild<T>(DependencyObject parent) where T : DependencyObject
+        {
+            if (parent == null) return null;
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T result)
+                    return result;
+
+                var childResult = FindChild<T>(child);
+                if (childResult != null)
+                    return childResult;
+            }
+            return null;
         }
 
         private void UpdateAnalogDisplay()

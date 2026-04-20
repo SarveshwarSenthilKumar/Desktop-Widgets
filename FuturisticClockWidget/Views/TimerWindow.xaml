@@ -278,42 +278,72 @@
                     </Grid.RowDefinitions>
                     
                     <!-- Analog Clock -->
-                    <Canvas x:Name="AnalogClock" Grid.Row="0" Style="{StaticResource AnalogClockStyle}" 
-                            HorizontalAlignment="Center" VerticalAlignment="Center">
-                        
-                        <!-- Clock Face Background -->
-                        <Ellipse Width="120" Height="120" Fill="#0A000000" Stroke="#3000D4FF" StrokeThickness="2"/>
-                        
-                        <!-- Hour Markers -->
-                        <Ellipse Width="8" Height="8" Fill="#00D4FF" Canvas.Left="56" Canvas.Top="4"/>
-                        <Ellipse Width="8" Height="8" Fill="#00D4FF" Canvas.Left="108" Canvas.Top="56"/>
-                        <Ellipse Width="8" Height="8" Fill="#00D4FF" Canvas.Left="56" Canvas.Top="108"/>
-                        <Ellipse Width="8" Height="8" Fill="#00D4FF" Canvas.Left="4" Canvas.Top="56"/>
-                        
-                        <!-- Minute Markers -->
-                        <Ellipse Width="4" Height="4" Fill="#6000D4FF" Canvas.Left="56" Canvas.Top="16"/>
-                        <Ellipse Width="4" Height="4" Fill="#6000D4FF" Canvas.Left="96" Canvas.Top="56"/>
-                        <Ellipse Width="4" Height="4" Fill="#6000D4FF" Canvas.Left="56" Canvas.Top="96"/>
-                        <Ellipse Width="4" Height="4" Fill="#6000D4FF" Canvas.Left="16" Canvas.Top="56"/>
-                        
-                        <!-- Timer Progress Arc -->
-                        <Path x:Name="ProgressArc" Stroke="#00D4FF" StrokeThickness="3" Fill="Transparent"/>
-                        
-                        <!-- Center Dot -->
-                        <Ellipse Width="10" Height="10" Fill="#00D4FF" Canvas.Left="55" Canvas.Top="55">
-                            <Ellipse.Effect>
-                                <DropShadowEffect Color="#00D4FF" BlurRadius="8" ShadowDepth="0" Opacity="0.8"/>
-                            </Ellipse.Effect>
-                        </Ellipse>
-                        
-                        <!-- Timer Hand (points to current position) -->
-                        <Line x:Name="TimerHand" X1="60" Y1="60" X2="60" Y2="20" 
-                              Stroke="#00D4FF" StrokeThickness="2" StrokeEndLineCap="Round">
-                            <Line.Effect>
-                                <DropShadowEffect Color="#00D4FF" BlurRadius="4" ShadowDepth="0" Opacity="0.6"/>
-                            </Line.Effect>
-                        </Line>
-                    </Canvas>
+                    <Viewbox Grid.Row="0" Stretch="Uniform" MaxWidth="120" MaxHeight="120" 
+                             HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Canvas Width="120" Height="120" x:Name="AnalogClock">
+                            
+                            <!-- Clock Face Background -->
+                            <Ellipse Width="120" Height="120" Fill="#0A000000" Stroke="#4000D4FF" StrokeThickness="2"/>
+                            
+                            <!-- Inner ring for depth -->
+                            <Ellipse Width="100" Height="100" Fill="Transparent" Stroke="#2000D4FF" StrokeThickness="1" 
+                                     Canvas.Left="10" Canvas.Top="10"/>
+                            
+                            <!-- Hour Markers (12, 3, 6, 9) -->
+                            <Rectangle Width="2" Height="12" Fill="#00D4FF" Canvas.Left="59" Canvas.Top="2"/>
+                            <Rectangle Width="12" Height="2" Fill="#00D4FF" Canvas.Left="106" Canvas.Top="59"/>
+                            <Rectangle Width="2" Height="12" Fill="#00D4FF" Canvas.Left="59" Canvas.Top="106"/>
+                            <Rectangle Width="12" Height="2" Fill="#00D4FF" Canvas.Left="2" Canvas.Top="59"/>
+                            
+                            <!-- Additional Hour Markers (1, 2, 4, 5, 7, 8, 10, 11) -->
+                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="71" Canvas.Top="6"/>
+                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="81" Canvas.Top="6"/>
+                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="81" Canvas.Top="106"/>
+                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="71" Canvas.Top="106"/>
+                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="48" Canvas.Top="106"/>
+                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="38" Canvas.Top="106"/>
+                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="38" Canvas.Top="6"/>
+                            <Rectangle Width="1" Height="8" Fill="#6000D4FF" Canvas.Left="48" Canvas.Top="6"/>
+                            
+                            <!-- Minute Markers -->
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="60" Canvas.Top="12"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="90" Canvas.Top="18"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="102" Canvas.Top="30"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="102" Canvas.Top="48"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="102" Canvas.Top="72"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="102" Canvas.Top="90"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="90" Canvas.Top="102"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="60" Canvas.Top="102"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="30" Canvas.Top="102"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="18" Canvas.Top="102"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="6" Canvas.Top="90"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="6" Canvas.Top="72"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="6" Canvas.Top="48"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="6" Canvas.Top="30"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="18" Canvas.Top="18"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="90" Canvas.Top="18"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="90" Canvas.Top="90"/>
+                            <Ellipse Width="2" Height="2" Fill="#4000D4FF" Canvas.Left="18" Canvas.Top="90"/>
+                            
+                            <!-- Timer Progress Arc -->
+                            <Path x:Name="ProgressArc" Stroke="#00D4FF" StrokeThickness="3" Fill="Transparent"/>
+                            
+                            <!-- Center Dot -->
+                            <Ellipse Width="10" Height="10" Fill="#00D4FF" Canvas.Left="55" Canvas.Top="55">
+                                <Ellipse.Effect>
+                                    <DropShadowEffect Color="#00D4FF" BlurRadius="8" ShadowDepth="0" Opacity="0.8"/>
+                                </Ellipse.Effect>
+                            </Ellipse>
+                            
+                            <!-- Timer Hand (points to current position) -->
+                            <Line x:Name="TimerHand" X1="60" Y1="60" X2="60" Y2="20" 
+                                  Stroke="#00D4FF" StrokeThickness="2" StrokeEndLineCap="Round">
+                                <Line.Effect>
+                                    <DropShadowEffect Color="#00D4FF" BlurRadius="4" ShadowDepth="0" Opacity="0.6"/>
+                                </Line.Effect>
+                            </Line>
+                        </Canvas>
+                    </Viewbox>
                     
                     <!-- Timer Status -->
                     <TextBlock Grid.Row="1"
