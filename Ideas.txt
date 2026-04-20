@@ -1,5 +1,6 @@
 Add a proper general readme file
-Stopwatch option
+Stopwatch options
+Fix timer styling and controls
 Add proper analog options
 Update it to get darker for visibility based on bg
 Updated graphs to make for year and weeks
