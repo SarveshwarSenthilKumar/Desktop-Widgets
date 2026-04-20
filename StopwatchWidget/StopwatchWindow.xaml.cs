@@ -23,6 +23,7 @@ namespace StopwatchWidget
         private WpfColor _backgroundColor = WpfColor.FromArgb(20, 0, 0, 0);
         private WpfColor _baseColor = WpfColor.FromRgb(0, 212, 255);
         private int _lapCounter = 0;
+        private bool _isAnalogMode = false;
 
         public ObservableCollection<LapTimeEntry> LapTimes => _lapTimes;
         public bool HasLapTimes => _lapTimes.Count > 0;
@@ -100,6 +101,12 @@ namespace StopwatchWidget
         {
             OnPropertyChanged(nameof(ElapsedTimeString));
             OnPropertyChanged(nameof(Status));
+            
+            // Update analog display if in analog mode
+            if (_isAnalogMode)
+            {
+                UpdateAnalogDisplay();
+            }
         }
 
         private void StartStop_Click(object sender, RoutedEventArgs e)
@@ -417,6 +424,49 @@ namespace StopwatchWidget
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ToggleAnalogDigital_Click(object sender, RoutedEventArgs e)
+        {
+            _isAnalogMode = !_isAnalogMode;
+            
+            if (_isAnalogMode)
+            {
+                DigitalDisplay.Visibility = Visibility.Collapsed;
+                AnalogDisplay.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                DigitalDisplay.Visibility = Visibility.Visible;
+                AnalogDisplay.Visibility = Visibility.Collapsed;
+            }
+            
+            // Update analog display if switching to analog mode
+            if (_isAnalogMode)
+            {
+                UpdateAnalogDisplay();
+            }
+        }
+
+        private void UpdateAnalogDisplay()
+        {
+            if (!_isAnalogMode) return;
+
+            // Calculate seconds position (0-59)
+            var elapsed = _stopwatch.Elapsed;
+            double seconds = elapsed.Seconds + (elapsed.Milliseconds / 1000.0);
+            
+            // Calculate hand angle (12 o'clock is 0 degrees, clockwise)
+            double angle = -90 + (seconds * 6); // 6 degrees per second
+            
+            // Calculate hand endpoint
+            double handLength = 35; // Length of the stopwatch hand
+            double radians = angle * Math.PI / 180;
+            double endX = 60 + handLength * Math.Cos(radians);
+            double endY = 60 + handLength * Math.Sin(radians);
+            
+            StopwatchHand.X2 = endX;
+            StopwatchHand.Y2 = endY;
         }
 
         private static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
