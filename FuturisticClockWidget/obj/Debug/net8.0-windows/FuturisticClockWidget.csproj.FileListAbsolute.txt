@@ -1,6 +1,8 @@
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\FuturisticClockWidget.exe
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\FuturisticClockWidget.deps.json
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\FuturisticClockWidget.runtimeconfig.json
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\FuturisticClockWidget.dll
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\Microsoft.Win32.TaskScheduler.dll
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\FuturisticClockWidget.pdb
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\CommunityToolkit.Mvvm.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
@@ -29,6 +31,7 @@ C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\Fu
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\Microsoft.Extensions.Options.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\Microsoft.Win32.TaskScheduler.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\de\Microsoft.Win32.TaskScheduler.resources.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\es\Microsoft.Win32.TaskScheduler.resources.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\fr\Microsoft.Win32.TaskScheduler.resources.dll
@@ -62,8 +65,5 @@ C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\Fu
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\FuturisticClockWidget.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\refint\FuturisticClockWidget.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\FuturisticClockWidget.pdb
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\FuturisticClockWidget.deps.json
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\FuturisticClockWidget.runtimeconfig.json
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\bin\Debug\net8.0-windows\FuturisticClockWidget.pdb
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\FuturisticClockWidget.genruntimeconfig.cache
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\FuturisticClockWidget\obj\Debug\net8.0-windows\ref\FuturisticClockWidget.dll

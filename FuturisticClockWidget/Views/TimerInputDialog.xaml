@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Set Timer" 
-        Height="280" Width="360"
+        Height="400" Width="500"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Background="#1E1E1E"
@@ -17,16 +17,16 @@
             <Setter Property="Background" Value="#2D2D30"/>
             <Setter Property="Foreground" Value="#00D4FF"/>
             <Setter Property="BorderBrush" Value="#4000D4FF"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="8"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="12"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontSize" Value="24"/>
             <Setter Property="FontWeight" Value="Light"/>
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Width" Value="70"/>
+            <Setter Property="Height" Value="60"/>
+            <Setter Property="Width" Value="100"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
@@ -47,11 +47,11 @@
         <!-- Label Style -->
         <Style x:Key="TimerLabelStyle" TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
-            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="Foreground" Value="#CCFFFFFF"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="5,2,5,5"/>
+            <Setter Property="Margin" Value="5,5,5,5"/>
         </Style>
         
         <!-- Quick Preset Button Style -->
@@ -60,10 +60,10 @@
             <Setter Property="Foreground" Value="#00D4FF"/>
             <Setter Property="BorderBrush" Value="#3000D4FF"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="12,6"/>
-            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Padding" Value="16,10"/>
+            <Setter Property="Margin" Value="5"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
-            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontSize" Value="13"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -95,11 +95,11 @@
             <Setter Property="Background" Value="#2000D4FF"/>
             <Setter Property="Foreground" Value="#00D4FF"/>
             <Setter Property="BorderBrush" Value="#4000D4FF"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="25,10"/>
-            <Setter Property="Margin" Value="8"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Padding" Value="35,15"/>
+            <Setter Property="Margin" Value="10"/>
             <Setter Property="FontFamily" Value="Segoe UI Light"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -127,12 +127,12 @@
         </Style>
     </Window.Resources>
     
-    <Border CornerRadius="8" 
+    <Border CornerRadius="12" 
             Background="#252526" 
             BorderBrush="#4000D4FF" 
-            BorderThickness="1"
-            Margin="10">
-        <Grid Margin="20">
+            BorderThickness="2"
+            Margin="15">
+        <Grid Margin="30">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -143,11 +143,11 @@
             <TextBlock Grid.Row="0"
                        Text="Set Timer Duration"
                        FontFamily="Segoe UI Light"
-                       FontSize="20"
+                       FontSize="24"
                        FontWeight="Light"
                        Foreground="#00D4FF"
                        HorizontalAlignment="Center"
-                       Margin="0,0,0,15"/>
+                       Margin="0,0,0,25"/>
             
             <!-- Scrollable Content -->
             <ScrollViewer Grid.Row="1" 
@@ -156,14 +156,14 @@
                           CanContentScroll="False">
                 <StackPanel>
                     <!-- Quick Presets -->
-                    <StackPanel HorizontalAlignment="Center" Margin="0,0,0,15">
+                    <StackPanel HorizontalAlignment="Center" Margin="0,0,0,25">
                         <TextBlock Text="Quick Presets"
                                    FontFamily="Segoe UI Light"
-                                   FontSize="12"
+                                   FontSize="16"
                                    FontWeight="Light"
                                    Foreground="#CCFFFFFF"
                                    HorizontalAlignment="Center"
-                                   Margin="0,0,0,8"/>
+                                   Margin="0,0,0,12"/>
                         <WrapPanel HorizontalAlignment="Center">
                             <Button Content="1 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset1Min_Click"/>
                             <Button Content="5 min" Style="{StaticResource QuickPresetButtonStyle}" Click="QuickPreset5Min_Click"/>
@@ -175,7 +175,7 @@
                     </StackPanel>
                     
                     <!-- Input Section -->
-                    <Grid Margin="0,0,0,15">
+                    <Grid Margin="0,0,0,25">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -222,7 +222,7 @@
             <StackPanel Grid.Row="2" 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Center"
-                        Margin="0,15,0,0">
+                        Margin="0,25,0,0">
                 <Button Content="OK"
                         Style="{StaticResource TimerDialogButtonStyle}"
                         Click="OK_Click"

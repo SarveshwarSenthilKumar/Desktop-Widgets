@@ -4,6 +4,9 @@ C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\Wi
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.deps.json
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.runtimeconfig.json
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.exe
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\StopwatchWidget.deps.json
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\StopwatchWidget.runtimeconfig.json
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\StopwatchWidget.exe
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\WidgetDashboard.exe
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\WidgetDashboard.deps.json
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\WidgetDashboard.runtimeconfig.json
@@ -52,8 +55,10 @@ C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\Wi
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\zh-Hant\Microsoft.Win32.TaskScheduler.resources.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\FuturisticClockWidget.dll
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\StopwatchWidget.dll
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\FuturisticClockWidget.pdb
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\CalendarWidget.pdb
+C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\StopwatchWidget.pdb
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\obj\Debug\net8.0-windows\WidgetDashboard.csproj.AssemblyReference.cache
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\obj\Debug\net8.0-windows\Views\MainWindow.baml
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\obj\Debug\net8.0-windows\Views\MainWindow.g.cs
@@ -74,8 +79,3 @@ C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\Wi
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\obj\Debug\net8.0-windows\WidgetDashboard.pdb
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\obj\Debug\net8.0-windows\WidgetDashboard.genruntimeconfig.cache
 C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\obj\Debug\net8.0-windows\ref\WidgetDashboard.dll
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\StopwatchWidget.deps.json
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\StopwatchWidget.runtimeconfig.json
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\StopwatchWidget.exe
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\StopwatchWidget.dll
-C:\Users\sarve\Documents\Desktop Contents\GitHub Repositories\Desktop Widgets\WidgetDashboard\bin\Debug\net8.0-windows\StopwatchWidget.pdb
