@@ -54,6 +54,7 @@ namespace WidgetDashboard.Models
             RegisterWidget<Models.CalendarWidgetWrapper>();
             RegisterWidget<TimerWidgetWrapper>();
             RegisterWidget<StopwatchWidgetWrapper>();
+            // RegisterWidget<WeatherWidgetWrapper>(); // Temporarily commented
         }
 
         public void RegisterWidget<T>() where T : IWidget, new()
